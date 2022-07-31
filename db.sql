@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS `ipaytest2`.`category` (
   `CreatedDateTime` DATETIME NOT NULL,
   `LastModifiedUser` VARCHAR(30) NULL DEFAULT NULL,
   `LastModifiedDateTime` DATETIME NULL DEFAULT NULL,
-  `VERSION` DECIMAL(10,0) NULL DEFAULT NULL,
   PRIMARY KEY (`categoryId`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = latin1;
