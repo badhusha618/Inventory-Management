@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.data.request.CategoryRequest;
 import com.example.entity.Category;
 import com.example.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,6 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public void insert(Category category) {
-        categoryRepository.save(category);
-    }
-
 
     public Optional<Category> findById(int id) {
         return categoryRepository.findById(id);
@@ -37,6 +34,11 @@ public class CategoryService {
 
         categoryRepository.save(category);
     }
+
+    public Category saveCategory(Category category) {
+        categoryRepository.save(category);
+        return category;
+    };
 
     public void deleteCategory(Category category) {
 

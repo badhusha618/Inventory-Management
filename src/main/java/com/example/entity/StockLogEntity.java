@@ -22,7 +22,7 @@ public class StockLogEntity implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int refId;
 
-	private int categoryId;
+	private Long categoryId;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDateTime;
@@ -58,11 +58,11 @@ public class StockLogEntity implements Serializable {
 		this.refId = refId;
 	}
 
-	public int getCategoryId() {
+	public Long getCategoryId() {
 		return this.categoryId;
 	}
 
-	public void setCategoryId(int categoryId) {
+	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
 	}
 

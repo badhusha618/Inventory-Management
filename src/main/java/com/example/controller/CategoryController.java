@@ -1,13 +1,20 @@
 package com.example.controller;
 
+import com.example.data.request.CategoryRequest;
+import com.example.data.response.CategoryResponse;
 import com.example.entity.TheLogConverter;
 import com.example.entity.Category;
 import com.example.service.CategoryLogService;
 import com.example.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+
+import static com.example.utils.AdminUtils.SYSTEM_USER;
+import static com.example.utils.AdminUtils.getInstant;
 
 /**
  * Created by Bad_sha 24/07/22
@@ -23,7 +30,7 @@ public class CategoryController {
     @Autowired
     private CategoryLogService categoryLogService;
 
-    @RequestMapping("")
+    @GetMapping
     public Iterable<Category> getAllCategory() {
         return categoryService.findAll();
     }
@@ -33,10 +40,11 @@ public class CategoryController {
         return categoryService.findById(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "")
-    public void addCategory(@RequestBody Category category) {
-        categoryService.insert(category);
-        categoryLogService.insert(TheLogConverter.categoryLogConverter(category));
+    @PostMapping
+    public ResponseEntity<CategoryResponse> addCategory(@RequestBody CategoryRequest categoryRequest) {
+        Category category = categoryService.saveCategory(mapCategory(categoryRequest));
+        CategoryResponse categoryResponse = mapCategoryResponse(category);
+        return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT,value ="/{id}")
@@ -51,5 +59,11 @@ public class CategoryController {
         categoryLogService.insert(TheLogConverter.categoryLogConverter(category));
     }
 
+    private Category mapCategory(CategoryRequest categoryRequest) {
+       return Category.builder().categoryName(categoryRequest.getCategoryName()).createdUser(SYSTEM_USER).createdDateTime(getInstant()).lastModifiedUser(SYSTEM_USER).lastModifiedDateTime(getInstant()).build();
+    }
 
+    private CategoryResponse mapCategoryResponse(Category category) {
+       return CategoryResponse.builder().id(category.getId()).categoryName(category.getCategoryName()).build();
+    }
 }

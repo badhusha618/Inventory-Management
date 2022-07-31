@@ -9,13 +9,12 @@ public class TheLogConverter {
 
     public static CategoryLogEntity categoryLogConverter(Category category){
         CategoryLogEntity categoryLog=new CategoryLogEntity();
-        categoryLog.setCategoryId(category.getCategoryId());
+        categoryLog.setCategoryId(category.getId());
         categoryLog.setCategoryName(category.getCategoryName());
         categoryLog.setCreatedDateTime(category.getCreatedDateTime());
         categoryLog.setCreatedUser(category.getCreatedUser());
         categoryLog.setLastModifiedDateTime(category.getLastModifiedDateTime());
         categoryLog.setLastModifiedUser(category.getLastModifiedUser());
-        categoryLog.setVersion(category.getVersion());
         return categoryLog;
     }
 
@@ -53,7 +52,7 @@ public class TheLogConverter {
     public static StockLogEntity stockLogConverter(Stock stock){
         StockLogEntity stockLog=new StockLogEntity();
         stockLog.setRefId(stock.getRefId());
-        stockLog.setCategoryId(stock.getCategory().getCategoryId());
+        stockLog.setCategoryId(stock.getCategory().getId());
         stockLog.setCreatedDateTime(stock.getCreatedDateTime());
         stockLog.setCreatedUser(stock.getCreatedUser());
         stockLog.setDateStock(stock.getDateStock());
