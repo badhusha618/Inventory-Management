@@ -18,6 +18,25 @@ CREATE SCHEMA IF NOT EXISTS `ipaytest2` DEFAULT CHARACTER SET latin1 ;
 USE `ipaytest2` ;
 
 -- -----------------------------------------------------
+-- Table `ipaytest2`.`ADMIN_USER`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ADMIN_USER` (
+  `ID` BIGINT NOT NULL AUTO_INCREMENT,
+  FULL_NAME VARCHAR(200) NOT NULL,
+  EMAIL VARCHAR(200) NULL,
+  MOBILE VARCHAR(20) NOT NULL,
+  USERNAME VARCHAR(200) NULL,
+  PASSWORD VARCHAR(200) NOT NULL,
+  ROLE VARCHAR(200) NOT NULL,
+  CREATED_BY VARCHAR(200) NOT NULL,
+  CREATED_DATE DATETIME NOT NULL,
+  UPDATED_BY VARCHAR(200) NOT NULL,
+  UPDATED_DATE DATETIME NOT NULL,
+  ACTIVE VARCHAR(1) NOT NULL,
+  DELETED VARCHAR(1) NOT NULL,
+PRIMARY KEY (`ID`)
+) ENGINE=INNODB  DEFAULT CHARSET=UTF8;
+-- -----------------------------------------------------
 -- Table `ipaytest2`.`category`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ipaytest2`.`category` (

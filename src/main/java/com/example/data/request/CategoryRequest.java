@@ -1,7 +1,6 @@
 package com.example.data.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 /**
@@ -9,6 +8,9 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CategoryRequest {
 
     private String categoryName;
