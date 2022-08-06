@@ -5,7 +5,7 @@ import com.example.data.reftype.YNStatus;
 import com.example.data.request.AdminUserRequest;
 import com.example.data.request.ChangePasswordRequest;
 import com.example.entity.AdminUser;
-import com.example.exception.BazzarException;
+import com.example.exception.BazaarException;
 import com.example.repository.AdminUserRepository;
 import com.example.utils.AdminUtils;
 import org.apache.logging.log4j.LogManager;
@@ -47,13 +47,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AdminUser findUserById(Long id) throws BazzarException {
+    public AdminUser findUserById(Long id) throws BazaarException {
         Optional<AdminUser> adminUserOptional = adminUserRepository.findById(id);
-        return adminUserOptional.orElseThrow(() -> new BazzarException(format("User is not found with the id %d", id)));
+        return adminUserOptional.orElseThrow(() -> new BazaarException(format("User is not found with the id %d", id)));
     }
 
     @Override
-    public AdminUser updateUserRole(Long id, AdminUserRequest adminUserRequest) throws BazzarException {
+    public AdminUser updateUserRole(Long id, AdminUserRequest adminUserRequest) throws BazaarException {
         LOG.info("Update user role");
         Optional<AdminUser> adminUserOptional = adminUserRepository.findById(id);
         if (adminUserOptional.isPresent()) {
@@ -63,11 +63,11 @@ public class UserServiceImpl implements UserService {
             adminUser.setUpdatedDate(getInstant());
             return adminUser;
         }
-        throw new BazzarException(format("User is not found with the id %d", id));
+        throw new BazaarException(format("User is not found with the id %d", id));
     }
 
     @Override
-    public AdminUser updateFullName(Long id, AdminUserRequest adminUserRequest) throws BazzarException {
+    public AdminUser updateFullName(Long id, AdminUserRequest adminUserRequest) throws BazaarException {
         LOG.info("Update user full name");
         Optional<AdminUser> adminUserOptional = adminUserRepository.findById(id);
         if (adminUserOptional.isPresent()) {
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
             adminUser.setUpdatedDate(getInstant());
             return adminUser;
         }
-        throw new BazzarException(format("User is not found with the id %d", id));
+        throw new BazaarException(format("User is not found with the id %d", id));
     }
 
     @Override
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AdminUser resetPassword(Long id, String pwdDigest) throws BazzarException {
+    public AdminUser resetPassword(Long id, String pwdDigest) throws BazaarException {
         LOG.info("Reset user password");
         Optional<AdminUser> userOptional = adminUserRepository.findById(id);
         if (userOptional.isPresent()) {
@@ -100,15 +100,15 @@ public class UserServiceImpl implements UserService {
             adminUser.setUpdatedDate(getInstant());
             return adminUser;
         }
-        throw new BazzarException(format("User is not found with the id %d", id));
+        throw new BazaarException(format("User is not found with the id %d", id));
     }
 
 
     @Override
-    public AdminUser findUserByUsername(String username) throws BazzarException {
+    public AdminUser findUserByUsername(String username) throws BazaarException {
         LOG.info("Getting Admin User Details from username");
         Optional<AdminUser> optionalAdminUser = adminUserRepository.findByUsername(username);
-        return optionalAdminUser.orElseThrow(() -> new BazzarException(format("User is not found with the username %s", username)));
+        return optionalAdminUser.orElseThrow(() -> new BazaarException(format("User is not found with the username %s", username)));
     }
 
     @Override
@@ -118,9 +118,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<AdminUser> listActiveUsers(Pageable pageRequest) {
+    public List<AdminUser> listActiveUsers() {
         LOG.info("List all active users from database");
-        return adminUserRepository.listActiveAdminUser(pageRequest);
+        return adminUserRepository.listActiveAdminUser();
     }
 
     @Override
@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AdminUser removeUser(Long id) throws BazzarException {
+    public AdminUser removeUser(Long id) throws BazaarException {
         LOG.info("Remove User Entity");
         Optional<AdminUser> adminUserOptional = adminUserRepository.findById(id);
         if (adminUserOptional.isPresent()) {
@@ -140,6 +140,6 @@ public class UserServiceImpl implements UserService {
             adminuser.setUpdatedDate(getInstant());
             return adminuser;
         }
-        throw new BazzarException(format("Admin is not found with the id %d", id));
+        throw new BazaarException(format("Admin is not found with the id %d", id));
     }
 }

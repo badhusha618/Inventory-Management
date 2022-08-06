@@ -23,8 +23,8 @@ import lombok.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AdminUserResponse {
     private String id;
-    private String fullName;
+    private String userName;
     private String mobile;
     private String role;
-
+    private String status;
 }

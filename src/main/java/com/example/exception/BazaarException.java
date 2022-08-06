@@ -12,30 +12,30 @@ package com.example.exception;
 /**
  * @Created By BAD_SHA
  */
-public class BazzarException extends Exception {
+public class BazaarException extends Exception {
 
     /**
      * Default Serial ID
      */
     private static final long serialVersionUID = 345456L;
 
-    public BazzarException() {
+    public BazaarException() {
 
     }
 
-    public BazzarException(String message) {
+    public BazaarException(String message) {
         super(message);
     }
 
-    public BazzarException(Throwable cause) {
+    public BazaarException(Throwable cause) {
         super(cause);
     }
 
-    public BazzarException(String message, Throwable cause) {
+    public BazaarException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public BazzarException(String message, Error error) {
+    public BazaarException(String message, Error error) {
         super(message, error);
     }
 }

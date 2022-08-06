@@ -35,7 +35,7 @@ import static com.example.data.reftype.YNStatus.YES;
  */
 @Service
 @Transactional
-public class BazzarUserDetailsService implements UserDetailsService {
+public class BazaarUserDetailsService implements UserDetailsService {
 
     private final Logger LOG = LogManager.getLogger(this.getClass());
 
@@ -51,7 +51,7 @@ public class BazzarUserDetailsService implements UserDetailsService {
             if (YES.getStatus().equalsIgnoreCase(adminUser.getActive()) && NO.getStatus().equalsIgnoreCase(adminUser.getDeleted())) {
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority(statusMatch(adminUser.getRole()).getRoleName()));
-                return new BazzarUserDetail(adminUser.getFullName(), adminUser.getMobile(), adminUser.getRole(), adminUser.getMobile(), adminUser.getPassword(), authorities, adminUser.getId());
+                return new BazaarUserDetail(adminUser.getFullName(), adminUser.getMobile(), adminUser.getRole(), adminUser.getMobile(), adminUser.getPassword(), authorities, adminUser.getId());
             }
             throw new UsernameNotFoundException("Invalid User");
         }

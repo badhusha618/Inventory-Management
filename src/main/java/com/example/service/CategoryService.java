@@ -2,7 +2,7 @@ package com.example.service;
 
 import com.example.data.request.CategoryRequest;
 import com.example.entity.Category;
-import com.example.exception.BazzarException;
+import com.example.exception.BazaarException;
 import com.example.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +25,13 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
 
-    public Category findById(Long id) throws BazzarException {
+    public Category findById(Long id) throws BazaarException {
         Optional<Category> categoryOptional =categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
             Category category = categoryOptional.get();
             return category;
         }
-        throw new BazzarException(format("Video not found with the id %d", id));
+        throw new BazaarException(format("Video not found with the id %d", id));
     }
 
     public Iterable<Category> findAll() {

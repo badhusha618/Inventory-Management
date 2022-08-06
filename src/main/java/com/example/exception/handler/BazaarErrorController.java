@@ -23,9 +23,9 @@ import javax.servlet.http.HttpServletResponse;
  * @Created By BAD_SHA
  */
 @Controller
-public class BazzarErrorController implements ErrorController {
+public class BazaarErrorController implements ErrorController {
 
-    private final Logger LOG = LogManager.getLogger(BazzarErrorController.class);
+    private final Logger LOG = LogManager.getLogger(BazaarErrorController.class);
 
     private final String ERROR_PATH = "/error";
     private final String ERROR_VIEW = "error/generic-error";

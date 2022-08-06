@@ -14,7 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema ipaytest2
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `ipaytest2` DEFAULT CHARACTER SET latin1 ;
+CREATE SCHEMA IF NOT EXISTS `BAZZAR` DEFAULT CHARACTER SET latin1 ;
 USE `ipaytest2` ;
 
 -- -----------------------------------------------------

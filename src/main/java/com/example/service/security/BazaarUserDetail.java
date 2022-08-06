@@ -17,7 +17,7 @@ import java.util.Collection;
 /**
  * Created by BAD_SHA
  */
-public class BazzarUserDetail extends User {
+public class BazaarUserDetail extends User {
 
     private static final long serialVersionUID = 23423L;
 
@@ -26,7 +26,7 @@ public class BazzarUserDetail extends User {
     private String mobile;
     private String role;
 
-    public BazzarUserDetail(String fullName, String mobile, String role, String username, String password, Collection<? extends GrantedAuthority> authorities, Long userId) {
+    public BazaarUserDetail(String fullName, String mobile, String role, String username, String password, Collection<? extends GrantedAuthority> authorities, Long userId) {
         super(username, password, authorities);
         this.userId = userId;
         this.fullName = fullName;

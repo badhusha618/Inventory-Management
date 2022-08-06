@@ -3,15 +3,13 @@ package com.example.controller;
 import com.example.data.request.CategoryRequest;
 import com.example.data.response.CategoryResponse;
 import com.example.entity.Category;
-import com.example.exception.BazzarException;
+import com.example.exception.BazaarException;
 import com.example.service.CategoryLogService;
 import com.example.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 import static com.example.utils.AdminUtils.SYSTEM_USER;
 import static com.example.utils.AdminUtils.getInstant;
@@ -36,7 +34,7 @@ public class CategoryController {
     }
 
     @RequestMapping("/{id}")
-    public Category searchCategory(@PathVariable Long id) throws BazzarException {
+    public Category searchCategory(@PathVariable Long id) throws BazaarException {
         return categoryService.findById(id);
     }
 
@@ -48,14 +46,14 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) throws BazzarException {
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) throws BazaarException {
         Category category = categoryService.findById(id);
         Category saveCategory = categoryService.updateCategory(categoryRequest,category);
         return new ResponseEntity<>(mapCategoryResponse(category), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable Long id) throws BazzarException {
+    public ResponseEntity<String> deleteCategory(@PathVariable Long id) throws BazaarException {
         Category category = categoryService.findById(id);
         categoryService.deleteCategory(category);
         return new ResponseEntity<>(HttpStatus.OK);

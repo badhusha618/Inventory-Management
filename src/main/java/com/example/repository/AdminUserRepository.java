@@ -31,8 +31,8 @@ public interface AdminUserRepository extends JpaRepository<AdminUser, Long> {
 
     Optional<AdminUser> findByUsernameAndActiveAndDeleted(String username, String active, String deleted);
 
-    @Query("select a from AdminUser a where a.deleted = 'F' and a.active = 'T' and a.role != 'S'")
-    Page<AdminUser> listActiveAdminUser(Pageable pageRequest);
+    @Query("select a from AdminUser a where a.deleted = 'F' and a.active = 'T'")
+    List<AdminUser> listActiveAdminUser();
 
     @Query("select a from AdminUser a where a.deleted = 'F' and a.active = 'T' and a.role != 'S'")
     List<AdminUser> listActiveAdminUserWithoutPageable();

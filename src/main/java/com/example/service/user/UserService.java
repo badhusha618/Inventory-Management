@@ -13,7 +13,7 @@ package com.example.service.user;
 import com.example.data.request.AdminUserRequest;
 import com.example.data.request.ChangePasswordRequest;
 import com.example.entity.AdminUser;
-import com.example.exception.BazzarException;
+import com.example.exception.BazaarException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -29,24 +29,24 @@ public interface UserService {
 
     Optional<AdminUser> validateUsername(String username);
 
-    AdminUser findUserById(Long id) throws BazzarException;
+    AdminUser findUserById(Long id) throws BazaarException;
 
-    AdminUser updateUserRole(Long id, AdminUserRequest adminUserRequest) throws BazzarException;
+    AdminUser updateUserRole(Long id, AdminUserRequest adminUserRequest) throws BazaarException;
 
-    AdminUser updateFullName(Long id, AdminUserRequest adminUserRequest) throws BazzarException;
+    AdminUser updateFullName(Long id, AdminUserRequest adminUserRequest) throws BazaarException;
 
-    AdminUser updatePassword(AdminUser adminUser, ChangePasswordRequest request) throws BazzarException;
+    AdminUser updatePassword(AdminUser adminUser, ChangePasswordRequest request) throws BazaarException;
 
-    AdminUser resetPassword(Long id, String password) throws BazzarException;
+    AdminUser resetPassword(Long id, String password) throws BazaarException;
 
-    AdminUser removeUser(Long id) throws BazzarException;
+    AdminUser removeUser(Long id) throws BazaarException;
 
-    AdminUser findUserByUsername(String username) throws BazzarException;
+    AdminUser findUserByUsername(String username) throws BazaarException;
 
     Optional<AdminUser> findUserByMobile(String mobile);
 
-    Page<AdminUser> listActiveUsers(Pageable pageable);
+    List<AdminUser> listActiveUsers();
 
-    List<AdminUser> adminUserList() throws BazzarException;
+    List<AdminUser> adminUserList() throws BazaarException;
 
 }

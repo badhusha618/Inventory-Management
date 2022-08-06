@@ -9,7 +9,7 @@
  */
 package com.example.exception.handler;
 
-import com.example.exception.BazzarException;
+import com.example.exception.BazaarException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -24,15 +24,15 @@ import javax.servlet.http.HttpServletRequest;
  * @Created By BAD_SHA
  */
 @ControllerAdvice
-public class BazzarExceptionHandler {
+public class BazaarExceptionHandler {
 
-    private final Logger LOG = LogManager.getLogger(BazzarExceptionHandler.class);
+    private final Logger LOG = LogManager.getLogger(BazaarExceptionHandler.class);
 
     private final String ERROR_VIEW = "error/generic-error";
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(BazzarException.class)
-    public ModelAndView handleUSMExceptions(HttpServletRequest req, BazzarException mak) {
+    @ExceptionHandler(BazaarException.class)
+    public ModelAndView handleUSMExceptions(HttpServletRequest req, BazaarException mak) {
         ModelAndView view = new ModelAndView();
         view.setViewName(ERROR_VIEW);
         view.addObject("exception", mak.getMessage());

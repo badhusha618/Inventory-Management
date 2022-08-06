@@ -22,6 +22,8 @@ import lombok.*;
 public class AdminUserRequest {
 
     private String fullName;
+    private String userName;
+    private String email;
     private String mobile;
     private String password;
     private String role;

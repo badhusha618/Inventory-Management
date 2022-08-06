@@ -10,12 +10,11 @@
 package com.example.controller;
 
 import com.example.data.reftype.ApiResponseStatus;
+import com.example.data.reftype.YNStatus;
 import com.example.data.request.AdminUserRequest;
-import com.example.data.request.ChangePasswordRequest;
 import com.example.data.response.AdminUserResponse;
 import com.example.entity.AdminUser;
-import com.example.exception.BazzarException;
-import com.example.service.security.BazzarUserDetail;
+import com.example.exception.BazaarException;
 import com.example.service.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,27 +22,15 @@ import io.swagger.annotations.ApiParam;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.example.data.reftype.ApiResponseStatus.EXISTS;
-import static org.apache.logging.log4j.util.Strings.isNotEmpty;
-import static org.hibernate.query.criteria.internal.ValueHandlerFactory.isNumeric;
-import static sun.tools.jconsole.Messages.MESSAGE;
+import static com.example.utils.AdminUtils.SYSTEM_USER;
+import static com.example.utils.AdminUtils.getInstant;
 
 
 /**
@@ -56,7 +43,7 @@ public class UserController {
 
     private final Logger LOG = LogManager.getLogger(this.getClass());
 
-//    @Value("${darussalah.user.default.password}")
+//    @Value("${bazaar.user.default.password}")
 //    private String defaultPassword;
 
     @Autowired
@@ -65,35 +52,36 @@ public class UserController {
 //    @Autowired
 //    private PasswordEncoder passwordEncoder;
 
-//    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
-//    @ApiOperation("To list all User")
-//    @GetMapping
-//    public ResponseEntity<AdminUserResponse> listAlluser(@RequestParam(required = false) String page,
-//                                                                       @RequestParam(required = false) String count) throws BazzarException {
-//        LOG.info("List All Users {}", this.getClass().getSimpleName());
-//        int pageNumber = isNotEmpty(page) && isNumeric(page) ? Integer.parseInt(page) : 1;
-//        int pageCount = isNotEmpty(count) && isNumeric(page) ? Integer.parseInt(count) : PER_PAGE_COUNT;
-//        Pageable pageable = PageRequest.of(pageNumber - 1, pageCount);
-//        Page<AdminUser> adminUsers = userService.listActiveUsers(pageable);
-//        List<AdminUserResponse> adminUserResponseList = adminUserMapper.remap(adminUsers.getContent());
-//        return new ResponseEntity<>(paginateAdminUser(adminUserResponseList, adminUsers), HttpStatus.OK);
-//    }
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
+    @ApiOperation("To list all User")
+    @GetMapping
+    public Iterable<AdminUser> listAllUser() throws BazaarException {
+        LOG.info("List All Users {}", this.getClass().getSimpleName());
+        return userService.listActiveUsers();
+    }
 
-//    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
-//    @ApiOperation("To add a User")
-//    @PostMapping
-//    public ResponseEntity<AdminUserResponse> addUser(@ApiParam("Add User Request") @RequestBody AdminUserRequest request) {
-//        LOG.info("Add User Request {}", this.getClass().getSimpleName());
-//        if (userService.findUserByMobile(request.getMobile()).isPresent()) {
-//            return new ResponseEntity<>(new AdminUserResponse(),EXISTS.getStatus());
-//        }
-//        AdminUser savedAdminUser = userService.saveUser(adminSaveMap(request));
-//        return new ResponseEntity<>(new AdminUserResponse(), HttpStatus.OK);
-//    }
-//
-//    private AdminUser adminSaveMap(AdminUserRequest request) {
-//
-//    }
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
+    @ApiOperation("To add a User")
+    @PostMapping
+    public ResponseEntity<AdminUserResponse> addUser(@ApiParam("Add User Request") @RequestBody AdminUserRequest request) {
+        LOG.info("Add User Request {}", this.getClass().getSimpleName());
+        if (userService.findUserByMobile(request.getMobile()).isPresent()) {
+            return new ResponseEntity<>(AdminUserResponse.builder().status(String.valueOf(ApiResponseStatus.EXISTS.getStatus())).build(), HttpStatus.OK);
+        }
+        AdminUser savedAdminUser = userService.saveUser(adminSaveMap(request));
+        return new ResponseEntity<>(mapResponse(savedAdminUser), HttpStatus.OK);
+    }
+
+    private AdminUserResponse mapResponse(AdminUser savedAdminUser) {
+       return AdminUserResponse.builder().id(String.valueOf(savedAdminUser.getId())).status(String.valueOf(ApiResponseStatus.SUCCESS.getStatus()))
+                .userName(savedAdminUser.getUsername()).role(savedAdminUser.getRole()).build();
+    }
+
+    private AdminUser adminSaveMap(AdminUserRequest request) {
+        return AdminUser.builder().username(request.getUserName()).email(request.getEmail()).fullName(request.getFullName())
+                .mobile(request.getMobile()).password(request.getPassword()).role(request.getRole()).deleted(YNStatus.NO.getStatus())
+                .active(String.valueOf(YNStatus.YES.getStatus())).createdBy(SYSTEM_USER).createdDate(getInstant()).updatedBy(SYSTEM_USER).updatedDate(getInstant()).build();
+    }
 //
 //    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
 //    @ApiOperation("Get User Detail")
