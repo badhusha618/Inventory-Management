@@ -1,174 +1,89 @@
+/*
+ *
+ *    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+ *
+ *    Unauthorized copying of this file, via any medium is strictly prohibited
+ *    Proprietary and confidential
+ *    Written by Makinus Pvt Ltd
+ *
+ */
 package com.example.entity;
 
-import java.io.Serializable;
+import lombok.*;
+
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-/**
- * Created by Bad_sha 24/07/22
- */
 
-/**
- * The persistent class for the user database table.
- * 
- */
+/** Created by ibrahim */
 @Entity
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
-public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+@Table(name = "USERS")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder(toBuilder = true)
+public class User {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int userId;
+  @Id
+  @Column(name = "ID")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdDateTime;
+  @Column(name = "FULL_NAME")
+  private String fullName;
 
-	private String createdUser;
+  @Column(name = "PASSWORD")
+  private String password;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastModifiedDateTime;
+  @Column(name = "EMAIL")
+  private String email;
 
-	private String lastModifiedUser;
+  @Column(name = "MOBILE")
+  private String mobile;
 
-	private String userAddress;
+  @Column(name = "ROLE")
+  private String role;
 
-	private BigDecimal userContactNumber;
+  @Column(name = "IMAGE_PATH")
+  private String imagePath;
 
-	private String userEmail;
+  @Column(name = "CREATED_BY")
+  private String createdBy;
 
-	private String userFname;
+  @Column(name = "CREATED_DATE")
+  private Date createdDate;
 
-	private String userLname;
+  @Column(name = "UPDATED_BY")
+  private String updatedBy;
 
-	private String userName;
+  @Column(name = "UPDATED_DATE")
+  private Date updatedDate;
 
-	private BigDecimal version;
+  @Column(name = "RESET_PWD")
+  private String resetPwd;
 
-	//bi-directional many-to-one association to UserRole
-	@OneToMany(mappedBy="user")
-	private List<UserRole> userRoles;
+  @Column(name = "ONBOARDED")
+  private String onboard;
 
-	public User() {
-	}
+  @Column(name = "OTP")
+  private Short otp;
 
-	public int getUserId() {
-		return this.userId;
-	}
+  @Column(name = "TOKEN")
+  private String token;
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+  @Column(name = "ACTIVE")
+  private String active;
 
-	public Date getCreatedDateTime() {
-		return this.createdDateTime;
-	}
+  @Column(name = "DELETED")
+  private String deleted;
 
-	public void setCreatedDateTime(Date createdDateTime) {
-		this.createdDateTime = createdDateTime;
-	}
+  @Transient
+  private byte[] fileByte;
 
-	public String getCreatedUser() {
-		return this.createdUser;
-	}
+  @Transient
+  private String fileName;
 
-	public void setCreatedUser(String createdUser) {
-		this.createdUser = createdUser;
-	}
-
-	public Date getLastModifiedDateTime() {
-		return this.lastModifiedDateTime;
-	}
-
-	public void setLastModifiedDateTime(Date lastModifiedDateTime) {
-		this.lastModifiedDateTime = lastModifiedDateTime;
-	}
-
-	public String getLastModifiedUser() {
-		return this.lastModifiedUser;
-	}
-
-	public void setLastModifiedUser(String lastModifiedUser) {
-		this.lastModifiedUser = lastModifiedUser;
-	}
-
-	public String getUserAddress() {
-		return this.userAddress;
-	}
-
-	public void setUserAddress(String userAddress) {
-		this.userAddress = userAddress;
-	}
-
-	public BigDecimal getUserContactNumber() {
-		return this.userContactNumber;
-	}
-
-	public void setUserContactNumber(BigDecimal userContactNumber) {
-		this.userContactNumber = userContactNumber;
-	}
-
-	public String getUserEmail() {
-		return this.userEmail;
-	}
-
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
-
-	public String getUserFname() {
-		return this.userFname;
-	}
-
-	public void setUserFname(String userFname) {
-		this.userFname = userFname;
-	}
-
-	public String getUserLname() {
-		return this.userLname;
-	}
-
-	public void setUserLname(String userLname) {
-		this.userLname = userLname;
-	}
-
-	public String getUserName() {
-		return this.userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public BigDecimal getVersion() {
-		return this.version;
-	}
-
-	public void setVersion(BigDecimal version) {
-		this.version = version;
-	}
-
-	public List<UserRole> getUserRoles() {
-		return this.userRoles;
-	}
-
-	public void setUserRoles(List<UserRole> userRoles) {
-		this.userRoles = userRoles;
-	}
-
-	public UserRole addUserRole(UserRole userRole) {
-		getUserRoles().add(userRole);
-		userRole.setUser(this);
-
-		return userRole;
-	}
-
-	public UserRole removeUserRole(UserRole userRole) {
-		getUserRoles().remove(userRole);
-		userRole.setUser(null);
-
-		return userRole;
-	}
+  @Transient
+  private String createdDateAsFolderName;
 
 }

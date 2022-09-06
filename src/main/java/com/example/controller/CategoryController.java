@@ -4,14 +4,11 @@ import com.example.data.request.CategoryRequest;
 import com.example.data.response.CategoryResponse;
 import com.example.entity.Category;
 import com.example.exception.BazzarException;
-import com.example.service.CategoryLogService;
-import com.example.service.CategoryService;
+import com.example.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 import static com.example.utils.AdminUtils.SYSTEM_USER;
 import static com.example.utils.AdminUtils.getInstant;
@@ -27,8 +24,6 @@ public class CategoryController {
 
     @Autowired
     public CategoryService categoryService;
-    @Autowired
-    private CategoryLogService categoryLogService;
 
     @GetMapping
     public Iterable<Category> getAllCategory() {

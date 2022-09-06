@@ -1,121 +1,58 @@
 package com.example.entity;
 
-import java.io.Serializable;
+import lombok.*;
+
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.util.List;
+import java.io.Serializable;
+import java.util.Date;
 /**
  * Created by Bad_sha 24/07/22
  */
 
 /**
- * The persistent class for the invoice database table.
+ * The persistent class for the category database table.
  * 
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@NamedQuery(name="Invoice.findAll", query="SELECT i FROM Invoice i")
+@Builder(toBuilder = true)
+@Table(name = "INVOICE")
 public class Invoice implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int invoiceId;
+	@Column(name = "ID")
+	private Long id;
 
-	private double lineTotal;
+	@Column(name = "PRODUCT_ID")
+	private String productId;
 
-	private int productId;
-
+	@Column(name = "PRODUCT_NAME")
 	private String productName;
 
-	private double quantity;
+	@Column(name = "QUANTITY")
+	private String quantity;
 
-	private double total;
+	@Column(name = "LINE_TOTAL")
+	private String lineTotal;
 
-	private BigDecimal version;
+	@Column(name = "TOTAL")
+	private String total;
 
-	//bi-directional many-to-one association to ProductInvoice
-	@OneToMany(mappedBy="invoice")
-	private List<ProductInvoice> productInvoices;
+	@Column(name = "CREATED_DATE")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createdDate;
 
-	public Invoice() {
-	}
+	@Column(name = "CREATED_BY")
+	private String createdBy;
 
-	public int getInvoiceId() {
-		return this.invoiceId;
-	}
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "UPDATED_DATE")
+	private Date updatedDate;
 
-	public void setInvoiceId(int invoiceId) {
-		this.invoiceId = invoiceId;
-	}
-
-	public double getLineTotal() {
-		return this.lineTotal;
-	}
-
-	public void setLineTotal(double lineTotal) {
-		this.lineTotal = lineTotal;
-	}
-
-	public int getProductId() {
-		return this.productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-
-	public String getProductName() {
-		return this.productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	public double getQuantity() {
-		return this.quantity;
-	}
-
-	public void setQuantity(double quantity) {
-		this.quantity = quantity;
-	}
-
-	public double getTotal() {
-		return this.total;
-	}
-
-	public void setTotal(double total) {
-		this.total = total;
-	}
-
-	public BigDecimal getVersion() {
-		return this.version;
-	}
-
-	public void setVersion(BigDecimal version) {
-		this.version = version;
-	}
-
-	public List<ProductInvoice> getProductInvoices() {
-		return this.productInvoices;
-	}
-
-	public void setProductInvoices(List<ProductInvoice> productInvoices) {
-		this.productInvoices = productInvoices;
-	}
-
-	public ProductInvoice addProductInvoice(ProductInvoice productInvoice) {
-		getProductInvoices().add(productInvoice);
-		productInvoice.setInvoice(this);
-
-		return productInvoice;
-	}
-
-	public ProductInvoice removeProductInvoice(ProductInvoice productInvoice) {
-		getProductInvoices().remove(productInvoice);
-		productInvoice.setInvoice(null);
-
-		return productInvoice;
-	}
-
+	@Column(name = "UPDATED_BY")
+	private String updatedBy;
 }

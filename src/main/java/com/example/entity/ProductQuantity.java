@@ -9,38 +9,40 @@
  */
 package com.example.entity;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "CATEGORY")
+@Table(name = "PROD_QUANTITY")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"fileByte", "fileName", "createdDateAsFolderName"})
-@ToString(exclude = {"fileByte", "fileName", "createdDateAsFolderName"})
+@EqualsAndHashCode(exclude = {})
+@ToString(exclude = {})
 @Builder(toBuilder = true)
-public class Category {
+@TypeDef(name = "json", typeClass = JsonType.class)
+public class ProductQuantity {
 
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "CATEGORY_CODE")
-    private String categoryCode;
+    @Column(name = "PRODUCT_ID")
+    private Long productId;
 
-    @Column(name = "CATEGORY_NAME")
-    private String categoryName;
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    private String quantity;
 
-    @Column(name = "PARENT_CATEGORY")
-    private Long parentCategory;
-
-    @Column(name = "IMAGE_PATH")
-    private String imagePath;
+    @Column(name = "UNIT")
+    private String unit;
 
     @Column(name = "CREATED_BY")
     private String createdBy;
@@ -54,17 +56,7 @@ public class Category {
     @Column(name = "UPDATED_DATE")
     private Date updatedDate;
 
-    @Column(name = "ACTIVE")
-    private String active;
-
     @Column(name = "DELETED")
     private String deleted;
-
-    @Transient
-    private byte[] fileByte;
-    @Transient
-    private String fileName;
-    @Transient
-    private String createdDateAsFolderName;
-
 }
+
