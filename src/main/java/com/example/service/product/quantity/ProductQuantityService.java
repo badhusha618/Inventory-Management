@@ -1,6 +1,7 @@
 package com.example.service.product.quantity;
 
-import com.makinus.usm.nxg.common.exception.MakinusException;
+import com.example.exception.BazzarException;
+import com.makinus.usm.nxg.common.exception.BazzarException;
 import com.makinus.usm.nxg.models.entity.ProductQuantity;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface ProductQuantityService {
 
     ProductQuantity updateProductQuantity(final ProductQuantity productQuantity);
 
-    ProductQuantity findProductQuantity(Long id) throws MakinusException;
+    ProductQuantity findProductQuantity(Long id) throws BazzarException;
 
     List<ProductQuantity> addProductQuantities(List<ProductQuantity> productQuantities);
 

@@ -1,9 +1,6 @@
 package com.example.service.product.quantity;
 
-import com.makinus.usm.nxg.common.exception.MakinusException;
-import com.makinus.usm.nxg.common.file.ImageWriter;
-import com.makinus.usm.nxg.models.entity.ProductQuantity;
-import com.makinus.usm.nxg.product.data.dao.ProductQuantityRepository;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,13 +43,13 @@ public class ProductQuantityServiceImpl implements ProductQuantityService {
     }
 
     @Override
-    public ProductQuantity findProductQuantity(Long id) throws MakinusException {
+    public ProductQuantity findProductQuantity(Long id) throws BazzarException {
         Optional<ProductQuantity> productQuantityOptional = productQuantityRepository.findById(id);
         if (productQuantityOptional.isPresent()) {
             ProductQuantity productQuantity = productQuantityOptional.get();
             return productQuantity;
         }
-        throw new MakinusException(String.format("ProductQuantity is not found with the id %d", id));
+        throw new BazzarException(String.format("ProductQuantity is not found with the id %d", id));
     }
 
     public List<ProductQuantity> addProductQuantities(List<ProductQuantity> productQuantities) {

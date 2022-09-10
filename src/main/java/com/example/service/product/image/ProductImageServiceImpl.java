@@ -1,6 +1,6 @@
 package com.example.service.product.image;
 
-import com.makinus.usm.nxg.common.exception.MakinusException;
+import com.makinus.usm.nxg.common.exception.BazzarException;
 import com.makinus.usm.nxg.common.file.ImageWriter;
 import com.makinus.usm.nxg.models.entity.ProductImage;
 import com.makinus.usm.nxg.product.data.dao.ProductImageRepository;
@@ -46,14 +46,14 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public ProductImage findProductImage(Long id) throws MakinusException {
+    public ProductImage findProductImage(Long id) throws BazzarException {
         Optional<ProductImage> productImageOptional = productImageRepository.findById(id);
         if (productImageOptional.isPresent()) {
             ProductImage productImage = productImageOptional.get();
             productImage.setFileByte(imageWriter.readBytes(get(productImage.getImagePath())));
             return productImage;
         }
-        throw new MakinusException(String.format("ProductImage is not found with the id %d", id));
+        throw new BazzarException(String.format("ProductImage is not found with the id %d", id));
     }
 
     public List<ProductImage> addProductImages(List<ProductImage> productImages) {

@@ -1,7 +1,9 @@
 package com.example.service.product.image;
 
-import com.makinus.usm.nxg.common.exception.MakinusException;
-import com.makinus.usm.nxg.models.entity.ProductImage;
+
+
+import com.example.entity.ProductImage;
+import com.example.exception.BazzarException;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ public interface ProductImageService {
 
     ProductImage updateProductImage(final ProductImage productImage);
 
-    ProductImage findProductImage(Long id) throws MakinusException;
+    ProductImage findProductImage(Long id) throws BazzarException;
 
     List<ProductImage> addProductImages(List<ProductImage> productImages);
 
