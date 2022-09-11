@@ -14,8 +14,11 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Created by BAD_SHA
+ */
 @Entity
-@Table(name = "CATEGORY")
+@Table(name = "OFFER")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -23,21 +26,18 @@ import java.util.Date;
 @EqualsAndHashCode(exclude = {"fileByte", "fileName", "createdDateAsFolderName"})
 @ToString(exclude = {"fileByte", "fileName", "createdDateAsFolderName"})
 @Builder(toBuilder = true)
-public class Category {
+public class Offer {
 
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "CATEGORY_CODE")
-    private String categoryCode;
+    @Column(name = "OFFER_NAME")
+    private String offerName;
 
-    @Column(name = "CATEGORY_NAME")
-    private String categoryName;
-
-    @Column(name = "PARENT_CATEGORY")
-    private Long parentCategory;
+    @Column(name = "DESCRIPTION")
+    private String description;
 
     @Column(name = "IMAGE_PATH")
     private String imagePath;

@@ -14,30 +14,42 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Created by BAD_SHA
+ */
 @Entity
-@Table(name = "CATEGORY")
+@Table(name = "BUSINESS_DETAILS")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"fileByte", "fileName", "createdDateAsFolderName"})
-@ToString(exclude = {"fileByte", "fileName", "createdDateAsFolderName"})
+@EqualsAndHashCode
+@ToString
 @Builder(toBuilder = true)
-public class Category {
+public class BusinessDetails {
 
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "CATEGORY_CODE")
-    private String categoryCode;
+    @Column(name = "COMPANY_NAME")
+    private String companyName;
 
-    @Column(name = "CATEGORY_NAME")
-    private String categoryName;
+    @Column(name = "ADDRESS")
+    private String address;
 
-    @Column(name = "PARENT_CATEGORY")
-    private Long parentCategory;
+    @Column(name = "PHONE_NO1")
+    private String phoneNo1;
+
+    @Column(name = "PHONE_NO2")
+    private String phoneNo2;
+
+    @Column(name = "GST_NO")
+    private String gstNo;
+
+    @Column(name = "PAN_NO")
+    private String panNo;
 
     @Column(name = "IMAGE_PATH")
     private String imagePath;
@@ -54,16 +66,18 @@ public class Category {
     @Column(name = "UPDATED_DATE")
     private Date updatedDate;
 
-    @Column(name = "ACTIVE")
-    private String active;
-
     @Column(name = "DELETED")
     private String deleted;
 
+    @Column(name = "INCLUDE_TAX")
+    private String includeTax;
+
     @Transient
     private byte[] fileByte;
+
     @Transient
     private String fileName;
+
     @Transient
     private String createdDateAsFolderName;
 

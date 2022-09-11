@@ -1,17 +1,15 @@
 package com.example.controller;
 
+import com.example.data.reftype.YNStatus;
 import com.example.data.request.CategoryRequest;
 import com.example.data.response.CategoryResponse;
 import com.example.entity.Category;
 import com.example.exception.BazzarException;
-import com.example.service.CategoryLogService;
-import com.example.service.CategoryService;
+import com.example.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 import static com.example.utils.AdminUtils.SYSTEM_USER;
 import static com.example.utils.AdminUtils.getInstant;
@@ -27,17 +25,15 @@ public class CategoryController {
 
     @Autowired
     public CategoryService categoryService;
-    @Autowired
-    private CategoryLogService categoryLogService;
 
     @GetMapping
     public Iterable<Category> getAllCategory() {
-        return categoryService.findAll();
+        return categoryService.categoryActiveList();
     }
 
     @RequestMapping("/{id}")
     public Category searchCategory(@PathVariable Long id) throws BazzarException {
-        return categoryService.findById(id);
+        return categoryService.findCategory(id);
     }
 
     @PostMapping
@@ -49,21 +45,21 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) throws BazzarException {
-        Category category = categoryService.findById(id);
-        Category saveCategory = categoryService.updateCategory(categoryRequest,category);
+        Category category = categoryService.findCategory(id);
+        Category saveCategory = categoryService.updateCategory(category);
         return new ResponseEntity<>(mapCategoryResponse(category), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long id) throws BazzarException {
-        Category category = categoryService.findById(id);
-        categoryService.deleteCategory(category);
+        Category category = categoryService.findCategory(id);
+        categoryService.removeCategory(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private Category mapCategory(CategoryRequest categoryRequest) {
-        return Category.builder().categoryName(categoryRequest.getCategoryName()).createdUser(SYSTEM_USER).createdDateTime(getInstant())
-                .lastModifiedUser(SYSTEM_USER).lastModifiedDateTime(getInstant()).build();
+        return Category.builder().categoryCode(categoryRequest.getCategoryCode()).categoryName(categoryRequest.getCategoryName()).active(categoryRequest.getActive()).deleted(YNStatus.NO.getStatus()).createdBy(SYSTEM_USER).createdDate(getInstant())
+                .updatedBy(SYSTEM_USER).updatedDate(getInstant()).build();
     }
 
     private CategoryResponse mapCategoryResponse(Category category) {

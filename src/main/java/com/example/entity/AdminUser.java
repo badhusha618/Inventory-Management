@@ -22,7 +22,7 @@ import java.util.Objects;
  * Created by Bad_sha
  */
 @Entity
-@Table(name = "ADMIN_USER")
+@Table(name = "ADMIN_USERS")
 @Getter
 @Setter
 @Builder
