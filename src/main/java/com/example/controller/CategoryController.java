@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.data.reftype.YNStatus;
 import com.example.data.request.CategoryRequest;
 import com.example.data.response.CategoryResponse;
 import com.example.entity.Category;
@@ -57,7 +58,7 @@ public class CategoryController {
     }
 
     private Category mapCategory(CategoryRequest categoryRequest) {
-        return Category.builder().categoryName(categoryRequest.getCategoryName()).createdBy(SYSTEM_USER).createdDate(getInstant())
+        return Category.builder().categoryCode(categoryRequest.getCategoryCode()).categoryName(categoryRequest.getCategoryName()).active(categoryRequest.getActive()).deleted(YNStatus.NO.getStatus()).createdBy(SYSTEM_USER).createdDate(getInstant())
                 .updatedBy(SYSTEM_USER).updatedDate(getInstant()).build();
     }
 

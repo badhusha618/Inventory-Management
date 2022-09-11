@@ -13,5 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 public class CategoryRequest {
 
+    private String categoryCode;
     private String categoryName;
+    private String active;
 }
