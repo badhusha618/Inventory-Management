@@ -14,6 +14,7 @@ import com.amazonaws.util.DateUtils;
 import com.example.data.reftype.YNStatus;
 import com.example.entity.Category;
 import com.example.exception.BazzarException;
+import com.example.file.ImageWriter;
 import com.example.repository.CategoryRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.imageio.ImageWriter;
 import java.util.List;
 import java.util.Optional;
 import static java.lang.String.format;

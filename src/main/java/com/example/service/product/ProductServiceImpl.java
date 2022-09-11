@@ -12,6 +12,7 @@ package com.example.service.product;
 import com.example.data.reftype.YNStatus;
 import com.example.entity.Product;
 import com.example.exception.BazzarException;
+import com.example.file.ImageWriter;
 import com.example.repository.ProductRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +21,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.imageio.ImageWriter;
 import java.util.List;
 import java.util.Optional;
 

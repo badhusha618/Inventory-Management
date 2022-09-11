@@ -14,7 +14,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-/** Created by ibrahim */
+/** Created by BAD_SHA */
 @Entity
 @Table(name = "USERS")
 @NoArgsConstructor

@@ -1,15 +1,16 @@
 package com.example.service.product.image;
 
-import com.makinus.usm.nxg.common.exception.BazzarException;
-import com.makinus.usm.nxg.common.file.ImageWriter;
-import com.makinus.usm.nxg.models.entity.ProductImage;
-import com.makinus.usm.nxg.product.data.dao.ProductImageRepository;
+import com.example.entity.ProductImage;
+import com.example.exception.BazzarException;
+import com.example.file.ImageWriter;
+import com.example.repository.ProductImageRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +51,7 @@ public class ProductImageServiceImpl implements ProductImageService {
         Optional<ProductImage> productImageOptional = productImageRepository.findById(id);
         if (productImageOptional.isPresent()) {
             ProductImage productImage = productImageOptional.get();
-            productImage.setFileByte(imageWriter.readBytes(get(productImage.getImagePath())));
+            productImage.setFileByte(imageWriter.readBytes(Paths.get(productImage.getImagePath())));
             return productImage;
         }
         throw new BazzarException(String.format("ProductImage is not found with the id %d", id));

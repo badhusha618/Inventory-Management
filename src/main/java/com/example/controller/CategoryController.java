@@ -27,12 +27,12 @@ public class CategoryController {
 
     @GetMapping
     public Iterable<Category> getAllCategory() {
-        return categoryService.findAll();
+        return categoryService.categoryActiveList();
     }
 
     @RequestMapping("/{id}")
     public Category searchCategory(@PathVariable Long id) throws BazzarException {
-        return categoryService.findById(id);
+        return categoryService.findCategory(id);
     }
 
     @PostMapping
@@ -44,21 +44,21 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) throws BazzarException {
-        Category category = categoryService.findById(id);
-        Category saveCategory = categoryService.updateCategory(categoryRequest,category);
+        Category category = categoryService.findCategory(id);
+        Category saveCategory = categoryService.updateCategory(category);
         return new ResponseEntity<>(mapCategoryResponse(category), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long id) throws BazzarException {
-        Category category = categoryService.findById(id);
-        categoryService.deleteCategory(category);
+        Category category = categoryService.findCategory(id);
+        categoryService.removeCategory(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private Category mapCategory(CategoryRequest categoryRequest) {
-        return Category.builder().categoryName(categoryRequest.getCategoryName()).createdUser(SYSTEM_USER).createdDateTime(getInstant())
-                .lastModifiedUser(SYSTEM_USER).lastModifiedDateTime(getInstant()).build();
+        return Category.builder().categoryName(categoryRequest.getCategoryName()).createdBy(SYSTEM_USER).createdDate(getInstant())
+                .updatedBy(SYSTEM_USER).updatedDate(getInstant()).build();
     }
 
     private CategoryResponse mapCategoryResponse(Category category) {

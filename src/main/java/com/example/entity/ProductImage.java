@@ -15,7 +15,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "BAD_SHA")
+@Table(name = "PROD_IMAGE")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

@@ -1,8 +1,7 @@
 package com.example.service.product.quantity;
 
+import com.example.entity.ProductQuantity;
 import com.example.exception.BazzarException;
-import com.makinus.usm.nxg.common.exception.BazzarException;
-import com.makinus.usm.nxg.models.entity.ProductQuantity;
 
 import java.util.List;
 
