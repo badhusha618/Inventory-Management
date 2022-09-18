@@ -15,7 +15,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "CATEGORY")
+@Table(name = "PARENT_CATEGORY")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -23,7 +23,7 @@ import java.util.Date;
 @EqualsAndHashCode(exclude = {"fileByte", "fileName", "createdDateAsFolderName"})
 @ToString(exclude = {"fileByte", "fileName", "createdDateAsFolderName"})
 @Builder(toBuilder = true)
-public class Category {
+public class ParentCategory {
 
     @Id
     @Column(name = "ID")
@@ -31,13 +31,10 @@ public class Category {
     private Long id;
 
     @Column(name = "CATEGORY_CODE")
-    private String categoryCode;
+    private String code;
 
     @Column(name = "CATEGORY_NAME")
-    private String categoryName;
-
-    @Column(name = "PARENT_CATEGORY")
-    private Long parentCategory;
+    private String name;
 
     @Column(name = "IMAGE_PATH")
     private String imagePath;

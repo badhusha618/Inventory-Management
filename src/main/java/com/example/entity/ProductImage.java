@@ -15,29 +15,24 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "CATEGORY")
+@Table(name = "PROD_IMAGE")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"fileByte", "fileName", "createdDateAsFolderName"})
-@ToString(exclude = {"fileByte", "fileName", "createdDateAsFolderName"})
+@EqualsAndHashCode(exclude = {})
+@ToString(exclude = {})
 @Builder(toBuilder = true)
-public class Category {
+public class ProductImage {
 
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "CATEGORY_CODE")
-    private String categoryCode;
-
-    @Column(name = "CATEGORY_NAME")
-    private String categoryName;
-
-    @Column(name = "PARENT_CATEGORY")
-    private Long parentCategory;
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_ID")
+    private Product product;
 
     @Column(name = "IMAGE_PATH")
     private String imagePath;
@@ -62,9 +57,11 @@ public class Category {
 
     @Transient
     private byte[] fileByte;
+
     @Transient
     private String fileName;
+
     @Transient
     private String createdDateAsFolderName;
-
 }
+
