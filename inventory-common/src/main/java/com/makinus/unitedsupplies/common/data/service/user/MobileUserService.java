@@ -10,11 +10,12 @@
 package com.makinus.unitedsupplies.common.data.service.user;
 
 import com.makinus.unitedsupplies.common.data.entity.User;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
+
 import java.util.List;
 import java.util.Optional;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface MobileUserService {
 
   User saveMobileUser(final User mobileUser);
@@ -27,11 +28,11 @@ public interface MobileUserService {
 
   Optional<User> findUserByPhone(String phone);
 
-  User findById(Long id) throws UnitedSuppliesException;
+  User findById(Long id) throws InventoryException;
 
-  User findByMobile(String mobile) throws UnitedSuppliesException;
+  User findByMobile(String mobile) throws InventoryException;
 
-  User removeUser(Long id) throws UnitedSuppliesException;
+  User removeUser(Long id) throws InventoryException;
 
-  User otpInvoked(Long id) throws UnitedSuppliesException;
+  User otpInvoked(Long id) throws InventoryException;
 }

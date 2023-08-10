@@ -7,23 +7,23 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
-import com.makinus.unitedsupplies.admin.controller.api.json.request.UserOrder;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.entity.User;
-import com.makinus.unitedsupplies.common.data.mapper.EntityWithExtraValueMapper;
-import com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
+import com.makinus.Inventory.admin.controller.api.json.request.UserOrder;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.entity.User;
+import com.makinus.Inventory.common.data.mapper.EntityWithExtraValueMapper;
+import com.makinus.Inventory.common.data.reftype.ProdOrderStatus;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
 import java.math.BigDecimal;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Component
 @Qualifier("UserOrderMapper")
 public class UserOrderMapper implements EntityWithExtraValueMapper<UserOrder, User, Order> {

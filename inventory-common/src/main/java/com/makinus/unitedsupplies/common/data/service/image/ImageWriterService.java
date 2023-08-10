@@ -11,7 +11,8 @@ package com.makinus.unitedsupplies.common.data.service.image;
 
 import static java.nio.file.Files.*;
 
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Component
 public class ImageWriterService implements ImageWriter {
 
@@ -34,12 +35,12 @@ public class ImageWriterService implements ImageWriter {
 
   @Override
   public String writeImage(byte[] content, String folderDate, String fileName)
-      throws UnitedSuppliesException {
+      throws InventoryException {
     LOG.info("Writing Image Files in the filesystem");
     try {
       return write(createFolderFirst(folderDate, fileName), content).toFile().getAbsolutePath();
     } catch (IOException e) {
-      throw new UnitedSuppliesException(e.getMessage());
+      throw new InventoryException(e.getMessage());
     }
   }
 
@@ -59,11 +60,11 @@ public class ImageWriterService implements ImageWriter {
   }
 
   @Override
-  public byte[] readImage(Path path) throws UnitedSuppliesException {
+  public byte[] readImage(Path path) throws InventoryException {
     try {
       return isReadable(path) ? readAllBytes(path) : new byte[0];
     } catch (IOException e) {
-      throw new UnitedSuppliesException(e.getMessage());
+      throw new InventoryException(e.getMessage());
     }
   }
 }

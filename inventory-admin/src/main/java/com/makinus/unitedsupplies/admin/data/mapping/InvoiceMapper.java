@@ -1,4 +1,4 @@
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
 public class InvoiceMapper {
 }

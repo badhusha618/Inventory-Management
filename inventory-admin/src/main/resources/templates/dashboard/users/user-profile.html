@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="col-sm-6 form-group">
                                     <label class="text-muted">Created Date</label>
-                                    <p th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getLocalTimezoneDate(userProfile.createdDate, zone)}">Created Date</p>
+                                    <p th:text="${T(com.makinus.Inventory.common.utils.AppUtils).getLocalTimezoneDate(userProfile.createdDate, zone)}">Created Date</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="col-sm-6 form-group">
                                     <label class="text-muted">Updated Date</label>
-                                    <p th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getLocalTimezoneDate(userProfile.updatedDate, zone)}">Updated Date</p>
+                                    <p th:text="${T(com.makinus.Inventory.common.utils.AppUtils).getLocalTimezoneDate(userProfile.updatedDate, zone)}">Updated Date</p>
                                 </div>
                             </div>
                         </form>

@@ -10,12 +10,12 @@
 package com.makinus.unitedsupplies.common.data.service.productfeaturesview;
 
 import com.makinus.unitedsupplies.common.data.entity.ProductFeaturesView;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface ProductFeaturesViewService {
 
@@ -23,5 +23,5 @@ public interface ProductFeaturesViewService {
 
     List<ProductFeaturesView> listProductFeaturesViewByProdIds(List<Long> productIds);
 
-    ProductFeaturesView findProductFeaturesView(Long id) throws UnitedSuppliesException;
+    ProductFeaturesView findProductFeaturesView(Long id) throws InventoryException;
 }

@@ -9,7 +9,7 @@
  */
 package com.makinus.unitedsupplies.common.data.service;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public class Triplet<A, B, C> {
 
   private A a;

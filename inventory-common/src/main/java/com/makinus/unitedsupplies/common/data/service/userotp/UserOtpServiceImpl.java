@@ -14,7 +14,8 @@ import static java.lang.String.format;
 import com.makinus.unitedsupplies.common.data.dao.UserOtpRepository;
 import com.makinus.unitedsupplies.common.data.entity.UserOTP;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
+
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,7 +57,7 @@ public class UserOtpServiceImpl implements UserOtpService {
   }
 
   @Override
-  public UserOTP removeUserOTP(String mobile, String otpType) throws UnitedSuppliesException {
+  public UserOTP removeUserOTP(String mobile, String otpType) throws InventoryException {
     Optional<UserOTP> userOTPOptional =
         userOtpRepository.findLatestOtpByMobileAndByOtpType(mobile, otpType);
     if (userOTPOptional.isPresent()) {
@@ -64,6 +65,6 @@ public class UserOtpServiceImpl implements UserOtpService {
       userOTP.setDeleted(YNStatus.YES.getStatus());
       return userOTP;
     }
-    throw new UnitedSuppliesException(format("UserOTP is not found with the mobile %s", mobile));
+    throw new InventoryException(format("UserOTP is not found with the mobile %s", mobile));
   }
 }

@@ -11,7 +11,7 @@ package com.makinus.unitedsupplies.common.data.dao.filter.order;
 
 import com.makinus.unitedsupplies.common.data.form.OrderFilterForm;
 import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -27,7 +27,7 @@ import java.util.List;
 import static com.makinus.unitedsupplies.common.data.dao.filter.order.OrderFilterCriteriaBuilder.aOrderFilterCriteria;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Repository
 public class OrderFilterDAOImpl implements OrderFilterDAO {
@@ -38,7 +38,7 @@ public class OrderFilterDAOImpl implements OrderFilterDAO {
     private EntityManager entityManager;
 
     @Override
-    public List<Order> filterOrder(OrderFilterForm orderFilterForm) throws UnitedSuppliesException {
+    public List<Order> filterOrder(OrderFilterForm orderFilterForm) throws InventoryException {
         LOG.info("Open filterOrder method in {}", this.getClass().getSimpleName());
         try {
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -57,7 +57,7 @@ public class OrderFilterDAOImpl implements OrderFilterDAO {
                 return entityManager.createQuery(query.where(orderFilterCriteriaBuilder.predicate())).getResultList();
             }
         } catch (ParseException ex) {
-            throw new UnitedSuppliesException(ex.getMessage());
+            throw new InventoryException(ex.getMessage());
         }
         return new ArrayList<>();
     }

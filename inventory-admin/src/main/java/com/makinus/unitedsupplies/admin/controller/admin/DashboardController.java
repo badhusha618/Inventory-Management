@@ -7,16 +7,16 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.product.ProductService;
-import com.makinus.unitedsupplies.common.data.service.user.MobileUserService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.reftype.ProdOrderStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.product.ProductService;
+import com.makinus.Inventory.common.data.service.user.MobileUserService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +32,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.ordersMonthlyValueForLastYear;
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.ordersMonthlyValueForThisYear;
+import static com.makinus.Inventory.admin.utils.AdminUtils.ordersMonthlyValueForLastYear;
+import static com.makinus.Inventory.admin.utils.AdminUtils.ordersMonthlyValueForThisYear;
 
-// import com.makinus.unitedsupplies.admin.data.service.user.MobileUserService;
+// import com.makinus.Inventory.admin.data.service.user.MobileUserService;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class DashboardController {
@@ -71,7 +71,7 @@ public class DashboardController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = {"/", "/dashboard.mk"})
-    public String dashboard(ModelMap model) throws UnitedSuppliesException {
+    public String dashboard(ModelMap model) throws InventoryException {
         LOG.info("Open dashboard page - {}", this.getClass().getSimpleName());
         List<Order> orders = orderService.ordersListAll();
         model.addAttribute("newOrders", newOrders(orders));

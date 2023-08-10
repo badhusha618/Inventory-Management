@@ -13,7 +13,7 @@ import com.makinus.unitedsupplies.common.data.dao.OrderRepository;
 import com.makinus.unitedsupplies.common.data.entity.Order;
 import com.makinus.unitedsupplies.common.data.entity.ProductOrder;
 import com.makinus.unitedsupplies.common.data.form.ProductOrderFilterForm;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +34,7 @@ import static com.makinus.unitedsupplies.common.data.dao.filter.order.product.Pr
 import static com.makinus.unitedsupplies.common.utils.AppUtils.utcDateForDDMMYYYY;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Repository
 public class ProductOrderFilterDAOImpl implements ProductOrderFilterDAO {
@@ -48,7 +48,7 @@ public class ProductOrderFilterDAOImpl implements ProductOrderFilterDAO {
     private OrderRepository orderRepository;
 
     @Override
-    public List<ProductOrder> filterProductOrder(ProductOrderFilterForm productOrderFilterForm) throws UnitedSuppliesException {
+    public List<ProductOrder> filterProductOrder(ProductOrderFilterForm productOrderFilterForm) throws InventoryException {
         LOG.info("Open filterProductOrder method in {}", this.getClass().getSimpleName());
         try {
             List<Long> orderRefList = new ArrayList<>();
@@ -70,7 +70,7 @@ public class ProductOrderFilterDAOImpl implements ProductOrderFilterDAO {
                 return entityManager.createQuery(query.where(productOrderFilterCriteriaBuilder.predicate())).getResultList();
             }
         } catch (ParseException ex) {
-            throw new UnitedSuppliesException(ex.getMessage());
+            throw new InventoryException(ex.getMessage());
         }
         return new ArrayList<>();
     }

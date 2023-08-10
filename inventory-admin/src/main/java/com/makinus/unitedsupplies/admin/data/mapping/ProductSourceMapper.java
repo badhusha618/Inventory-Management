@@ -7,23 +7,23 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import static com.makinus.unitedsupplies.common.data.reftype.YNStatus.NO;
-import static com.makinus.unitedsupplies.common.data.reftype.YNStatus.YES;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.data.reftype.YNStatus.NO;
+import static com.makinus.Inventory.common.data.reftype.YNStatus.YES;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
-import com.makinus.unitedsupplies.admin.data.forms.ProductForm;
-import com.makinus.unitedsupplies.admin.data.forms.ProductSourceForm;
-import com.makinus.unitedsupplies.common.data.entity.Product;
-import com.makinus.unitedsupplies.common.data.entity.ProductSource;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityWithExtraValueMapper;
-import com.makinus.unitedsupplies.common.data.mapper.ListEntityWithExtraValueUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.product.ProductService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.ProductForm;
+import com.makinus.Inventory.admin.data.forms.ProductSourceForm;
+import com.makinus.Inventory.common.data.entity.Product;
+import com.makinus.Inventory.common.data.entity.ProductSource;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityWithExtraValueMapper;
+import com.makinus.Inventory.common.data.mapper.ListEntityWithExtraValueUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.product.ProductService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Component
 @Qualifier("ProductSourceMapper")
 public class ProductSourceMapper
@@ -49,7 +49,7 @@ public class ProductSourceMapper
 
   @Override
   public List<ProductSource> mapExtra(List<ProductSourceForm> productSourceForms, Product product)
-      throws UnitedSuppliesException {
+      throws InventoryException {
     LOG.info("Map ProductSource Forms to ProductSources Entity");
     List<ProductSource> productSourceList = new ArrayList<>();
     productSourceForms.forEach(
@@ -78,7 +78,7 @@ public class ProductSourceMapper
   @Override
   public List<ProductSource> mapListUpdate(
       ProductForm productForm, Product product, List<ProductSource> productSourceList)
-      throws UnitedSuppliesException {
+      throws InventoryException {
     LOG.info("Map ProductSource Forms to Updated ProductSources Entity");
     Map<Long, ProductSource> productSourceMap =
         productSourceList.stream()
@@ -139,7 +139,7 @@ public class ProductSourceMapper
 
   @Override
   public List<ProductSourceForm> remap(List<ProductSource> productSources)
-      throws UnitedSuppliesException {
+      throws InventoryException {
     LOG.info("Map ProductSource Entity to ProductSource Form");
     List<ProductSourceForm> productSourceForms = new ArrayList<>();
     productSources.forEach(

@@ -13,7 +13,7 @@ import com.makinus.unitedsupplies.common.data.dao.PromotionRepository;
 import com.makinus.unitedsupplies.common.data.entity.Promotion;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
 import com.makinus.unitedsupplies.common.data.service.image.ImageWriter;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 import static java.lang.String.format;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -55,7 +55,7 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public Promotion updateSalePromotion(Promotion promotion) throws UnitedSuppliesException {
+    public Promotion updateSalePromotion(Promotion promotion) throws InventoryException {
         LOG.info("Update existing Sale Promotion in the database");
         return promotionRepository.save(promotion);
     }
@@ -73,7 +73,7 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public Promotion removePromotion(Long id) throws UnitedSuppliesException {
+    public Promotion removePromotion(Long id) throws InventoryException {
         Optional<Promotion> promotionOptional = promotionRepository.findById(Long.valueOf(id));
         if (promotionOptional.isPresent()) {
             Promotion promotion = promotionOptional.get();
@@ -82,17 +82,17 @@ public class PromotionServiceImpl implements PromotionService {
             promotion.setUpdatedDate(getInstant());
             return promotion;
         }
-        throw new UnitedSuppliesException(format("Sale Promotion is not found with the id %s", id));
+        throw new InventoryException(format("Sale Promotion is not found with the id %s", id));
     }
 
     @Override
-    public Promotion findSalePromotion(Long id) throws UnitedSuppliesException {
+    public Promotion findSalePromotion(Long id) throws InventoryException {
         Optional<Promotion> promotionOptional = promotionRepository.findById(id);
         if (promotionOptional.isPresent()) {
             Promotion promotion = promotionOptional.get();
 //      promotion.setImage(imageWriter.readImage(get(promotion.getImagePath())));
             return promotion;
         }
-        throw new UnitedSuppliesException(format("Sale Promotion is not found with the id %d", id));
+        throw new InventoryException(format("Sale Promotion is not found with the id %d", id));
     }
 }

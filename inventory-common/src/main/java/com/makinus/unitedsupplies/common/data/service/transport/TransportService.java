@@ -10,18 +10,18 @@
 package com.makinus.unitedsupplies.common.data.service.transport;
 
 import com.makinus.unitedsupplies.common.data.entity.Transport;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * Created by sabique
+ * @author Bad_sha
  */
 public interface TransportService {
 
     boolean isQuantityAndDistanceExists(final Integer quantity, final Integer distance, final String transGroup);
 
-    List<Transport> transportList() throws UnitedSuppliesException;
+    List<Transport> transportList() throws InventoryException;
 
     List<Transport> transportListByTransGroups(List<String> transGroup);
 
@@ -31,11 +31,11 @@ public interface TransportService {
 
     Transport addNewTransport(final Transport transport);
 
-    Transport findTransport(Long id) throws UnitedSuppliesException;
+    Transport findTransport(Long id) throws InventoryException;
 
     Transport updateTransport(final Transport transport);
 
-    Transport removeTransport(Long id) throws UnitedSuppliesException;
+    Transport removeTransport(Long id) throws InventoryException;
 
-    List<Transport> transportGroupList() throws UnitedSuppliesException;
+    List<Transport> transportGroupList() throws InventoryException;
 }

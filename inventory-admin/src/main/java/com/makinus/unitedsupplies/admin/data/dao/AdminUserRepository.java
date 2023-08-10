@@ -7,16 +7,18 @@
  *  Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.dao;
+package com.makinus.Inventory.admin.data.dao;
 
-import com.makinus.unitedsupplies.common.data.entity.AdminUser;
+import com.makinus.Inventory.common.data.entity.AdminUser;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-/** @author abuabdul */
+/**
+ * @author Bad_sha
+ */
 public interface AdminUserRepository extends JpaRepository<AdminUser, Long> {
 
   @Query("select muser from AdminUser muser where muser.username = :username")

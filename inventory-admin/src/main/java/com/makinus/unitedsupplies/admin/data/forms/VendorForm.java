@@ -1,10 +1,12 @@
-package com.makinus.unitedsupplies.admin.data.forms;
+package com.makinus.Inventory.admin.data.forms;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
-/** Created by Kingson */
+/**
+ * @author Bad_sha
+ */
 public class VendorForm {
     private String id;
     private String vendorCode;

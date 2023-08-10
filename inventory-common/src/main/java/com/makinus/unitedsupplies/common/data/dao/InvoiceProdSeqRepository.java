@@ -10,16 +10,16 @@
 package com.makinus.unitedsupplies.common.data.dao;
 
 import com.makinus.unitedsupplies.common.data.entity.InvoiceProdSeq;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 /**
- * @author ibrahim
+ * @author Bad_sha
  */
 public interface InvoiceProdSeqRepository extends JpaRepository<InvoiceProdSeq, Long> {
 
-    List<InvoiceProdSeq> findAllByVendorId(Long id) throws UnitedSuppliesException;
+    List<InvoiceProdSeq> findAllByVendorId(Long id) throws InventoryException;
 
 }

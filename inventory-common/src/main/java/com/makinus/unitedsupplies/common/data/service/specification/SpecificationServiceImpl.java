@@ -13,7 +13,7 @@ package com.makinus.unitedsupplies.common.data.service.specification;
 import com.makinus.unitedsupplies.common.data.dao.SpecificationRepository;
 import com.makinus.unitedsupplies.common.data.entity.Specification;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
 import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -68,16 +68,16 @@ public class SpecificationServiceImpl implements SpecificationService {
     }
 
     @Override
-    public Specification findSpecification(Long id) throws UnitedSuppliesException {
+    public Specification findSpecification(Long id) throws InventoryException {
         Optional<Specification> specificationOptional = specificationRepository.findById(id);
         if (specificationOptional.isPresent()) {
             return specificationOptional.get();
         }
-        throw new UnitedSuppliesException(String.format("Specification is not found with the id %d", id));
+        throw new InventoryException(String.format("Specification is not found with the id %d", id));
     }
 
     @Override
-    public Specification removeSpecification(Long id) throws UnitedSuppliesException {
+    public Specification removeSpecification(Long id) throws InventoryException {
         Optional<Specification> specificationOptional = specificationRepository.findById(id);
         if (specificationOptional.isPresent()) {
             Specification specification = specificationOptional.get();
@@ -86,6 +86,6 @@ public class SpecificationServiceImpl implements SpecificationService {
             specification.setUpdatedDate(getInstant());
             return specification;
         }
-        throw new UnitedSuppliesException(String.format("Promotion is not found with the id %d", id));
+        throw new InventoryException(String.format("Promotion is not found with the id %d", id));
     }
 }

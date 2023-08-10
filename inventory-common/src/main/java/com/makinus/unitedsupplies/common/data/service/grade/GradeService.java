@@ -10,12 +10,12 @@
 package com.makinus.unitedsupplies.common.data.service.grade;
 
 import com.makinus.unitedsupplies.common.data.entity.Grade;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface GradeService {
 
@@ -29,7 +29,7 @@ public interface GradeService {
 
     Grade updateGrade(final Grade grade);
 
-    Grade findGrade(Long id) throws UnitedSuppliesException;
+    Grade findGrade(Long id) throws InventoryException;
 
-    Grade removeGrade(Long id) throws UnitedSuppliesException;
+    Grade removeGrade(Long id) throws InventoryException;
 }

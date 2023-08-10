@@ -14,7 +14,9 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import javax.persistence.*;
 
-/** @author abuabdul */
+/**
+ * @author Bad_sha
+ */
 @Entity
 @Table(name = "PRODUCT_SOURCE")
 @JsonIgnoreProperties({"createdBy", "createdDate", "updatedBy", "updatedDate", "deleted"})

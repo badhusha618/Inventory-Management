@@ -12,7 +12,7 @@ package com.makinus.unitedsupplies.common.sms;
 import org.springframework.util.concurrent.ListenableFuture;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @FunctionalInterface
 public interface SMSService {

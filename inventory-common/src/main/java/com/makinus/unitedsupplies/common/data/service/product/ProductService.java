@@ -11,15 +11,15 @@ package com.makinus.unitedsupplies.common.data.service.product;
 
 import com.makinus.unitedsupplies.common.data.form.ProductFilterForm;
 import com.makinus.unitedsupplies.common.data.entity.Product;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface ProductService {
-    boolean isProductAvailable(final String username) throws UnitedSuppliesException;
+    boolean isProductAvailable(final String username) throws InventoryException;
 
     Product addNewProduct(final Product product);
 
@@ -35,15 +35,15 @@ public interface ProductService {
 
     Product updateProduct(final Product product);
 
-    Product removeProduct(Long id) throws UnitedSuppliesException;
+    Product removeProduct(Long id) throws InventoryException;
 
-    Product findProduct(Long id) throws UnitedSuppliesException;
+    Product findProduct(Long id) throws InventoryException;
 
-    Product findProductWithImages(Long id) throws UnitedSuppliesException;
+    Product findProductWithImages(Long id) throws InventoryException;
 
     List<Long> findProductIdsByCategory(Long categoryId);
 
     List<String> getTransGroupListByProductList(List<Long> productList);
 
-    List<Product> filterProduct(ProductFilterForm productFilterForm) throws UnitedSuppliesException;
+    List<Product> filterProduct(ProductFilterForm productFilterForm) throws InventoryException;
 }

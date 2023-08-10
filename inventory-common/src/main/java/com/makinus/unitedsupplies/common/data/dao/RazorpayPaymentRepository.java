@@ -17,7 +17,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 /**
- * @author ibrahim
+ * @author Bad_sha
  */
 public interface RazorpayPaymentRepository extends JpaRepository<RazorpayPayment, Long> {
 

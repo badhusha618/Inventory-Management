@@ -11,17 +11,17 @@ package com.makinus.unitedsupplies.common.data.service.razorpayPayment;
 
 
 import com.makinus.unitedsupplies.common.data.entity.RazorpayPayment;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.Optional;
 
 /**
- * @author ibrahim
+ * @author Bad_sha
  */
 public interface RazorpayPaymentService {
 
     RazorpayPayment saveRazorpayPayment(final RazorpayPayment razorpayPayment);
 
-    Optional<RazorpayPayment> getRazorpayByOrderRef(Long OrderRef) throws UnitedSuppliesException;
+    Optional<RazorpayPayment> getRazorpayByOrderRef(Long OrderRef) throws InventoryException;
 
 }

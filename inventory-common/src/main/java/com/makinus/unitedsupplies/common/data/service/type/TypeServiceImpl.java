@@ -12,7 +12,7 @@ package com.makinus.unitedsupplies.common.data.service.type;
 import com.makinus.unitedsupplies.common.data.dao.TypeRepository;
 import com.makinus.unitedsupplies.common.data.entity.Type;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
 import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -74,16 +74,16 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public Type findType(Long id) throws UnitedSuppliesException {
+    public Type findType(Long id) throws InventoryException {
         Optional<Type> typeOptional = typeRepository.findById(id);
         if (typeOptional.isPresent()) {
             return typeOptional.get();
         }
-        throw new UnitedSuppliesException(String.format("Type is not found with the id %d", id));
+        throw new InventoryException(String.format("Type is not found with the id %d", id));
     }
 
     @Override
-    public Type removeType(Long id) throws UnitedSuppliesException {
+    public Type removeType(Long id) throws InventoryException {
         Optional<Type> typeOptional = typeRepository.findById(id);
         if (typeOptional.isPresent()) {
             Type type = typeOptional.get();
@@ -92,6 +92,6 @@ public class TypeServiceImpl implements TypeService {
             type.setUpdatedDate(getInstant());
             return type;
         }
-        throw new UnitedSuppliesException(String.format("Promotion is not found with the id %d", id));
+        throw new InventoryException(String.format("Promotion is not found with the id %d", id));
     }
 }

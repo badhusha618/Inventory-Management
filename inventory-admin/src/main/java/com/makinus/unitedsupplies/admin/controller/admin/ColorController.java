@@ -7,19 +7,19 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.ColorForm;
-import com.makinus.unitedsupplies.admin.data.mapping.ColorMapper;
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.entity.Color;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.color.ColorService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.ColorForm;
+import com.makinus.Inventory.admin.data.mapping.ColorMapper;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.entity.Color;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.color.ColorService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +36,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.subCategoryMap;
+import static com.makinus.Inventory.admin.utils.AdminUtils.subCategoryMap;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class ColorController {
@@ -74,7 +74,7 @@ public class ColorController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/color.mk")
-    public String color(ModelMap model) throws UnitedSuppliesException {
+    public String color(ModelMap model) throws InventoryException {
         LOG.info("Open Color page - {}", this.getClass().getSimpleName());
         ColorForm colorForm = new ColorForm();
         colorForm.setActive(Boolean.TRUE);
@@ -88,7 +88,7 @@ public class ColorController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/color.mk")
-    public String addNewColor(@ModelAttribute("colorForm") ColorForm colorForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewColor(@ModelAttribute("colorForm") ColorForm colorForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Open Add new Color - {}", this.getClass().getSimpleName());
         Color savedColor = colorService.saveColor(colorMapper.map(colorForm));
         redirectAttrs.addFlashAttribute("colorName", colorForm.getColor());
@@ -108,7 +108,7 @@ public class ColorController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/color.mk")
-    public String editColorPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String colorId) throws UnitedSuppliesException {
+    public String editColorPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String colorId) throws InventoryException {
         LOG.info("Open Edit Color page - {}", this.getClass().getSimpleName());
         ColorForm savedColor = colorMapper.remap(colorService.findColor(Long.valueOf(colorId)));
         model.addAttribute("editColorForm", savedColor);
@@ -121,7 +121,7 @@ public class ColorController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/color.mk")
-    public String updateColor(@ModelAttribute("editColorForm") ColorForm colorForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateColor(@ModelAttribute("editColorForm") ColorForm colorForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Color page - {}", this.getClass().getSimpleName());
         Color updateColor = colorService.findColor(Long.valueOf(colorForm.getColorID()));
         Color savedColor = colorService.updateColor(colorMapper.map(colorForm, updateColor));
@@ -141,7 +141,7 @@ public class ColorController {
             Color removedColor = colorService.removeColor(Long.valueOf(id));
             LOG.info("Color is removed? {}", (removedColor != null && removedColor.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

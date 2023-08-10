@@ -111,7 +111,7 @@
                                 <div>
                                     <span th:text="${deliveryAddress.name}"></span><br/>
                                     <span th:text="${deliveryAddress.address}"></span><br/>
-                                    <span th:text="${T(com.makinus.unitedsupplies.common.data.reftype.City).statusMatch(deliveryAddress.city).getDisplay()}"></span><br/>
+                                    <span th:text="${T(com.makinus.Inventory.common.data.reftype.City).statusMatch(deliveryAddress.city).getDisplay()}"></span><br/>
                                     <span th:text="${deliveryAddress.postalCode}"></span><br/>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@
                         <div class="ibox-head">
                             <div class="ibox-title">Product Details</div>
                             <div class="ibox-tools">
-                                <form id="fulfillmentForm" th:action="@{/order/fulfillment/{stage}.mk(stage=${T(com.makinus.unitedsupplies.common.data.reftype.OrderFulfillmentStatus).PREVIEW.getStatus()})}" th:object="${fulfillmentForm}" method="post">
+                                <form id="fulfillmentForm" th:action="@{/order/fulfillment/{stage}.mk(stage=${T(com.makinus.Inventory.common.data.reftype.OrderFulfillmentStatus).PREVIEW.getStatus()})}" th:object="${fulfillmentForm}" method="post">
                                         <input type="hidden" th:field="*{orderRef}"/>
                                         <input type="hidden" id="prodOrderIds" th:field="*{prodOrderIds}"/>
                                         <input type="hidden" id="prodVendorId" th:field="*{prodVendorId}"/>
@@ -188,12 +188,12 @@
                                 <tbody>
                                 <tr th:each="productOrder : ${productOrders}">
                                     <td width="2%">
-                                        <input th:unless="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" type="checkbox" class="large-checkbox child-checkbox"/>
+                                        <input th:unless="${T(com.makinus.Inventory.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" type="checkbox" class="large-checkbox child-checkbox"/>
                                     </td>
                                     <td>
                                         <span th:text="${orderFulfillmentMap.get(productOrder.fulfillmentId).fulfillmentRef}">Order div</span><br/>
-                                        <span th:if="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" class="badge badge-success">Fulfilled</span>
-                                        <span th:unless="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" class="badge badge-warning">Unfulfilled</span>
+                                        <span th:if="${T(com.makinus.Inventory.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" class="badge badge-success">Fulfilled</span>
+                                        <span th:unless="${T(com.makinus.Inventory.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" class="badge badge-warning">Unfulfilled</span>
                                     </td>
                                     <td>
                                         <input class="d-none id" th:value="${productOrder.id}"/>
@@ -205,10 +205,10 @@
                                         <span th:text="${productMap.get(productOrder.productId).productCode}">Product Code</span>
                                     </td>
                                     <td>
-                                        <a th:unless="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" th:url="@{/order/prod/{prodId}/{deliveryPinCode}/vendor/change.mk(prodId=${productOrder.id}, deliveryPinCode=${deliveryAddress.postalCode})}" data-toggle="modal" data-target="#EditVendor" class="primary edit-product-vendor">
+                                        <a th:unless="${T(com.makinus.Inventory.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" th:url="@{/order/prod/{prodId}/{deliveryPinCode}/vendor/change.mk(prodId=${productOrder.id}, deliveryPinCode=${deliveryAddress.postalCode})}" data-toggle="modal" data-target="#EditVendor" class="primary edit-product-vendor">
                                             <span class="badge badge-primary" th:text="${vendorMap.get(prodVendorMap.get(productOrder.prodVendorId).vendorId).vendorCode + ' - ' + vendorMap.get(prodVendorMap.get(productOrder.prodVendorId).vendorId).vendorName}"></span>
                                         </a>
-                                            <span th:if="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" class="badge badge-primary" th:text="${vendorMap.get(prodVendorMap.get(productOrder.prodVendorId).vendorId).vendorCode + ' - ' + vendorMap.get(prodVendorMap.get(productOrder.prodVendorId).vendorId).vendorName}"></span>
+                                            <span th:if="${T(com.makinus.Inventory.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" class="badge badge-primary" th:text="${vendorMap.get(prodVendorMap.get(productOrder.prodVendorId).vendorId).vendorCode + ' - ' + vendorMap.get(prodVendorMap.get(productOrder.prodVendorId).vendorId).vendorName}"></span>
                                     </td>
                                     <td class="text-center" width="10%">
                                         <span th:text="${productOrder.proQuantity}">Quantity</span>
@@ -222,8 +222,8 @@
                                         <span class="badge badge-default">Loading Charges </span><span th:text="${productOrder.loadingCharges}" class="m-3">Loading Charges</span>
                                     </td>
                                     <td width="20%">
-                                        <a th:if="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" href="#" class="editable-prod-order-status label label-primary" th:text="${T(com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus).statusMatch(productOrder.status).getDisplay()}" data-name="status" th:data-value="${productOrder.status}" th:data-pk="${productOrder.id}">Status</a>
-                                        <span th:unless="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" class="label label-primary" th:text="${T(com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus).statusMatch(productOrder.status).getDisplay()}">Status</span>
+                                        <a th:if="${T(com.makinus.Inventory.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" href="#" class="editable-prod-order-status label label-primary" th:text="${T(com.makinus.Inventory.common.data.reftype.ProdOrderStatus).statusMatch(productOrder.status).getDisplay()}" data-name="status" th:data-value="${productOrder.status}" th:data-pk="${productOrder.id}">Status</a>
+                                        <span th:unless="${T(com.makinus.Inventory.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" class="label label-primary" th:text="${T(com.makinus.Inventory.common.data.reftype.ProdOrderStatus).statusMatch(productOrder.status).getDisplay()}">Status</span>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -274,9 +274,9 @@
                     <div class="ibox" style="background-color: rgb(226, 242, 247)">
                         <div class="ibox-body">
                             &nbsp;&nbsp;<span class="badge badge-default m-r-5 m-b-5">Created By</span>&nbsp;<span th:id="${order.orderRef + 'StatusCreatedBy'}" th:text="${order.createdBy}"></span></br>
-                            &nbsp;&nbsp;<span class="badge badge-default m-r-5 m-b-5">Created Date</span>&nbsp;<span th:id="${order.orderRef + 'StatusCreatedDate'}" th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getLocalTimezoneDate(order.createdDate, zone)}"></span></br>
+                            &nbsp;&nbsp;<span class="badge badge-default m-r-5 m-b-5">Created Date</span>&nbsp;<span th:id="${order.orderRef + 'StatusCreatedDate'}" th:text="${T(com.makinus.Inventory.common.utils.AppUtils).getLocalTimezoneDate(order.createdDate, zone)}"></span></br>
                             &nbsp;&nbsp;<span class="badge badge-default m-r-5 m-b-5">Updated By</span>&nbsp;<span th:id="${order.orderRef + 'StatusUpdatedBy'}" th:text="${order.updatedBy}"></span></br>
-                            &nbsp;&nbsp;<span class="badge badge-default m-r-5 m-b-5">Updated Date</span>&nbsp;<span th:id="${order.orderRef + 'StatusUpdatedDate'}" th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getLocalTimezoneDate(order.updatedDate, zone)}"></span>
+                            &nbsp;&nbsp;<span class="badge badge-default m-r-5 m-b-5">Updated Date</span>&nbsp;<span th:id="${order.orderRef + 'StatusUpdatedDate'}" th:text="${T(com.makinus.Inventory.common.utils.AppUtils).getLocalTimezoneDate(order.updatedDate, zone)}"></span>
                         </div>
                     </div>
                 </div>

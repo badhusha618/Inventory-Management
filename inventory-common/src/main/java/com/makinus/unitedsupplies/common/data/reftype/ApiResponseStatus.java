@@ -9,7 +9,7 @@
  */
 package com.makinus.unitedsupplies.common.data.reftype;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public enum ApiResponseStatus {
   SUCCESS("S", "Success"),
   TIME_IN("I", "Please wait for 10 minutes before trying"),

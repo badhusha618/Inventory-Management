@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Component
 public class AmazonS3ClientImpl implements AmazonS3Client {

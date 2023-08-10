@@ -10,12 +10,12 @@
 package com.makinus.unitedsupplies.common.data.service.color;
 
 import com.makinus.unitedsupplies.common.data.entity.Color;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface ColorService {
 
@@ -29,7 +29,7 @@ public interface ColorService {
 
     Color updateColor(final Color color);
 
-    Color findColor(Long id) throws UnitedSuppliesException;
+    Color findColor(Long id) throws InventoryException;
 
-    Color removeColor(Long id) throws UnitedSuppliesException;
+    Color removeColor(Long id) throws InventoryException;
 }

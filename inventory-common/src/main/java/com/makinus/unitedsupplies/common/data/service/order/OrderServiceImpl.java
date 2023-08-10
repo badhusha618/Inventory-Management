@@ -20,7 +20,7 @@ import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
 import com.makinus.unitedsupplies.common.data.service.Tuple;
 import com.makinus.unitedsupplies.common.data.service.productvendor.ProductVendorService;
 import com.makinus.unitedsupplies.common.data.service.vendor.VendorService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +38,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.*;
 import static java.lang.String.format;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -112,13 +112,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order findOrderByOrderRef(Long orderRef) throws UnitedSuppliesException {
+    public Order findOrderByOrderRef(Long orderRef) throws InventoryException {
         LOG.info("Find order by order ref from database");
         Optional<Order> orderOptional = orderRepository.findOrderByOrderRef(orderRef);
         if (orderOptional.isPresent()) {
             return orderOptional.get();
         }
-        throw new UnitedSuppliesException(format("Order is not found with the order ref %d", orderRef));
+        throw new InventoryException(format("Order is not found with the order ref %d", orderRef));
     }
 
     @Override
@@ -128,7 +128,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrdersBasedVendorAllocation(ProductOrder oldProductOrder, BigDecimal saleRate, BigDecimal transportCharge, String vendorId) throws UnitedSuppliesException {
+    public void updateOrdersBasedVendorAllocation(ProductOrder oldProductOrder, BigDecimal saleRate, BigDecimal transportCharge, String vendorId) throws InventoryException {
         LOG.info("Update Orders based on vendor allocation in the database");
         Order order = findOrderByOrderRef(oldProductOrder.getOrderRef());
         BigDecimal saleRateDiff = saleRate.subtract(oldProductOrder.getProdSaleRate()).multiply(new BigDecimal(oldProductOrder.getProQuantity()));
@@ -152,7 +152,7 @@ public class OrderServiceImpl implements OrderService {
         updateOrder(newOrder);
     }
 
-    private String formattedChangeLog(ProductOrder oldProductOrder, String vendorId, BigDecimal oldTranCharge, BigDecimal tranCharge, BigDecimal oldSubtotal, BigDecimal subTotal, BigDecimal oldTotal, BigDecimal total) throws UnitedSuppliesException {
+    private String formattedChangeLog(ProductOrder oldProductOrder, String vendorId, BigDecimal oldTranCharge, BigDecimal tranCharge, BigDecimal oldSubtotal, BigDecimal subTotal, BigDecimal oldTotal, BigDecimal total) throws InventoryException {
         ProductVendor oldProdVendor = productVendorService.findProductVendor(oldProductOrder.getProdVendorId());
         Vendor oldVendor = vendorService.findVendor(oldProdVendor.getVendorId());
         ProductVendor productVendor = productVendorService.findProductVendor(Long.valueOf(vendorId));
@@ -174,16 +174,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order findOrder(Long id) throws UnitedSuppliesException {
+    public Order findOrder(Long id) throws InventoryException {
         Optional<Order> orderOptional = orderRepository.findById(id);
         if (orderOptional.isPresent()) {
             return orderOptional.get();
         }
-        throw new UnitedSuppliesException(format("Order is not found with the id %d", id));
+        throw new InventoryException(format("Order is not found with the id %d", id));
     }
 
     @Override
-    public Order removeOrder(Long id) throws UnitedSuppliesException {
+    public Order removeOrder(Long id) throws InventoryException {
         Optional<Order> orderOptional = orderRepository.findById(id);
         if (orderOptional.isPresent()) {
             Order order = orderOptional.get();
@@ -192,11 +192,11 @@ public class OrderServiceImpl implements OrderService {
             order.setUpdatedDate(getInstant());
             return order;
         }
-        throw new UnitedSuppliesException(format("Order is not found with the id %s", id));
+        throw new InventoryException(format("Order is not found with the id %s", id));
     }
 
     @Override
-    public Order orderDetailsUpdated(Long ref) throws UnitedSuppliesException {
+    public Order orderDetailsUpdated(Long ref) throws InventoryException {
         Order order = findOrderByOrderRef(ref);
         order.setUpdatedBy(getCurrentUser());
         order.setUpdatedDate(getInstant());
@@ -204,7 +204,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order updateOrderStatus(Long ref, OrderStatus orderStatus) throws UnitedSuppliesException {
+    public Order updateOrderStatus(Long ref, OrderStatus orderStatus) throws InventoryException {
         Order order = findOrderByOrderRef(ref);
         order.setStatus(orderStatus.getStatus());
         order.setUpdatedBy(getCurrentUser());
@@ -213,7 +213,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order updatePaymentType(Long id, PaymentType paymentType) throws UnitedSuppliesException {
+    public Order updatePaymentType(Long id, PaymentType paymentType) throws InventoryException {
         Order order = findOrder(id);
         order.setPaymentType(paymentType.getStatus());
         order.setUpdatedBy(getCurrentUser());
@@ -222,7 +222,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> filterOrder(OrderFilterForm orderFilterForm) throws UnitedSuppliesException {
+    public List<Order> filterOrder(OrderFilterForm orderFilterForm) throws InventoryException {
         LOG.info("Search Orders by filter from the database");
         if (orderFilterForm != null &&
                 (StringUtils.isNotEmpty(orderFilterForm.getName())

@@ -9,7 +9,7 @@
  */
 package com.makinus.unitedsupplies.common.data.reftype;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public enum OrderFulfillmentStatus {
   PREVIEW("P", "Preview"),
   ACCEPT("A", "Accept");

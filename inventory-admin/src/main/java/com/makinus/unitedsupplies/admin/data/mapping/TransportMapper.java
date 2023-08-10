@@ -7,14 +7,14 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import com.makinus.unitedsupplies.admin.data.forms.TransportForm;
-import com.makinus.unitedsupplies.common.data.entity.Transport;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
+import com.makinus.Inventory.admin.data.forms.TransportForm;
+import com.makinus.Inventory.common.data.entity.Transport;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,11 +25,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
 /**
- * Created by sabique
+ * @author Bad_sha
  */
 @Component
 @Qualifier("TransportMapper")

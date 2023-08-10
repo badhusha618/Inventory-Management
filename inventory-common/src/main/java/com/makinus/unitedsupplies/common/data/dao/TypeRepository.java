@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 public interface TypeRepository extends JpaRepository<Type, Long> {
 

@@ -7,14 +7,14 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.service.dashboard;
+package com.makinus.Inventory.admin.data.service.dashboard;
 
-import com.makinus.unitedsupplies.common.data.entity.User;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.common.data.entity.User;
+import com.makinus.Inventory.common.exception.InventoryException;
 import java.util.List;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface DashboardService {
 
-  List<User> usmUserList() throws UnitedSuppliesException;
+  List<User> usmUserList() throws InventoryException;
 }

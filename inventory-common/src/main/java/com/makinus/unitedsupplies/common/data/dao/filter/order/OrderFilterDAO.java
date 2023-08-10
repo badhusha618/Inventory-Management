@@ -11,14 +11,14 @@ package com.makinus.unitedsupplies.common.data.dao.filter.order;
 
 import com.makinus.unitedsupplies.common.data.form.OrderFilterForm;
 import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 public interface OrderFilterDAO {
 
-    List<Order> filterOrder(OrderFilterForm orderFilterForm) throws UnitedSuppliesException;
+    List<Order> filterOrder(OrderFilterForm orderFilterForm) throws InventoryException;
 }

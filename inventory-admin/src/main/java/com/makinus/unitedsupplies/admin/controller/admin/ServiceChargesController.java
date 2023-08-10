@@ -1,9 +1,9 @@
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.common.data.entity.ServiceCharge;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.ServiceCharges.ServiceChargesService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.common.data.entity.ServiceCharge;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.ServiceCharges.ServiceChargesService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.*;
+import static com.makinus.Inventory.common.utils.AppUtils.*;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class ServiceChargesController {
@@ -39,7 +39,7 @@ public class ServiceChargesController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/new/charges.mk")
-    public String newCharges(ModelMap model, HttpServletRequest request) throws UnitedSuppliesException {
+    public String newCharges(ModelMap model, HttpServletRequest request) throws InventoryException {
         LOG.info("Open Service Charge add form page - {}", this.getClass().getSimpleName());
         List<ServiceCharge> charges = serviceChargesService.allServiceCharges();
         model.addAttribute("serviceCharge", charges.size() > 0 ? charges.get(0) : new ServiceCharge());
@@ -49,7 +49,7 @@ public class ServiceChargesController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/service/status/change.mk", produces = "application/json")
     @ResponseBody
-    public Map<String, String> changeServiceChargesStatus(@RequestParam String pk, @RequestParam String value, HttpServletResponse response) throws UnitedSuppliesException {
+    public Map<String, String> changeServiceChargesStatus(@RequestParam String pk, @RequestParam String value, HttpServletResponse response) throws InventoryException {
         LOG.info("Action on Service Charges Status from dashboard - {}", this.getClass().getSimpleName());
         response.setStatus(HttpServletResponse.SC_OK);
         Map<String, String> map = new HashMap<>();

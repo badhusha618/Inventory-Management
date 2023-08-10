@@ -7,12 +7,12 @@
  *  Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.encrypt;
+package com.makinus.Inventory.admin.encrypt;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public class BCryptEncryptorHelper {
 
   public static void main(String[] args) {

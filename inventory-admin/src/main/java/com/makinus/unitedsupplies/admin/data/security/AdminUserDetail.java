@@ -7,13 +7,13 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.security;
+package com.makinus.Inventory.admin.data.security;
 
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public class AdminUserDetail extends User {
 
   private static final long serialVersionUID = 23423L;

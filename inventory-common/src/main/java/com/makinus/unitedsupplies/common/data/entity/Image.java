@@ -11,7 +11,7 @@ package com.makinus.unitedsupplies.common.data.entity;
 
 import javax.persistence.Transient;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public class Image {
 
   @Transient private byte[] image;

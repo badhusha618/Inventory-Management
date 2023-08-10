@@ -7,19 +7,19 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.WeightForm;
-import com.makinus.unitedsupplies.admin.data.mapping.WeightMapper;
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.entity.Weight;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.weight.WeightService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.WeightForm;
+import com.makinus.Inventory.admin.data.mapping.WeightMapper;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.entity.Weight;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.weight.WeightService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +36,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.subCategoryMap;
+import static com.makinus.Inventory.admin.utils.AdminUtils.subCategoryMap;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class WeightController {
@@ -74,7 +74,7 @@ public class WeightController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/weight.mk")
-    public String weight(ModelMap model) throws UnitedSuppliesException {
+    public String weight(ModelMap model) throws InventoryException {
         LOG.info("Open Weight page - {}", this.getClass().getSimpleName());
         WeightForm weightForm = new WeightForm();
         weightForm.setActive(Boolean.TRUE);
@@ -88,7 +88,7 @@ public class WeightController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/weight.mk")
-    public String addNewWeight(@ModelAttribute("weightForm") WeightForm weightForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewWeight(@ModelAttribute("weightForm") WeightForm weightForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Open Add new Weight - {}", this.getClass().getSimpleName());
         Weight savedWeight = weightService.saveWeight(weightMapper.map(weightForm));
         redirectAttrs.addFlashAttribute("weightName", weightForm.getWeight());
@@ -108,7 +108,7 @@ public class WeightController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/weight.mk")
-    public String editWeightPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String weightId) throws UnitedSuppliesException {
+    public String editWeightPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String weightId) throws InventoryException {
         LOG.info("Open Edit Weight page - {}", this.getClass().getSimpleName());
         WeightForm savedWeight = weightMapper.remap(weightService.findWeight(Long.valueOf(weightId)));
         model.addAttribute("editWeightForm", savedWeight);
@@ -121,7 +121,7 @@ public class WeightController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/weight.mk")
-    public String updateWeight(@ModelAttribute("editWeightForm") WeightForm weightForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateWeight(@ModelAttribute("editWeightForm") WeightForm weightForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Weight page - {}", this.getClass().getSimpleName());
         Weight updateWeight = weightService.findWeight(Long.valueOf(weightForm.getWeightID()));
         Weight savedWeight = weightService.updateWeight(weightMapper.map(weightForm, updateWeight));
@@ -141,7 +141,7 @@ public class WeightController {
             Weight removedWeight = weightService.removeWeight(Long.valueOf(id));
             LOG.info("Weight is removed? {}", (removedWeight != null && removedWeight.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

@@ -24,7 +24,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.utcDateForDDMMYYY
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
- * @author ammar
+ * @author Bad_sha
  */
 public class VendorFilterCriteriaBuilder {
 

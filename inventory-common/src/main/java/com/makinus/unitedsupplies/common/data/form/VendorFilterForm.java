@@ -12,7 +12,7 @@ package com.makinus.unitedsupplies.common.data.form;
 import java.io.Serializable;
 
 /**
- * @author ammar
+ * @author Bad_sha
  */
 public class VendorFilterForm implements Serializable {
 

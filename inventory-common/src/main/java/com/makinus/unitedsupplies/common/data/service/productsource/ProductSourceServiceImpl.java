@@ -15,7 +15,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 import com.makinus.unitedsupplies.common.data.dao.ProductSourceRepository;
 import com.makinus.unitedsupplies.common.data.entity.ProductSource;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Service
 @Transactional
 public class ProductSourceServiceImpl implements ProductSourceService {
@@ -94,17 +94,17 @@ public class ProductSourceServiceImpl implements ProductSourceService {
   }
 
   @Override
-  public ProductSource findProductSource(Long id) throws UnitedSuppliesException {
+  public ProductSource findProductSource(Long id) throws InventoryException {
     Optional<ProductSource> productSourceOptional = productSourceRepository.findById(id);
     if (productSourceOptional.isPresent()) {
       return productSourceOptional.get();
     }
-    throw new UnitedSuppliesException(
+    throw new InventoryException(
         String.format("ProductSource is not found with the id %d", id));
   }
 
   @Override
-  public ProductSource removeProductSource(Long id) throws UnitedSuppliesException {
+  public ProductSource removeProductSource(Long id) throws InventoryException {
     Optional<ProductSource> productSourceOptional = productSourceRepository.findById(id);
     if (productSourceOptional.isPresent()) {
       ProductSource productSource = productSourceOptional.get();
@@ -113,7 +113,7 @@ public class ProductSourceServiceImpl implements ProductSourceService {
       productSource.setUpdatedDate(getInstant());
       return productSource;
     }
-    throw new UnitedSuppliesException(
+    throw new InventoryException(
         String.format("ProductSource is not found with the id %d", id));
   }
 }

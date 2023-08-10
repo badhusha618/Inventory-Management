@@ -10,11 +10,11 @@
 package com.makinus.unitedsupplies.common.data.service.productsource;
 
 import com.makinus.unitedsupplies.common.data.entity.ProductSource;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import java.util.List;
 import java.util.Optional;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface ProductSourceService {
 
   ProductSource saveProductSource(final ProductSource productSource);
@@ -35,7 +35,7 @@ public interface ProductSourceService {
 
   ProductSource updateProductSource(final ProductSource productSource);
 
-  ProductSource findProductSource(Long id) throws UnitedSuppliesException;
+  ProductSource findProductSource(Long id) throws InventoryException;
 
-  ProductSource removeProductSource(Long id) throws UnitedSuppliesException;
+  ProductSource removeProductSource(Long id) throws InventoryException;
 }

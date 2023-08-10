@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Entity
 @Table(name = "ORDER_REF")

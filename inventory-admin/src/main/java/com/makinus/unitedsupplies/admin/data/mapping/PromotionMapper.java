@@ -7,18 +7,18 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import com.makinus.unitedsupplies.admin.data.forms.PromotionForm;
-import com.makinus.unitedsupplies.common.data.entity.Promotion;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.image.ImageWriter;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
-import com.makinus.unitedsupplies.common.s3.AmazonS3Client;
-import com.makinus.unitedsupplies.common.utils.AppUtils;
+import com.makinus.Inventory.admin.data.forms.PromotionForm;
+import com.makinus.Inventory.common.data.entity.Promotion;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.image.ImageWriter;
+import com.makinus.Inventory.common.exception.InventoryException;
+import com.makinus.Inventory.common.s3.AmazonS3Client;
+import com.makinus.Inventory.common.utils.AppUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +28,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.*;
+import static com.makinus.Inventory.common.utils.AppUtils.*;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Component
 @Qualifier("PromotionMapper")
@@ -49,7 +49,7 @@ public class PromotionMapper
     private AmazonS3Client amazonS3Client;
 
     @Override
-    public Promotion map(PromotionForm promotionForm) throws UnitedSuppliesException {
+    public Promotion map(PromotionForm promotionForm) throws InventoryException {
         LOG.info("Map Promotion Form to Promotion Entity");
         Promotion promotion = new Promotion();
         try {
@@ -69,13 +69,13 @@ public class PromotionMapper
             promotion.setDeleted(YNStatus.NO.getStatus());
         } catch (IOException e) {
             LOG.warn("PromotionMapper.map throws exception {}", e.getMessage());
-            throw new UnitedSuppliesException(e.getMessage());
+            throw new InventoryException(e.getMessage());
         }
         return promotion;
     }
 
     @Override
-    public PromotionForm remap(Promotion promotion) throws UnitedSuppliesException {
+    public PromotionForm remap(Promotion promotion) throws InventoryException {
         LOG.info("Map Promotion Entity to promotion Form");
         PromotionForm promotionForm = new PromotionForm();
         promotionForm.setPromotionID(String.valueOf(promotion.getId()));
@@ -88,7 +88,7 @@ public class PromotionMapper
 
     @Override
     public Promotion map(PromotionForm promotionForm, Promotion promotion)
-            throws UnitedSuppliesException {
+            throws InventoryException {
         LOG.info("Map Promotion Form to Updated Promotion Entity");
         try {
             promotion.setPromotionName(promotionForm.getPromotionName());
@@ -108,12 +108,12 @@ public class PromotionMapper
                     promotionForm.isActivePromotion() ? YNStatus.YES.getStatus() : YNStatus.NO.getStatus());
         } catch (IOException e) {
             LOG.warn("Promotion Mapper.map throws exception {}", e.getMessage());
-            throw new UnitedSuppliesException(e.getMessage());
+            throw new InventoryException(e.getMessage());
         }
         return promotion;
     }
 
-    private String imagePath(Promotion promotion) throws UnitedSuppliesException {
+    private String imagePath(Promotion promotion) throws InventoryException {
         return imageWriter.writeImage(
                 promotion.getImage(),
                 promotion.getCreatedDateAsFolderName(),

@@ -9,14 +9,15 @@
  */
 package com.makinus.unitedsupplies.common.file;
 
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
+
 import java.nio.file.Path;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface Writer {
 
   String writeBytes(final byte[] content, final String folderDate, final String fileName)
-      throws UnitedSuppliesException;
+      throws InventoryException;
 
-  byte[] readBytes(final Path path) throws UnitedSuppliesException;
+  byte[] readBytes(final Path path) throws InventoryException;
 }

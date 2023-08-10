@@ -11,7 +11,7 @@ package com.makinus.unitedsupplies.common.data.form;
 
 import java.io.Serializable;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public class ProductFilterForm implements Serializable {
 
     private String productCode;

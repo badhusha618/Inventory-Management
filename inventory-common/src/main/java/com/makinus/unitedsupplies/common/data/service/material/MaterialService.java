@@ -10,12 +10,12 @@
 package com.makinus.unitedsupplies.common.data.service.material;
 
 import com.makinus.unitedsupplies.common.data.entity.Material;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * Created by ammar
+ * @author Bad_sha
  */
 public interface MaterialService {
 
@@ -29,7 +29,7 @@ public interface MaterialService {
 
     Material updateMaterial(final Material material);
 
-    Material findMaterial(Long id) throws UnitedSuppliesException;
+    Material findMaterial(Long id) throws InventoryException;
 
-    Material removeMaterial(Long id) throws UnitedSuppliesException;
+    Material removeMaterial(Long id) throws InventoryException;
 }

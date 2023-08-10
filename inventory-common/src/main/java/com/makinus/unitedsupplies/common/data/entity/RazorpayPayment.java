@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * @author ibrahim
+ * @author Bad_sha
  */
 @Entity
 @Table(name = "RAZORPAY_PAYMENT")

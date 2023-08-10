@@ -10,7 +10,7 @@
 package com.makinus.unitedsupplies.common.data.dao.request;
 
 /**
- * Created by sabique
+ * @author Bad_sha
  */
 @Deprecated
 public class OrderDetails {

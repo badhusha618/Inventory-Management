@@ -13,7 +13,7 @@ import com.makinus.unitedsupplies.common.data.dao.LoadingChargesRepository;
 import com.makinus.unitedsupplies.common.data.entity.LoadingCharges;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
 import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 import static java.lang.String.format;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -75,13 +75,13 @@ public class LoadingChargesServiceImpl implements LoadingChargesService {
     }
 
     @Override
-    public LoadingCharges findLoadingCharges(Long id) throws UnitedSuppliesException {
+    public LoadingCharges findLoadingCharges(Long id) throws InventoryException {
         Optional<LoadingCharges> loadingChargesOptional = loadingChargesRepository.findById(id);
         if (loadingChargesOptional.isPresent()) {
             LoadingCharges loadingCharges = loadingChargesOptional.get();
             return loadingCharges;
         }
-        throw new UnitedSuppliesException(format("loading-charges is not found with the id %d", id));
+        throw new InventoryException(format("loading-charges is not found with the id %d", id));
     }
 
     @Override
@@ -91,7 +91,7 @@ public class LoadingChargesServiceImpl implements LoadingChargesService {
     }
 
     @Override
-    public LoadingCharges removeLoadingCharges(Long id) throws UnitedSuppliesException {
+    public LoadingCharges removeLoadingCharges(Long id) throws InventoryException {
         Optional<LoadingCharges> loadingChargesOptional = loadingChargesRepository.findById(id);
         if (loadingChargesOptional.isPresent()) {
             LoadingCharges loadingCharges = loadingChargesOptional.get();
@@ -100,6 +100,6 @@ public class LoadingChargesServiceImpl implements LoadingChargesService {
             loadingCharges.setUpdatedDate(getInstant());
             return loadingCharges;
         }
-        throw new UnitedSuppliesException(format("LoadingCharges is not found with the id %s", id));
+        throw new InventoryException(format("LoadingCharges is not found with the id %s", id));
     }
 }

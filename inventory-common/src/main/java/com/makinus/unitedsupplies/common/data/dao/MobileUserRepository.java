@@ -15,7 +15,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-/** @author abuabdul */
+/**
+ * @author Bad_sha
+ */
 public interface MobileUserRepository extends JpaRepository<User, Long> {
 
   @Query("select u from User u where u.deleted = 'F'")

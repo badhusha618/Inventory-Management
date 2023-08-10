@@ -7,19 +7,19 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.MaterialForm;
-import com.makinus.unitedsupplies.admin.data.mapping.MaterialMapper;
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.entity.Material;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.material.MaterialService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.MaterialForm;
+import com.makinus.Inventory.admin.data.mapping.MaterialMapper;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.entity.Material;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.material.MaterialService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +37,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.subCategoryMap;
+import static com.makinus.Inventory.admin.utils.AdminUtils.subCategoryMap;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class MaterialController {
@@ -76,7 +76,7 @@ public class MaterialController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/material.mk")
-    public String material(ModelMap model) throws UnitedSuppliesException {
+    public String material(ModelMap model) throws InventoryException {
         LOG.info("Open Material page - {}", this.getClass().getSimpleName());
         MaterialForm materialForm = new MaterialForm();
         materialForm.setActive(Boolean.TRUE);
@@ -94,7 +94,7 @@ public class MaterialController {
     @PostMapping(value = "/add/material.mk")
     public String addNewMaterial(
             @ModelAttribute("materialForm") MaterialForm materialForm, RedirectAttributes redirectAttrs)
-            throws UnitedSuppliesException {
+            throws InventoryException {
         LOG.info("Open Add new Material - {}", this.getClass().getSimpleName());
         Material savedMaterial = materialService.saveMaterial(materialMapper.map(materialForm));
         redirectAttrs.addFlashAttribute("materialName", materialForm.getMaterial());
@@ -116,7 +116,7 @@ public class MaterialController {
     @GetMapping(value = "/edit/{id}/material.mk")
     public String editMaterialPage(
             ModelMap model, HttpServletRequest request, @PathVariable("id") String materialId)
-            throws UnitedSuppliesException {
+            throws InventoryException {
         LOG.info("Open Edit Material page - {}", this.getClass().getSimpleName());
         MaterialForm savedMaterial =
                 materialMapper.remap(materialService.findMaterial(Long.valueOf(materialId)));
@@ -135,7 +135,7 @@ public class MaterialController {
             BindingResult result,
             ModelMap model,
             RedirectAttributes redirectAttrs)
-            throws UnitedSuppliesException {
+            throws InventoryException {
         LOG.info("Update Material page - {}", this.getClass().getSimpleName());
         Material updateMaterial = materialService.findMaterial(Long.valueOf(materialForm.getMaterialID()));
         Material savedMaterial =
@@ -159,7 +159,7 @@ public class MaterialController {
                     (removedMaterial != null
                             && removedMaterial.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

@@ -7,18 +7,18 @@
  *  Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.service.excel;
+package com.makinus.Inventory.admin.data.service.excel;
 
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.common.exception.InventoryException;
 
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author hussain
+ * @author Bad_sha
  */
 @FunctionalInterface
 public interface GenericWriter<T> {
 
-    void write(T object, HttpServletResponse response) throws UnitedSuppliesException;
+    void write(T object, HttpServletResponse response) throws InventoryException;
 
 }

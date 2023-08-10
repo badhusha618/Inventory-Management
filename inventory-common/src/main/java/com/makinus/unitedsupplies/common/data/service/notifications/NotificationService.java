@@ -14,7 +14,7 @@ import com.makinus.unitedsupplies.common.data.entity.Notifications;
 import java.util.List;
 
 /**
- * Created by ammar
+ * @author Bad_sha
  */
 public interface NotificationService {
 

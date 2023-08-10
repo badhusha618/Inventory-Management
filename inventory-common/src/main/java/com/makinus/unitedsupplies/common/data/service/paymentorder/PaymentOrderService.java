@@ -10,13 +10,13 @@
 package com.makinus.unitedsupplies.common.data.service.paymentorder;
 
 import com.makinus.unitedsupplies.common.data.entity.PaymentOrder;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface PaymentOrderService {
 
@@ -26,11 +26,11 @@ public interface PaymentOrderService {
 
     List<PaymentOrder> paymentOrdersList();
 
-    Optional<PaymentOrder> paymentOrderByOrderRef(Long orderId) throws UnitedSuppliesException;
+    Optional<PaymentOrder> paymentOrderByOrderRef(Long orderId) throws InventoryException;
 
-    PaymentOrder updatePaymentOrder(final PaymentOrder paymentOrder) throws UnitedSuppliesException;
+    PaymentOrder updatePaymentOrder(final PaymentOrder paymentOrder) throws InventoryException;
 
-    PaymentOrder findPaymentOrder(final Long id) throws UnitedSuppliesException;
+    PaymentOrder findPaymentOrder(final Long id) throws InventoryException;
 
-    PaymentOrder removePaymentOrder(final Long id) throws UnitedSuppliesException;
+    PaymentOrder removePaymentOrder(final Long id) throws InventoryException;
 }

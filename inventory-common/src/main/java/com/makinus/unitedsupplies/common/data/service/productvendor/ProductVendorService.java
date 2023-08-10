@@ -10,7 +10,7 @@
 package com.makinus.unitedsupplies.common.data.service.productvendor;
 
 import com.makinus.unitedsupplies.common.data.entity.ProductVendor;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -38,9 +38,9 @@ public interface ProductVendorService {
 
     ProductVendor updateProductVendor(final ProductVendor ProductVendor);
 
-    ProductVendor findProductVendor(Long id) throws UnitedSuppliesException;
+    ProductVendor findProductVendor(Long id) throws InventoryException;
 
-    ProductVendor findDefaultProductVendor(Long prodId) throws UnitedSuppliesException;
+    ProductVendor findDefaultProductVendor(Long prodId) throws InventoryException;
 
-    ProductVendor removeProductVendor(Long id) throws UnitedSuppliesException;
+    ProductVendor removeProductVendor(Long id) throws InventoryException;
 }

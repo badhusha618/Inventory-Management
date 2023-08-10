@@ -1,11 +1,11 @@
-package com.makinus.unitedsupplies.admin.data.forms;
+package com.makinus.Inventory.admin.data.forms;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sabique
+ * @author Bad_sha
  */
 public class TransportForm implements Serializable {
 

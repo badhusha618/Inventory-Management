@@ -23,7 +23,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import static com.makinus.unitedsupplies.common.sms.strategy.NotificationStrategy.POST;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Async
 @Component

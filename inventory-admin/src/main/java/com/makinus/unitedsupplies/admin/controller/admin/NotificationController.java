@@ -1,24 +1,24 @@
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.dao.template.builder.TemplateSelector;
-import com.makinus.unitedsupplies.admin.data.forms.NotificationForm;
-import com.makinus.unitedsupplies.admin.data.mapping.NotificationMapper;
-import com.makinus.unitedsupplies.common.data.entity.Notifications;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.entity.Product;
-import com.makinus.unitedsupplies.common.data.entity.ProductOrder;
-import com.makinus.unitedsupplies.common.data.reftype.NotificationOrderStatus;
-import com.makinus.unitedsupplies.common.data.reftype.NotificationPaymentStatus;
-import com.makinus.unitedsupplies.common.data.reftype.NotificationType;
-import com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.notifications.NotificationService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.prodorder.ProductOrderService;
-import com.makinus.unitedsupplies.common.data.service.product.ProductService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
-import com.makinus.unitedsupplies.common.sms.SMSService;
-import com.makinus.unitedsupplies.common.utils.AppUtils;
+import com.makinus.Inventory.admin.data.dao.template.builder.TemplateSelector;
+import com.makinus.Inventory.admin.data.forms.NotificationForm;
+import com.makinus.Inventory.admin.data.mapping.NotificationMapper;
+import com.makinus.Inventory.common.data.entity.Notifications;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.entity.Product;
+import com.makinus.Inventory.common.data.entity.ProductOrder;
+import com.makinus.Inventory.common.data.reftype.NotificationOrderStatus;
+import com.makinus.Inventory.common.data.reftype.NotificationPaymentStatus;
+import com.makinus.Inventory.common.data.reftype.NotificationType;
+import com.makinus.Inventory.common.data.reftype.ProdOrderStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.notifications.NotificationService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.prodorder.ProductOrderService;
+import com.makinus.Inventory.common.data.service.product.ProductService;
+import com.makinus.Inventory.common.exception.InventoryException;
+import com.makinus.Inventory.common.sms.SMSService;
+import com.makinus.Inventory.common.utils.AppUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +40,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.common.data.reftype.NotificationStatus.MSG_FAILED;
-import static com.makinus.unitedsupplies.common.data.reftype.NotificationStatus.MSG_SENT;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.*;
+import static com.makinus.Inventory.common.data.reftype.NotificationStatus.MSG_FAILED;
+import static com.makinus.Inventory.common.data.reftype.NotificationStatus.MSG_SENT;
+import static com.makinus.Inventory.common.utils.AppUtils.*;
 
 /**
- * @author ammar
+ * @author Bad_sha
  */
 @Controller
 public class NotificationController {
@@ -103,7 +103,7 @@ public class NotificationController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN','ROLE_MANAGER')")
     @PostMapping(value = "/notification.mk")
-    public String sendNotification(@ModelAttribute("notificationForm") NotificationForm notificationForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException, ExecutionException, InterruptedException, ParseException {
+    public String sendNotification(@ModelAttribute("notificationForm") NotificationForm notificationForm, RedirectAttributes redirectAttrs) throws InventoryException, ExecutionException, InterruptedException, ParseException {
         LOG.info("Send Notification to customer - {}", this.getClass().getSimpleName());
         if (!notificationForm.getStatus().equalsIgnoreCase(NotificationOrderStatus.NEW.getStatus())) {
             Map<Long, Product> productListMap = productService.productList().stream().collect(Collectors.toMap(Product::getId, Function.identity()));

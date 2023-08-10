@@ -14,7 +14,7 @@ import com.makinus.unitedsupplies.common.data.entity.OrderFulfillment;
 import com.makinus.unitedsupplies.common.data.entity.ProductOrder;
 import com.makinus.unitedsupplies.common.data.reftype.City;
 import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +29,7 @@ import java.util.Optional;
 import static com.makinus.unitedsupplies.common.utils.AppUtils.FULFILLMENT_REF;
 
 /**
- * Created by sabique
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -51,22 +51,22 @@ public class OrderFulfillmentServiceImpl implements OrderFulfillmentService {
         return savedOrderFulfillment;
     }
 
-    public OrderFulfillment findOrderFulfillmentById(Long id) throws UnitedSuppliesException {
+    public OrderFulfillment findOrderFulfillmentById(Long id) throws InventoryException {
         Optional<OrderFulfillment> orderFulfillmentOptional = orderFulfillmentRepository.findById(id);
         if (orderFulfillmentOptional.isPresent()) {
             OrderFulfillment orderFulfillment = orderFulfillmentOptional.get();
             orderFulfillment.setCityDisplay(City.statusMatch(orderFulfillment.getCity()).getDisplay());
             return orderFulfillment;
         }
-        throw new UnitedSuppliesException(String.format("OrderFulfillmentStatus is not found with the id %d", id));
+        throw new InventoryException(String.format("OrderFulfillmentStatus is not found with the id %d", id));
     }
 
-    public OrderFulfillment findOrderFulfillmentByFulfillmentRef(String fulfillmentRef) throws UnitedSuppliesException {
+    public OrderFulfillment findOrderFulfillmentByFulfillmentRef(String fulfillmentRef) throws InventoryException {
         Optional<OrderFulfillment> orderFulfillmentOptional = orderFulfillmentRepository.findFulfillmentByFulfillmentRef(fulfillmentRef);
         if (orderFulfillmentOptional.isPresent()) {
             return orderFulfillmentOptional.get();
         }
-        throw new UnitedSuppliesException(String.format("OrderFulfillment is not found with the ref %s", fulfillmentRef));
+        throw new InventoryException(String.format("OrderFulfillment is not found with the ref %s", fulfillmentRef));
     }
 
     public String findLastFulfillmentRefByOrderRef(Long orderRef) {
@@ -121,7 +121,7 @@ public class OrderFulfillmentServiceImpl implements OrderFulfillmentService {
     }
 
     @Override
-    public void updateOrderFulfillmentBasedVendorAllocation(ProductOrder productOrder, BigDecimal saleRate, BigDecimal transportCharge) throws UnitedSuppliesException {
+    public void updateOrderFulfillmentBasedVendorAllocation(ProductOrder productOrder, BigDecimal saleRate, BigDecimal transportCharge) throws InventoryException {
         LOG.info("Update Order fulfillment based on vendor allocation in the database");
         BigDecimal saleRateDiff = saleRate.subtract(productOrder.getProdSaleRate()).multiply(new BigDecimal(productOrder.getProQuantity()));
         BigDecimal tranChargeDiff = transportCharge.subtract(productOrder.getTransportCharges());

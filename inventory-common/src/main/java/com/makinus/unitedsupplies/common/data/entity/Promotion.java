@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.Objects;
 import javax.persistence.*;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Entity
 @Table(name = "PROMOTION")
 @JsonIgnoreProperties({

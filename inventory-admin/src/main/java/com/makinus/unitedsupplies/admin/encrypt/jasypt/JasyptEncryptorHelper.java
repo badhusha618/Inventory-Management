@@ -7,13 +7,13 @@
  *  Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.encrypt.jasypt;
+package com.makinus.Inventory.admin.encrypt.jasypt;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public class JasyptEncryptorHelper {
 
   public static final String ENCRYPT_ALGORITHM = "PBEWITHMD5ANDDES";

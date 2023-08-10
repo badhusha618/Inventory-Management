@@ -131,9 +131,9 @@
                             <div class="ibox" style="background-color: rgb(226, 242, 247)">
                                 <div class="ibox-body">
                                     <span class="badge badge-default m-r-5 m-b-5">Created By</span><span th:text="*{createdBy}"></span></br>
-                                    <span class="badge badge-default m-r-5 m-b-5">Created Date</span><span th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getLocalTimezoneDate(editVendorForm.createdDate, zone)}"></span></br>
+                                    <span class="badge badge-default m-r-5 m-b-5">Created Date</span><span th:text="${T(com.makinus.Inventory.common.utils.AppUtils).getLocalTimezoneDate(editVendorForm.createdDate, zone)}"></span></br>
                                     <span class="badge badge-default m-r-5 m-b-5">Updated By</span><span th:text="*{updatedBy}"></span></br>
-                                    <span class="badge badge-default m-r-5 m-b-5">Updated Date</span><span th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getLocalTimezoneDate(editVendorForm.updatedDate, zone)}"></span>
+                                    <span class="badge badge-default m-r-5 m-b-5">Updated Date</span><span th:text="${T(com.makinus.Inventory.common.utils.AppUtils).getLocalTimezoneDate(editVendorForm.updatedDate, zone)}"></span>
                                 </div>
                             </div>
 

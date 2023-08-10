@@ -11,7 +11,7 @@ package com.makinus.unitedsupplies.common.data.dao.filter.product;
 
 import com.makinus.unitedsupplies.common.data.form.ProductFilterForm;
 import com.makinus.unitedsupplies.common.data.entity.Product;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -25,7 +25,7 @@ import java.util.List;
 import static com.makinus.unitedsupplies.common.data.dao.filter.product.ProductFilterCriteriaBuilder.aProductFilterCriteria;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Repository
 public class ProductFilterDAOImpl implements ProductFilterDAO {
@@ -72,7 +72,7 @@ public class ProductFilterDAOImpl implements ProductFilterDAO {
     }
 
     @Override
-    public List<Product> filterProduct(ProductFilterForm productFilterForm) throws UnitedSuppliesException {
+    public List<Product> filterProduct(ProductFilterForm productFilterForm) throws InventoryException {
         try {
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Product> query = builder.createQuery(Product.class);
@@ -86,7 +86,7 @@ public class ProductFilterDAOImpl implements ProductFilterDAO {
                 return entityManager.createQuery(query.where(productFilterCriteriaBuilder.predicate())).getResultList();
             }
         } catch (ParseException ex) {
-            throw new UnitedSuppliesException(ex.getMessage());
+            throw new InventoryException(ex.getMessage());
         }
         return new ArrayList<>();
     }

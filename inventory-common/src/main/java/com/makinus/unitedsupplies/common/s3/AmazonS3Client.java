@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 public interface AmazonS3Client {
 

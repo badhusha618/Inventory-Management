@@ -7,21 +7,21 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.UnitMappingForm;
-import com.makinus.unitedsupplies.admin.data.mapping.UnitMappingMapper;
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.entity.Unit;
-import com.makinus.unitedsupplies.common.data.entity.UnitMapping;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.unit.UnitService;
-import com.makinus.unitedsupplies.common.data.service.unitmapping.UnitMappingService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.UnitMappingForm;
+import com.makinus.Inventory.admin.data.mapping.UnitMappingMapper;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.entity.Unit;
+import com.makinus.Inventory.common.data.entity.UnitMapping;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.unit.UnitService;
+import com.makinus.Inventory.common.data.service.unitmapping.UnitMappingService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class UnitMappingController {
@@ -77,7 +77,7 @@ public class UnitMappingController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/unit-mappings.mk")
-    public String unitMapping(ModelMap model) throws UnitedSuppliesException {
+    public String unitMapping(ModelMap model) throws InventoryException {
         LOG.info("Open UnitMapping page - {}", this.getClass().getSimpleName());
         UnitMappingForm unitMappingForm = new UnitMappingForm();
         unitMappingForm.setActive(Boolean.TRUE);
@@ -98,7 +98,7 @@ public class UnitMappingController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/unit-mapping.mk")
-    public String addNewUnitMapping(@ModelAttribute("unitMappingForm") UnitMappingForm unitMappingForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewUnitMapping(@ModelAttribute("unitMappingForm") UnitMappingForm unitMappingForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Open Add new UnitMapping - {}", this.getClass().getSimpleName());
         UnitMapping savedUnitMapping = unitMappingService.saveUnitMapping(unitMappingMapper.map(unitMappingForm));
         redirectAttrs.addFlashAttribute("unitName", unitService.findUnit(Long.valueOf(unitMappingForm.getUnit())).getUnitName());
@@ -118,7 +118,7 @@ public class UnitMappingController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/unit-mapping.mk")
-    public String editUnitMappingPage(ModelMap model, @PathVariable("id") String unitMappingId) throws UnitedSuppliesException {
+    public String editUnitMappingPage(ModelMap model, @PathVariable("id") String unitMappingId) throws InventoryException {
         LOG.info("Open Edit UnitMapping page - {}", this.getClass().getSimpleName());
         UnitMappingForm savedUnitMapping = unitMappingMapper.remap(unitMappingService.findUnitMapping(Long.valueOf(unitMappingId)));
         model.addAttribute("editUnitMappingForm", savedUnitMapping);
@@ -134,7 +134,7 @@ public class UnitMappingController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/unit-mapping.mk")
-    public String updateUnitMapping(@ModelAttribute("editUnitMappingForm") UnitMappingForm unitMappingForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateUnitMapping(@ModelAttribute("editUnitMappingForm") UnitMappingForm unitMappingForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update UnitMapping page - {}", this.getClass().getSimpleName());
         UnitMapping updateUnitMapping = unitMappingService.findUnitMapping(Long.valueOf(unitMappingForm.getUnitMappingID()));
         UnitMapping savedUnitMapping = unitMappingService.updateUnitMapping(unitMappingMapper.map(unitMappingForm, updateUnitMapping));
@@ -154,7 +154,7 @@ public class UnitMappingController {
             UnitMapping removedUnitMapping = unitMappingService.removeUnitMapping(Long.valueOf(id));
             LOG.info("UnitMapping is removed? {}", (removedUnitMapping != null && removedUnitMapping.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

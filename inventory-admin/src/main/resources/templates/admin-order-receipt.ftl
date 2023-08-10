@@ -109,7 +109,7 @@
                         <strong>United Supplies & Ecommerce (OPC) Pvt. Ltd.</strong></br>
                         24C, Ambai Road, Melapalayam<br />
                         Tamilnadu,India-627005<br />
-                        support@unitedsupplies.in<br />
+                        support@Inventory.in<br />
                         PAN No.&nbsp;&nbsp; AACCU6937B <br />
                         GST No.&nbsp;&nbsp; 33AACU693781ZJ
 

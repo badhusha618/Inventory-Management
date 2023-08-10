@@ -9,7 +9,7 @@
  */
 package com.makinus.unitedsupplies.common.data.reftype;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public enum UserRole {
   S_ADMIN("S", "Super Administrator", "ROLE_SUPER_ADMIN"),
   ADMIN("A", "Administrator", "ROLE_ADMIN"),

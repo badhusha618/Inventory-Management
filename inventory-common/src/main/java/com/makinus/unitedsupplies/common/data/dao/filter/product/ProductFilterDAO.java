@@ -11,12 +11,12 @@ package com.makinus.unitedsupplies.common.data.dao.filter.product;
 
 import com.makinus.unitedsupplies.common.data.form.ProductFilterForm;
 import com.makinus.unitedsupplies.common.data.entity.Product;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 public interface ProductFilterDAO {
 
@@ -26,5 +26,5 @@ public interface ProductFilterDAO {
 
     List<Product> productListByIds(List<Long> productIds);
 
-    List<Product> filterProduct(ProductFilterForm productFilterForm) throws UnitedSuppliesException;
+    List<Product> filterProduct(ProductFilterForm productFilterForm) throws InventoryException;
 }

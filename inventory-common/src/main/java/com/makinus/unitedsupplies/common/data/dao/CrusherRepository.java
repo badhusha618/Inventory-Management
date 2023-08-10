@@ -17,7 +17,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-/** @author abuabdul */
+/**
+ * @author Bad_sha
+ */
 public interface CrusherRepository extends JpaRepository<Crusher, Long> {
 
   @Query("select c from Crusher c where c.deleted = 'F' order by updatedDate desc")

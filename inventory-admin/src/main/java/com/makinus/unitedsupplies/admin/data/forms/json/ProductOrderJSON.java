@@ -7,9 +7,9 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.forms.json;
+package com.makinus.Inventory.admin.data.forms.json;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public class ProductOrderJSON {
 
   private String orderId;

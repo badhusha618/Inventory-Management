@@ -1,7 +1,7 @@
 package com.makinus.unitedsupplies.common.data.service.weight;
 
 import com.makinus.unitedsupplies.common.data.entity.Weight;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface WeightService {
 
     Weight updateWeight(final Weight weight);
 
-    Weight findWeight(Long id) throws UnitedSuppliesException;
+    Weight findWeight(Long id) throws InventoryException;
 
-    Weight removeWeight(Long id) throws UnitedSuppliesException;
+    Weight removeWeight(Long id) throws InventoryException;
 }

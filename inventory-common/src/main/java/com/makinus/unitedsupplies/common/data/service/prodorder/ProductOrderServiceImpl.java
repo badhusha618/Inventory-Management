@@ -18,7 +18,7 @@ import com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
 import com.makinus.unitedsupplies.common.data.service.order.OrderService;
 import com.makinus.unitedsupplies.common.data.service.orderfulfillment.OrderFulfillmentService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +33,7 @@ import java.util.Optional;
 import static java.lang.String.format;
 
 /**
- * Created by ammar
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -57,12 +57,12 @@ public class ProductOrderServiceImpl implements ProductOrderService {
     }
 
     @Override
-    public ProductOrder findProductOrder(Long id) throws UnitedSuppliesException {
+    public ProductOrder findProductOrder(Long id) throws InventoryException {
         Optional<ProductOrder> productOrderOptional = productOrderRepository.findById(id);
         if (productOrderOptional.isPresent()) {
             return productOrderOptional.get();
         }
-        throw new UnitedSuppliesException(format("Product Order is not found with the id %d", id));
+        throw new InventoryException(format("Product Order is not found with the id %d", id));
     }
 
     @Override
@@ -118,7 +118,7 @@ public class ProductOrderServiceImpl implements ProductOrderService {
     }
 
     @Override
-    public ProductOrder updateProductOrderVendor(Long id, Long prodVendorId, Vendor vendor, BigDecimal saleRate, BigDecimal transportCharge) throws UnitedSuppliesException {
+    public ProductOrder updateProductOrderVendor(Long id, Long prodVendorId, Vendor vendor, BigDecimal saleRate, BigDecimal transportCharge) throws InventoryException {
         LOG.info("Update ProductOrder vendor in the database");
         Optional<ProductOrder> productOrderOptional = productOrderRepository.findById(id);
         if (productOrderOptional.isPresent()) {
@@ -132,11 +132,11 @@ public class ProductOrderServiceImpl implements ProductOrderService {
             productOrder.setTransportCharges(transportCharge); // TODO: Have to update transport charge here ...
             return productOrder;
         }
-        throw new UnitedSuppliesException(format("ProductOrder is not found with the id %s", id));
+        throw new InventoryException(format("ProductOrder is not found with the id %s", id));
     }
 
     @Override
-    public ProductOrder updateProductOrderStatus(Long id, ProdOrderStatus status) throws UnitedSuppliesException {
+    public ProductOrder updateProductOrderStatus(Long id, ProdOrderStatus status) throws InventoryException {
         LOG.info("Update ProductOrder status in the database");
         Optional<ProductOrder> productOrderOptional = productOrderRepository.findById(id);
         if (productOrderOptional.isPresent()) {
@@ -144,11 +144,11 @@ public class ProductOrderServiceImpl implements ProductOrderService {
             productOrder.setStatus(status.getStatus());
             return productOrder;
         }
-        throw new UnitedSuppliesException(format("Product is not found with the id %s", id));
+        throw new InventoryException(format("Product is not found with the id %s", id));
     }
 
     @Override
-    public List<ProductOrder> filterProductOrder(ProductOrderFilterForm productOrderFilterForm) throws UnitedSuppliesException {
+    public List<ProductOrder> filterProductOrder(ProductOrderFilterForm productOrderFilterForm) throws InventoryException {
         LOG.info("Search ProductOrders by filter from the database");
         if (productOrderFilterForm != null &&
                 (StringUtils.isNotEmpty(productOrderFilterForm.getProductCode())

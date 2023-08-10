@@ -117,7 +117,7 @@
                                         <label>Status</label>
                                         <select class="form-control" id="statusInput" th:field="*{status}">
                                             <option value="">Select</option>
-                                            <th:block th:each="orderStatus: ${T(com.makinus.unitedsupplies.common.data.reftype.OrderStatus).values()}">
+                                            <th:block th:each="orderStatus: ${T(com.makinus.Inventory.common.data.reftype.OrderStatus).values()}">
                                                 <option th:value="${orderStatus.status}" th:text="${orderStatus.display}"></option>
                                             </th:block>
                                         </select>
@@ -154,14 +154,14 @@
                         </td>
                         <td>
                             <a href="#" class="payment-action" th:text="${paymentType.get(order.paymentType)}" data-name="status" th:data-value="${order.paymentType}" th:data-pk="${order.orderRef}">Type</a><br/>
-                            <span th:text="${T(com.makinus.unitedsupplies.common.data.reftype.PaymentStatus).statusMatch(order.paymentStatus).getDisplay()}" class="label label-primary"></span>
+                            <span th:text="${T(com.makinus.Inventory.common.data.reftype.PaymentStatus).statusMatch(order.paymentStatus).getDisplay()}" class="label label-primary"></span>
                         </td>
                         <td>
                             <span th:text="${order.user.fullName}">Username</span><br/>
                             <span class="badge badge-default"><i class="fa fa-phone"></i></span>&nbsp;<span th:text="${order.user.mobile}"></span>
                         </td>
                         <td>
-                            <span class="badge badge-default" th:text="${T(com.makinus.unitedsupplies.common.data.reftype.OrderStatus).statusMatch(order.status).getDisplay()}">Order Status</span>
+                            <span class="badge badge-default" th:text="${T(com.makinus.Inventory.common.data.reftype.OrderStatus).statusMatch(order.status).getDisplay()}">Order Status</span>
                         </td>
                         <td>
                             <!--<span>Total</span>-->
@@ -170,12 +170,12 @@
                             <!--</span>&nbsp;<span>Paid&nbsp;</span>-->
                             <span class="badge badge-info" th:id="${order.orderRef + 'StatusPaidAmount'}">
                                 <i class="fa fa-inr"></i>
-                                <span th:if="${T(com.makinus.unitedsupplies.common.data.reftype.PaymentType).FULL_PAYMENT.getStatus().equals(order.paymentType)}"><span th:text="${order.orderTotal}">Total Amount</span></span>
-                                <span th:unless="${T(com.makinus.unitedsupplies.common.data.reftype.PaymentType).FULL_PAYMENT.getStatus().equals(order.paymentType)}"><span th:text="${order.paidAmount}">Paid Amount</span></span>
+                                <span th:if="${T(com.makinus.Inventory.common.data.reftype.PaymentType).FULL_PAYMENT.getStatus().equals(order.paymentType)}"><span th:text="${order.orderTotal}">Total Amount</span></span>
+                                <span th:unless="${T(com.makinus.Inventory.common.data.reftype.PaymentType).FULL_PAYMENT.getStatus().equals(order.paymentType)}"><span th:text="${order.paidAmount}">Paid Amount</span></span>
                             </span>
                         </td>
                         <td>
-                            <span th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getLocalTimezoneDate(order.orderDate, zone)}">Order Date</span>
+                            <span th:text="${T(com.makinus.Inventory.common.utils.AppUtils).getLocalTimezoneDate(order.orderDate, zone)}">Order Date</span>
                         </td>
 
                     </tr>

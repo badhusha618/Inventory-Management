@@ -14,7 +14,7 @@ import com.makinus.unitedsupplies.common.data.entity.UserCart;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
 import com.makinus.unitedsupplies.common.data.service.Tuple;
 import com.makinus.unitedsupplies.common.data.service.loadingCharges.LoadingChargesService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
 import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 
 /**
- * Created by sabique
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -47,13 +47,13 @@ public class UserCartServiceImpl implements UserCartService {
     }
 
     @Override
-    public UserCart findCartById(Long id) throws UnitedSuppliesException {
+    public UserCart findCartById(Long id) throws InventoryException {
         LOG.info("Get UserCart from the database");
         Optional<UserCart> cartOptional = userCartRepository.findById(id);
         if (cartOptional.isPresent()) {
             return cartOptional.get();
         }
-        throw new UnitedSuppliesException(String.format("Cart is not found with the id %d", id));
+        throw new InventoryException(String.format("Cart is not found with the id %d", id));
     }
 
     @Override
@@ -94,19 +94,19 @@ public class UserCartServiceImpl implements UserCartService {
 
     @Override
     public UserCart findCartByProductIdAndUserId(Long userId, Long productId)
-            throws UnitedSuppliesException {
+            throws InventoryException {
         Optional<UserCart> userCartOptional = userCartRepository.findCartByUserIdAndProdId(userId, productId);
         if (userCartOptional.isPresent()) {
             return userCartOptional.get();
         }
-        throw new UnitedSuppliesException(
+        throw new InventoryException(
                 String.format(
                         "Cart Item is not found with the user id %d, product id %d", userId, productId));
     }
 
     @Override
     public UserCart removeCartByProductIdAndUserId(Long userId, Long productId)
-            throws UnitedSuppliesException {
+            throws InventoryException {
         Optional<UserCart> userCartOptional =
                 userCartRepository.findCartByUserIdAndProdId(userId, productId);
         if (userCartOptional.isPresent()) {
@@ -116,7 +116,7 @@ public class UserCartServiceImpl implements UserCartService {
             userCart.setUpdatedDate(getInstant());
             return userCart;
         }
-        throw new UnitedSuppliesException(
+        throw new InventoryException(
                 String.format("Cart Items are not found with the id %d", userId));
     }
 

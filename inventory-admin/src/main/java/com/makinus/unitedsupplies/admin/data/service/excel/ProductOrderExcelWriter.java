@@ -7,10 +7,10 @@
  *  Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.service.excel;
+package com.makinus.Inventory.admin.data.service.excel;
 
-import com.makinus.unitedsupplies.common.data.service.prodorder.ProductOrderService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.common.data.service.prodorder.ProductOrderService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @author ammar
+ * @author Bad_sha
  */
 @Component
 @Qualifier("ProductOrderExcelWriter")
@@ -38,7 +38,7 @@ public class ProductOrderExcelWriter implements GenericWriter<List<ProductOrderE
     private ProductOrderService productOrderService;
 
     @Override
-    public void write(List<ProductOrderExcelDTO> productOrderExcelDTOS, HttpServletResponse response) throws UnitedSuppliesException {
+    public void write(List<ProductOrderExcelDTO> productOrderExcelDTOS, HttpServletResponse response) throws InventoryException {
         LOG.info("Enter write method - {}", this.getClass().getSimpleName());
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Product Order Details");
@@ -81,7 +81,7 @@ public class ProductOrderExcelWriter implements GenericWriter<List<ProductOrderE
             }
             workbook.write(response.getOutputStream());
         } catch (IOException io) {
-            throw new UnitedSuppliesException("Exception occurred while exporting product details as excel", io);
+            throw new InventoryException("Exception occurred while exporting product details as excel", io);
         }
     }
 

@@ -9,11 +9,11 @@
  */
 package com.makinus.unitedsupplies.common.data.mapper;
 
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import java.util.List;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface ListEntityWithExtraValueUpdateMapper<I, E, O> {
 
-  List<O> mapListUpdate(I input, E extraValue, List<O> output) throws UnitedSuppliesException;
+  List<O> mapListUpdate(I input, E extraValue, List<O> output) throws InventoryException;
 }

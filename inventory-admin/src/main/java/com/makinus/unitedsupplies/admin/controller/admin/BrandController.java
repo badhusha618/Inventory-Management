@@ -9,17 +9,16 @@
  */
 package com.makinus.unitedsupplies.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.BrandForm;
-import com.makinus.unitedsupplies.admin.data.mapping.BrandMapper;
+import com.makinus.Inventory.admin.data.forms.BrandForm;
+import com.makinus.Inventory.admin.data.mapping.BrandMapper;
 import com.makinus.unitedsupplies.common.data.entity.Brand;
 import com.makinus.unitedsupplies.common.data.entity.Category;
 import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
 import com.makinus.unitedsupplies.common.data.service.Tuple;
 import com.makinus.unitedsupplies.common.data.service.brand.BrandService;
 import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
 import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +35,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.subCategoryMap;
+import static com.makinus.Inventory.admin.utils.AdminUtils.subCategoryMap;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class BrandController {
@@ -75,7 +74,7 @@ public class BrandController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/brands.mk")
-    public String brand(ModelMap model) throws UnitedSuppliesException {
+    public String brand(ModelMap model) throws InventoryException {
         LOG.info("Open Brand page - {}", this.getClass().getSimpleName());
         BrandForm brandForm = new BrandForm();
         brandForm.setActive(Boolean.TRUE);
@@ -89,7 +88,7 @@ public class BrandController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/brand.mk")
-    public String addNewBrand(@ModelAttribute("brandForm") BrandForm brandForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewBrand(@ModelAttribute("brandForm") BrandForm brandForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Open Add new Brand - {}", this.getClass().getSimpleName());
         Brand savedBrand = brandService.saveBrand(brandMapper.map(brandForm));
         redirectAttrs.addFlashAttribute("brandName", brandForm.getBrandName());
@@ -99,7 +98,7 @@ public class BrandController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/brand.mk")
-    public String editBrandPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String brandId) throws UnitedSuppliesException {
+    public String editBrandPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String brandId) throws InventoryException {
         LOG.info("Open Edit Brand page - {}", this.getClass().getSimpleName());
         BrandForm savedBrand = brandMapper.remap(brandService.findBrand(Long.valueOf(brandId)));
         model.addAttribute("editBrandForm", savedBrand);
@@ -122,7 +121,7 @@ public class BrandController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/brand.mk")
-    public String updateBrand(@ModelAttribute("editBrandForm") BrandForm brandForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateBrand(@ModelAttribute("editBrandForm") BrandForm brandForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Brand page - {}", this.getClass().getSimpleName());
         Brand updateBrand = brandService.findBrand(Long.valueOf(brandForm.getBrandID()));
         Brand savedBrand = brandService.updateBrand(brandMapper.map(brandForm, updateBrand));
@@ -142,7 +141,7 @@ public class BrandController {
             Brand removedBrand = brandService.removeBrand(Long.valueOf(id));
             LOG.info("Brand is removed? {}", (removedBrand != null && removedBrand.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

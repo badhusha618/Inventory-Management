@@ -14,7 +14,8 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.*;
 import com.makinus.unitedsupplies.common.data.dao.SizeRepository;
 import com.makinus.unitedsupplies.common.data.entity.Size;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
+
 import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Service
 @Transactional
 public class SizeServiceImpl implements SizeService {
@@ -63,16 +64,16 @@ public class SizeServiceImpl implements SizeService {
   }
 
   @Override
-  public Size findSize(Long id) throws UnitedSuppliesException {
+  public Size findSize(Long id) throws InventoryException {
     Optional<Size> sizeOptional = sizeRepository.findById(id);
     if (sizeOptional.isPresent()) {
       return sizeOptional.get();
     }
-    throw new UnitedSuppliesException(String.format("Size is not found with the id %d", id));
+    throw new InventoryException(String.format("Size is not found with the id %d", id));
   }
 
   @Override
-  public Size removeSize(Long id) throws UnitedSuppliesException {
+  public Size removeSize(Long id) throws InventoryException {
     Optional<Size> sizeOptional = sizeRepository.findById(id);
     if (sizeOptional.isPresent()) {
       Size size = sizeOptional.get();
@@ -81,6 +82,6 @@ public class SizeServiceImpl implements SizeService {
       size.setUpdatedDate(getInstant());
       return size;
     }
-    throw new UnitedSuppliesException(String.format("Promotion is not found with the id %d", id));
+    throw new InventoryException(String.format("Promotion is not found with the id %d", id));
   }
 }

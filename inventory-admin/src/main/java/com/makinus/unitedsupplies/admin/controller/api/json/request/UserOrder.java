@@ -7,12 +7,12 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.api.json.request;
+package com.makinus.Inventory.admin.controller.api.json.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public class UserOrder {
 
   @ApiModelProperty(notes = "Email to be sent for identifying the user")

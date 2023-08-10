@@ -2,7 +2,7 @@ package com.makinus.unitedsupplies.common.data.dao.filter.vendor;
 
 import com.makinus.unitedsupplies.common.data.form.VendorFilterForm;
 import com.makinus.unitedsupplies.common.data.entity.Vendor;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -18,7 +18,7 @@ import java.util.List;
 import static com.makinus.unitedsupplies.common.data.dao.filter.vendor.VendorFilterCriteriaBuilder.aVendorFilterCriteria;
 
 /**
- * @author kings
+ * @author Bad_sha
  */
 @Repository
 public class VendorFilterDAOImpl implements VendorFilterDAO {
@@ -28,7 +28,7 @@ public class VendorFilterDAOImpl implements VendorFilterDAO {
     private EntityManager entityManager;
 
     @Override
-    public List<Vendor> filterVendor(VendorFilterForm vendorFilterForm) throws UnitedSuppliesException {
+    public List<Vendor> filterVendor(VendorFilterForm vendorFilterForm) throws InventoryException {
         try {
             LOG.info("List filtered Vendor page");
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -43,7 +43,7 @@ public class VendorFilterDAOImpl implements VendorFilterDAO {
                 return entityManager.createQuery(query.where(vendorFilterCriteriaBuilder.predicate())).getResultList();
             }
         } catch (ParseException ex) {
-            throw new UnitedSuppliesException(ex.getMessage());
+            throw new InventoryException(ex.getMessage());
         }
         return new ArrayList<>();
     }

@@ -10,10 +10,11 @@
 package com.makinus.unitedsupplies.common.data.service.size;
 
 import com.makinus.unitedsupplies.common.data.entity.Size;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
+
 import java.util.List;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface SizeService {
 
   Size saveSize(final Size size);
@@ -24,7 +25,7 @@ public interface SizeService {
 
   Size updateSize(final Size size);
 
-  Size findSize(Long id) throws UnitedSuppliesException;
+  Size findSize(Long id) throws InventoryException;
 
-  Size removeSize(Long id) throws UnitedSuppliesException;
+  Size removeSize(Long id) throws InventoryException;
 }

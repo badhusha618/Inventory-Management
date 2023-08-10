@@ -10,7 +10,7 @@
 package com.makinus.unitedsupplies.common.data.reftype;
 
 /**
- * Created by ibrahim
+ * @author Bad_sha
  */
 public enum SequenceGenerationType {
 

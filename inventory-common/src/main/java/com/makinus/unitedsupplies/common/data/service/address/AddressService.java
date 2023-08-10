@@ -10,7 +10,8 @@
 package com.makinus.unitedsupplies.common.data.service.address;
 
 import com.makinus.unitedsupplies.common.data.entity.Address;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +20,11 @@ public interface AddressService {
 
   Address saveAddress(final Address address);
 
-  Address findAddressById(Long id) throws UnitedSuppliesException;
+  Address findAddressById(Long id) throws InventoryException;
 
-  Address findAddressByRef(Long ref)  throws UnitedSuppliesException;
+  Address findAddressByRef(Long ref)  throws InventoryException;
 
-  Optional<Address> findDefaultAddressByUserAndCategory(Long userId, String category)  throws UnitedSuppliesException;
+  Optional<Address> findDefaultAddressByUserAndCategory(Long userId, String category)  throws InventoryException;
 
   List<Address> listAllAddressByUserId(Long userId);
 
@@ -31,9 +32,9 @@ public interface AddressService {
 
   List<Address> removeDefaultFlagInAllAddress(Long userId, String category);
 
-  Address updateAddress(final Address address) throws UnitedSuppliesException;
+  Address updateAddress(final Address address) throws InventoryException;
 
-  Address updateDefaultStatus(Long ref) throws UnitedSuppliesException;
+  Address updateDefaultStatus(Long ref) throws InventoryException;
 
-  Address removeAddress(Long ref) throws UnitedSuppliesException;
+  Address removeAddress(Long ref) throws InventoryException;
 }

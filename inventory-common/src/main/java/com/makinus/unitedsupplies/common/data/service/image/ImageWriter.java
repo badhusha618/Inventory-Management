@@ -9,14 +9,14 @@
  */
 package com.makinus.unitedsupplies.common.data.service.image;
 
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import java.nio.file.Path;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface ImageWriter {
 
   String writeImage(final byte[] content, final String folderDate, final String fileName)
-      throws UnitedSuppliesException;
+      throws InventoryException;
 
-  byte[] readImage(final Path path) throws UnitedSuppliesException;
+  byte[] readImage(final Path path) throws InventoryException;
 }

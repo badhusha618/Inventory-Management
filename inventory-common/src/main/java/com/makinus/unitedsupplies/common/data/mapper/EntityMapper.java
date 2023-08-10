@@ -9,12 +9,12 @@
  */
 package com.makinus.unitedsupplies.common.data.mapper;
 
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.text.ParseException;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface EntityMapper<I, O> {
 
-  O map(I input) throws UnitedSuppliesException, ParseException;
+  O map(I input) throws InventoryException, ParseException;
 }

@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Entity
 @Table(name = "ORDER_FULFILLMENT")
 public class OrderFulfillment {

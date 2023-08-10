@@ -7,19 +7,19 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin.reports;
+package com.makinus.Inventory.admin.controller.admin.reports;
 
-import com.makinus.unitedsupplies.admin.data.forms.SpecificationForm;
-import com.makinus.unitedsupplies.admin.data.mapping.SpecificationMapper;
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.entity.Specification;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.specification.SpecificationService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.SpecificationForm;
+import com.makinus.Inventory.admin.data.mapping.SpecificationMapper;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.entity.Specification;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.specification.SpecificationService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.subCategoryMap;
+import static com.makinus.Inventory.admin.utils.AdminUtils.subCategoryMap;
 
 /**
  * @ammar
@@ -74,7 +74,7 @@ public class SpecificationController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/specification.mk")
-    public String specification(ModelMap model) throws UnitedSuppliesException {
+    public String specification(ModelMap model) throws InventoryException {
         LOG.info("Open Specification page");
         SpecificationForm specificationForm = new SpecificationForm();
         specificationForm.setActive(Boolean.TRUE);
@@ -88,7 +88,7 @@ public class SpecificationController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/specification.mk")
-    public String addNewSpecification(@ModelAttribute("specificationForm") SpecificationForm specificationForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewSpecification(@ModelAttribute("specificationForm") SpecificationForm specificationForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Open Add new Specification");
         Specification savedSpecification = specificationService.saveSpecification(specificationMapper.map(specificationForm));
         redirectAttrs.addFlashAttribute("specificationName", specificationForm.getSpecification());
@@ -98,7 +98,7 @@ public class SpecificationController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/specification.mk")
-    public String editSpecificationPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String specificationId) throws UnitedSuppliesException {
+    public String editSpecificationPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String specificationId) throws InventoryException {
         LOG.info("Open Edit Specification page");
         SpecificationForm savedSpecification = specificationMapper.remap(specificationService.findSpecification(Long.valueOf(specificationId)));
         model.addAttribute("editSpecificationForm", savedSpecification);
@@ -110,7 +110,7 @@ public class SpecificationController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/specification.mk")
-    public String updateSpecification(@ModelAttribute("editSpecificationForm") SpecificationForm specificationForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateSpecification(@ModelAttribute("editSpecificationForm") SpecificationForm specificationForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Specification page");
         Specification updateSpecification = specificationService.findSpecification(Long.valueOf(specificationForm.getSpecificationID()));
         Specification savedSpecification = specificationService.updateSpecification(specificationMapper.map(specificationForm, updateSpecification));
@@ -130,7 +130,7 @@ public class SpecificationController {
             Specification removedSpecification = specificationService.removeSpecification(Long.valueOf(id));
             LOG.info("Specification is removed? {}", (removedSpecification != null && removedSpecification.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

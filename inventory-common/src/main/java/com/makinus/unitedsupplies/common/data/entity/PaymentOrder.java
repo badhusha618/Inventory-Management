@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Entity
 @Table(name = "PAYMENT_ORDERS")

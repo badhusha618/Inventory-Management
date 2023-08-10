@@ -11,8 +11,7 @@ package com.makinus.unitedsupplies.common.data.service.invoice.settings;
 
 import com.makinus.unitedsupplies.common.data.dao.InvoiceSettingsRepository;
 import com.makinus.unitedsupplies.common.data.entity.InvoiceSettings;
-import com.makinus.unitedsupplies.common.data.service.crusher.CrusherServiceImpl;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,12 +48,12 @@ public class InvoiceSettingsServiceImpl implements InvoiceSettingsService {
     }
 
     @Override
-    public InvoiceSettings findInvoiceSettings(Long id) throws UnitedSuppliesException {
+    public InvoiceSettings findInvoiceSettings(Long id) throws InventoryException {
         Optional<InvoiceSettings> invoiceSettingssOptional = invoiceSettingsRepository.findById(id);
         if (invoiceSettingssOptional.isPresent()) {
             return invoiceSettingssOptional.get();
         }
-        throw new UnitedSuppliesException(format("InvoiceSettings is not found with the id %d", id));
+        throw new InventoryException(format("InvoiceSettings is not found with the id %d", id));
     }
 
     @Override

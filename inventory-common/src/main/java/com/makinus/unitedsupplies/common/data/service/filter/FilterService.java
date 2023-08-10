@@ -15,7 +15,7 @@ import com.makinus.unitedsupplies.common.data.entity.Product;
 import java.util.List;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface FilterService {
 

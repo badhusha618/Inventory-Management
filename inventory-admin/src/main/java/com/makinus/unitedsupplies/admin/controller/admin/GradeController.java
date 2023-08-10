@@ -7,19 +7,19 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.GradeForm;
-import com.makinus.unitedsupplies.admin.data.mapping.GradeMapper;
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.entity.Grade;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.grade.GradeService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.GradeForm;
+import com.makinus.Inventory.admin.data.mapping.GradeMapper;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.entity.Grade;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.grade.GradeService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +36,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.subCategoryMap;
+import static com.makinus.Inventory.admin.utils.AdminUtils.subCategoryMap;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class GradeController {
@@ -74,7 +74,7 @@ public class GradeController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/grade.mk")
-    public String grade(ModelMap model) throws UnitedSuppliesException {
+    public String grade(ModelMap model) throws InventoryException {
         LOG.info("Open Grade page - {}", this.getClass().getSimpleName());
         GradeForm gradeForm = new GradeForm();
         gradeForm.setActive(Boolean.TRUE);
@@ -88,7 +88,7 @@ public class GradeController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/grade.mk")
-    public String addNewGrade(@ModelAttribute("gradeForm") GradeForm gradeForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewGrade(@ModelAttribute("gradeForm") GradeForm gradeForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Open Add new Grade - {}", this.getClass().getSimpleName());
         Grade savedGrade = gradeService.saveGrade(gradeMapper.map(gradeForm));
         redirectAttrs.addFlashAttribute("gradeName", gradeForm.getGrade());
@@ -98,7 +98,7 @@ public class GradeController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/grade.mk")
-    public String editGradePage(ModelMap model, HttpServletRequest request, @PathVariable("id") String gradeId) throws UnitedSuppliesException {
+    public String editGradePage(ModelMap model, HttpServletRequest request, @PathVariable("id") String gradeId) throws InventoryException {
         LOG.info("Open Edit Grade page - {}", this.getClass().getSimpleName());
         GradeForm savedGrade = gradeMapper.remap(gradeService.findGrade(Long.valueOf(gradeId)));
         model.addAttribute("editGradeForm", savedGrade);
@@ -121,7 +121,7 @@ public class GradeController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/grade.mk")
-    public String updateGrade(@ModelAttribute("editGradeForm") GradeForm gradeForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateGrade(@ModelAttribute("editGradeForm") GradeForm gradeForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Grade page - {}", this.getClass().getSimpleName());
         Grade updateGrade = gradeService.findGrade(Long.valueOf(gradeForm.getGradeID()));
         Grade savedGrade = gradeService.updateGrade(gradeMapper.map(gradeForm, updateGrade));
@@ -141,7 +141,7 @@ public class GradeController {
             Grade removedGrade = gradeService.removeGrade(Long.valueOf(id));
             LOG.info("Grade is removed? {}", (removedGrade != null && removedGrade.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

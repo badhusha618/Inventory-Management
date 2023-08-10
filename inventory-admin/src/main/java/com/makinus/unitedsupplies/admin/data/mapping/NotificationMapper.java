@@ -7,15 +7,15 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import com.makinus.unitedsupplies.admin.data.forms.NotificationForm;
-import com.makinus.unitedsupplies.common.data.entity.Notifications;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.reftype.NotificationOrderStatus;
-import com.makinus.unitedsupplies.common.data.reftype.NotificationStatus;
-import com.makinus.unitedsupplies.common.data.reftype.NotificationType;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.NotificationForm;
+import com.makinus.Inventory.common.data.entity.Notifications;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.reftype.NotificationOrderStatus;
+import com.makinus.Inventory.common.data.reftype.NotificationStatus;
+import com.makinus.Inventory.common.data.reftype.NotificationType;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,10 +25,10 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.text.ParseException;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.*;
+import static com.makinus.Inventory.common.utils.AppUtils.*;
 
 /**
- * Created by ammar
+ * @author Bad_sha
  */
 @Component
 @Qualifier("NotificationMapper")
@@ -38,7 +38,7 @@ public class NotificationMapper
     private final Logger LOG = LogManager.getLogger(NotificationMapper.class);
 
     @Override
-    public Notifications map(NotificationForm notificationForm) throws UnitedSuppliesException, ParseException {
+    public Notifications map(NotificationForm notificationForm) throws InventoryException, ParseException {
         LOG.info("Map Notification Form to Notification Entity");
         Notifications notifications = new Notifications();
         notifications.setCustomerName(notificationForm.getCustomerName());

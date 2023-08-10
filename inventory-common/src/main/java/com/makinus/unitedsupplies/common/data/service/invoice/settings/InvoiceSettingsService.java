@@ -11,7 +11,7 @@ package com.makinus.unitedsupplies.common.data.service.invoice.settings;
 
 
 import com.makinus.unitedsupplies.common.data.entity.InvoiceSettings;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface InvoiceSettingsService {
 
     List<InvoiceSettings> invoiceSettingsListByType(String sequenceType);
 
-    InvoiceSettings findInvoiceSettings(Long id) throws UnitedSuppliesException;
+    InvoiceSettings findInvoiceSettings(Long id) throws InventoryException;
 
     List<InvoiceSettings> protectedInvoiceSettingsListByType(String sequenceType);
 

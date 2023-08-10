@@ -7,11 +7,11 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.service.dashboard;
+package com.makinus.Inventory.admin.data.service.dashboard;
 
-import com.makinus.unitedsupplies.common.data.dao.MobileUserRepository;
-import com.makinus.unitedsupplies.common.data.entity.User;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.common.data.dao.MobileUserRepository;
+import com.makinus.Inventory.common.data.entity.User;
+import com.makinus.Inventory.common.exception.InventoryException;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Service
 @Transactional
 public class DashboardServiceImpl implements DashboardService {
@@ -33,7 +33,7 @@ public class DashboardServiceImpl implements DashboardService {
   }
 
   @Override
-  public List<User> usmUserList() throws UnitedSuppliesException {
+  public List<User> usmUserList() throws InventoryException {
     LOG.info("List USM Mobile Users from database");
     return mobileUserRepository.findAllActiveUsers();
   }

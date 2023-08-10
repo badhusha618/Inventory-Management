@@ -7,24 +7,24 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import com.makinus.unitedsupplies.admin.data.forms.SpecificationForm;
-import com.makinus.unitedsupplies.common.data.entity.Specification;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.SpecificationForm;
+import com.makinus.Inventory.common.data.entity.Specification;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Component
 @Qualifier("SpecificationMapper")
 public class SpecificationMapper
@@ -35,7 +35,7 @@ public class SpecificationMapper
   private final Logger LOG = LogManager.getLogger(SpecificationMapper.class);
 
   @Override
-  public Specification map(SpecificationForm specificationForm) throws UnitedSuppliesException {
+  public Specification map(SpecificationForm specificationForm) throws InventoryException {
     LOG.info("Map Specification Form to Specification Entity");
     Specification specification = new Specification();
     specification.setSpecification(specificationForm.getSpecification());
@@ -50,7 +50,7 @@ public class SpecificationMapper
   }
 
   @Override
-  public Specification map(SpecificationForm specificationForm, Specification specification) throws UnitedSuppliesException {
+  public Specification map(SpecificationForm specificationForm, Specification specification) throws InventoryException {
 
     LOG.info("Map Specification Form to Updated Specification Entity");
     specification.setSpecification(specificationForm.getSpecification());
@@ -63,7 +63,7 @@ public class SpecificationMapper
   }
 
   @Override
-  public SpecificationForm remap(Specification specification) throws UnitedSuppliesException {
+  public SpecificationForm remap(Specification specification) throws InventoryException {
     LOG.info("Map Specification Entity to Specification Form");
     SpecificationForm specificationForm = new SpecificationForm();
     specificationForm.setSpecificationID(String.valueOf(specification.getId()));

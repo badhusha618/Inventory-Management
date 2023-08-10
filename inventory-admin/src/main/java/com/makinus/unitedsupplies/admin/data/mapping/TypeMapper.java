@@ -7,24 +7,24 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
-import com.makinus.unitedsupplies.admin.data.forms.TypeForm;
-import com.makinus.unitedsupplies.common.data.entity.Type;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.TypeForm;
+import com.makinus.Inventory.common.data.entity.Type;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Component
 @Qualifier("TypeMapper")
 public class TypeMapper
@@ -35,7 +35,7 @@ public class TypeMapper
   private final Logger LOG = LogManager.getLogger(TypeMapper.class);
 
   @Override
-  public Type map(TypeForm typeForm) throws UnitedSuppliesException {
+  public Type map(TypeForm typeForm) throws InventoryException {
     LOG.info("Map Type Form to Type Entity");
     Type type = new Type();
     type.setType(typeForm.getType());
@@ -50,7 +50,7 @@ public class TypeMapper
   }
 
   @Override
-  public Type map(TypeForm typeForm, Type type) throws UnitedSuppliesException {
+  public Type map(TypeForm typeForm, Type type) throws InventoryException {
 
     LOG.info("Map Type Form to Updated Type Entity");
     type.setType(typeForm.getType());
@@ -63,7 +63,7 @@ public class TypeMapper
   }
 
   @Override
-  public TypeForm remap(Type type) throws UnitedSuppliesException {
+  public TypeForm remap(Type type) throws InventoryException {
     LOG.info("Map Type Entity to Type Form");
     TypeForm typeForm = new TypeForm();
     typeForm.setTypeID(String.valueOf(type.getId()));

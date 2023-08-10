@@ -7,24 +7,26 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import com.makinus.unitedsupplies.admin.data.forms.MaterialForm;
-import com.makinus.unitedsupplies.common.data.entity.Material;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.MaterialForm;
+import com.makinus.Inventory.common.data.entity.Material;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
-/** Created by ammar */
+/**
+ * @author Bad_sha
+ */
 @Component
 @Qualifier("MaterialMapper")
 public class MaterialMapper
@@ -35,7 +37,7 @@ public class MaterialMapper
   private final Logger LOG = LogManager.getLogger(MaterialMapper.class);
 
   @Override
-  public Material map(MaterialForm materialForm) throws UnitedSuppliesException {
+  public Material map(MaterialForm materialForm) throws InventoryException {
     LOG.info("Map Material Form to Material Entity");
     Material material = new Material();
     material.setMaterial(materialForm.getMaterial());
@@ -50,7 +52,7 @@ public class MaterialMapper
   }
 
   @Override
-  public Material map(MaterialForm materialForm, Material material) throws UnitedSuppliesException {
+  public Material map(MaterialForm materialForm, Material material) throws InventoryException {
 
     LOG.info("Map Material Form to Updated Material Entity");
     material.setMaterial(materialForm.getMaterial());
@@ -63,7 +65,7 @@ public class MaterialMapper
   }
 
   @Override
-  public MaterialForm remap(Material material) throws UnitedSuppliesException {
+  public MaterialForm remap(Material material) throws InventoryException {
     LOG.info("Map Material Entity to Material Form");
     MaterialForm materialForm = new MaterialForm();
     materialForm.setMaterialID(String.valueOf(material.getId()));

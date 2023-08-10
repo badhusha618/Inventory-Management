@@ -7,21 +7,21 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.LoadingChargesForm;
-import com.makinus.unitedsupplies.admin.data.mapping.GradeMapper;
-import com.makinus.unitedsupplies.admin.data.mapping.LoadingChargesMapper;
-import com.makinus.unitedsupplies.common.data.entity.*;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.loadingCharges.LoadingChargesService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.product.ProductService;
-import com.makinus.unitedsupplies.common.data.service.unit.UnitService;
-import com.makinus.unitedsupplies.common.data.service.unitmapping.UnitMappingService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.LoadingChargesForm;
+import com.makinus.Inventory.admin.data.mapping.GradeMapper;
+import com.makinus.Inventory.admin.data.mapping.LoadingChargesMapper;
+import com.makinus.Inventory.common.data.entity.*;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.loadingCharges.LoadingChargesService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.product.ProductService;
+import com.makinus.Inventory.common.data.service.unit.UnitService;
+import com.makinus.Inventory.common.data.service.unitmapping.UnitMappingService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +39,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.*;
+import static com.makinus.Inventory.admin.utils.AdminUtils.*;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class LoadingChargesController {
@@ -91,7 +91,7 @@ public class LoadingChargesController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/list/loading-charges.mk")
-    public String listLoadingCharges(ModelMap model) throws UnitedSuppliesException {
+    public String listLoadingCharges(ModelMap model) throws InventoryException {
         LOG.info("List Products page - {}", this.getClass().getSimpleName());
         model.addAttribute("loadingChargesList", loadingChargesService.loadingChargesList());
         model.addAttribute("productMap", productService.productList().stream().collect(Collectors.toMap(Product::getId, Function.identity())));
@@ -102,7 +102,7 @@ public class LoadingChargesController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/add/loading-charges.mk")
-    public String addLoadingCharges(ModelMap model) throws UnitedSuppliesException {
+    public String addLoadingCharges(ModelMap model) throws InventoryException {
         LOG.info("Open Add Product page - {}", this.getClass().getSimpleName());
         model.addAttribute("loadingChargesForm", new LoadingChargesForm());
         List<Unit> units = unitService.unitList();
@@ -128,7 +128,7 @@ public class LoadingChargesController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/loading-charges.mk")
-    public String editTransportPage(ModelMap model, @PathVariable("id") String loadingChargesId) throws UnitedSuppliesException {
+    public String editTransportPage(ModelMap model, @PathVariable("id") String loadingChargesId) throws InventoryException {
         LOG.info("Open Edit Product page - {}", this.getClass().getSimpleName());
         LoadingChargesForm savedLoadingCharges = loadingChargesMapper.remap(loadingChargesService.findLoadingCharges(Long.valueOf(loadingChargesId)));
         model.addAttribute("editLoadingChargesForm", savedLoadingCharges);
@@ -144,7 +144,7 @@ public class LoadingChargesController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/loading-charges.mk")
-    public String updateProduct(@ModelAttribute("editLoadingChargesForm") LoadingChargesForm loadingChargesForm, RedirectAttributes redirectAttributes) throws UnitedSuppliesException {
+    public String updateProduct(@ModelAttribute("editLoadingChargesForm") LoadingChargesForm loadingChargesForm, RedirectAttributes redirectAttributes) throws InventoryException {
         LOG.info("Update Product page - {}", this.getClass().getSimpleName());
         LoadingCharges updateLoadingCharges = loadingChargesService.findLoadingCharges(Long.valueOf(loadingChargesForm.getId()));
         LoadingCharges savedLoadingCharges = loadingChargesService.updateLoadingCharges(loadingChargesMapper.map(loadingChargesForm, updateLoadingCharges));
@@ -175,7 +175,7 @@ public class LoadingChargesController {
             LoadingCharges removedLoadingCharges = loadingChargesService.removeLoadingCharges(Long.valueOf(id));
             LOG.info("Product is removed? {}", (removedLoadingCharges != null && removedLoadingCharges.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException usm) {
+        } catch (InventoryException usm) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

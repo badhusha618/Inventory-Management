@@ -7,10 +7,10 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.forms;
+package com.makinus.Inventory.admin.data.forms;
 
 /**
- * Created by ibrahim
+ * @author Bad_sha
  */
 public class InvoiceSettingsForm {
 

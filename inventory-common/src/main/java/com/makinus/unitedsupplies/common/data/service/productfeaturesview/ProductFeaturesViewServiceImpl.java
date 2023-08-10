@@ -11,7 +11,7 @@ package com.makinus.unitedsupplies.common.data.service.productfeaturesview;
 
 import com.makinus.unitedsupplies.common.data.dao.ProductFeaturesViewRepository;
 import com.makinus.unitedsupplies.common.data.entity.ProductFeaturesView;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -50,13 +50,13 @@ public class ProductFeaturesViewServiceImpl implements ProductFeaturesViewServic
     }
 
     @Override
-    public ProductFeaturesView findProductFeaturesView(Long id) throws UnitedSuppliesException {
+    public ProductFeaturesView findProductFeaturesView(Long id) throws InventoryException {
         Optional<ProductFeaturesView> productFeaturesViewOptional =
                 productFeaturesViewRepository.findById(id);
         if (productFeaturesViewOptional.isPresent()) {
             return productFeaturesViewOptional.get();
         }
-        throw new UnitedSuppliesException(
+        throw new InventoryException(
                 String.format("ProductFeaturesView is not found with the id %d", id));
     }
 }

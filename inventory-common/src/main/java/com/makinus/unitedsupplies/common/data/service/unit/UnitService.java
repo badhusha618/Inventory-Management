@@ -10,10 +10,10 @@
 package com.makinus.unitedsupplies.common.data.service.unit;
 
 import com.makinus.unitedsupplies.common.data.entity.Unit;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import java.util.List;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface UnitService {
 
   boolean isUnitAvailable(final String unitCode);
@@ -28,7 +28,7 @@ public interface UnitService {
 
   Unit updateUnit(final Unit unit);
 
-  Unit findUnit(Long id) throws UnitedSuppliesException;
+  Unit findUnit(Long id) throws InventoryException;
 
-  Unit removeUnit(Long id) throws UnitedSuppliesException;
+  Unit removeUnit(Long id) throws InventoryException;
 }

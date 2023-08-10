@@ -1,9 +1,9 @@
-package com.makinus.unitedsupplies.admin.data.forms;
+package com.makinus.Inventory.admin.data.forms;
 
 import java.io.Serializable;
 
 /**
- * Created by ammar
+ * @author Bad_sha
  */
 public class NotificationForm implements Serializable {
 

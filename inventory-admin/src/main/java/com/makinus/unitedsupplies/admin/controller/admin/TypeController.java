@@ -7,19 +7,19 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.TypeForm;
-import com.makinus.unitedsupplies.admin.data.mapping.TypeMapper;
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.entity.Type;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.type.TypeService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.TypeForm;
+import com.makinus.Inventory.admin.data.mapping.TypeMapper;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.entity.Type;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.type.TypeService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +36,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.subCategoryMap;
+import static com.makinus.Inventory.admin.utils.AdminUtils.subCategoryMap;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class TypeController {
@@ -74,7 +74,7 @@ public class TypeController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/type.mk")
-    public String type(ModelMap model) throws UnitedSuppliesException {
+    public String type(ModelMap model) throws InventoryException {
         LOG.info("Open Type page - {}", this.getClass().getSimpleName());
         TypeForm typeForm = new TypeForm();
         typeForm.setActive(Boolean.TRUE);
@@ -88,7 +88,7 @@ public class TypeController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/type.mk")
-    public String addNewType(@ModelAttribute("typeForm") TypeForm typeForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewType(@ModelAttribute("typeForm") TypeForm typeForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Open Add new Type - {}", this.getClass().getSimpleName());
         Type savedType = typeService.saveType(typeMapper.map(typeForm));
         redirectAttrs.addFlashAttribute("typeName", typeForm.getType());
@@ -98,7 +98,7 @@ public class TypeController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/type.mk")
-    public String editTypePage(ModelMap model, HttpServletRequest request, @PathVariable("id") String typeId) throws UnitedSuppliesException {
+    public String editTypePage(ModelMap model, HttpServletRequest request, @PathVariable("id") String typeId) throws InventoryException {
         LOG.info("Open Edit Type page - {}", this.getClass().getSimpleName());
         TypeForm savedType = typeMapper.remap(typeService.findType(Long.valueOf(typeId)));
         model.addAttribute("editTypeForm", savedType);
@@ -121,7 +121,7 @@ public class TypeController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/type.mk")
-    public String updateType(@ModelAttribute("editTypeForm") TypeForm typeForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateType(@ModelAttribute("editTypeForm") TypeForm typeForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Type page - {}", this.getClass().getSimpleName());
         Type updateType = typeService.findType(Long.valueOf(typeForm.getTypeID()));
         Type savedType = typeService.updateType(typeMapper.map(typeForm, updateType));
@@ -141,7 +141,7 @@ public class TypeController {
             Type removedType = typeService.removeType(Long.valueOf(id));
             LOG.info("Type is removed? {}", (removedType != null && removedType.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

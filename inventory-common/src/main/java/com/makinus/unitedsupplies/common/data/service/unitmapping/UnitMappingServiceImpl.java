@@ -13,10 +13,10 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
 import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 
 import com.makinus.unitedsupplies.common.data.dao.UnitMappingRepository;
-import com.makinus.unitedsupplies.common.data.entity.Type;
 import com.makinus.unitedsupplies.common.data.entity.UnitMapping;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
+
 import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Service
 @Transactional
 public class UnitMappingServiceImpl implements UnitMappingService {
@@ -72,16 +72,16 @@ public class UnitMappingServiceImpl implements UnitMappingService {
   }
 
   @Override
-  public UnitMapping findUnitMapping(Long id) throws UnitedSuppliesException {
+  public UnitMapping findUnitMapping(Long id) throws InventoryException {
     Optional<UnitMapping> unitMappingOptional = unitMappingRepository.findById(id);
     if (unitMappingOptional.isPresent()) {
       return unitMappingOptional.get();
     }
-    throw new UnitedSuppliesException(String.format("UnitMapping is not found with the id %d", id));
+    throw new InventoryException(String.format("UnitMapping is not found with the id %d", id));
   }
 
   @Override
-  public UnitMapping removeUnitMapping(Long id) throws UnitedSuppliesException {
+  public UnitMapping removeUnitMapping(Long id) throws InventoryException {
     Optional<UnitMapping> unitMappingOptional = unitMappingRepository.findById(id);
     if (unitMappingOptional.isPresent()) {
       UnitMapping unitMapping = unitMappingOptional.get();
@@ -90,6 +90,6 @@ public class UnitMappingServiceImpl implements UnitMappingService {
       unitMapping.setUpdatedDate(getInstant());
       return unitMapping;
     }
-    throw new UnitedSuppliesException(String.format("Promotion is not found with the id %d", id));
+    throw new InventoryException(String.format("Promotion is not found with the id %d", id));
   }
 }

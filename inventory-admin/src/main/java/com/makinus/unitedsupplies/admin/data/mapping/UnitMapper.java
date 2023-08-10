@@ -7,24 +7,24 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
-import com.makinus.unitedsupplies.admin.data.forms.UnitForm;
-import com.makinus.unitedsupplies.common.data.entity.Unit;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.UnitForm;
+import com.makinus.Inventory.common.data.entity.Unit;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Component
 @Qualifier("UnitMapper")
 public class UnitMapper
@@ -35,7 +35,7 @@ public class UnitMapper
   private final Logger LOG = LogManager.getLogger(UnitMapper.class);
 
   @Override
-  public Unit map(UnitForm unitForm) throws UnitedSuppliesException {
+  public Unit map(UnitForm unitForm) throws InventoryException {
     LOG.info("Map Unit Form to Unit Entity");
     Unit unit = new Unit();
     unit.setUnitName(unitForm.getUnitName());
@@ -50,7 +50,7 @@ public class UnitMapper
   }
 
   @Override
-  public Unit map(UnitForm unitForm, Unit unit) throws UnitedSuppliesException {
+  public Unit map(UnitForm unitForm, Unit unit) throws InventoryException {
 
     LOG.info("Map Unit Form to Updated Unit Entity");
     unit.setUnitName(unitForm.getUnitName());
@@ -63,7 +63,7 @@ public class UnitMapper
   }
 
   @Override
-  public UnitForm remap(Unit unit) throws UnitedSuppliesException {
+  public UnitForm remap(Unit unit) throws InventoryException {
     LOG.info("Map Unit Entity to Unit Form");
     UnitForm unitForm = new UnitForm();
     unitForm.setUnitID(String.valueOf(unit.getId()));

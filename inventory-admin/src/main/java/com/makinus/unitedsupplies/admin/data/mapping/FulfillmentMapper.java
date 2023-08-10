@@ -7,18 +7,18 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import com.makinus.unitedsupplies.admin.data.forms.FulfillmentForm;
-import com.makinus.unitedsupplies.common.data.entity.OrderFulfillment;
-import com.makinus.unitedsupplies.common.data.entity.ProductOrder;
-import com.makinus.unitedsupplies.common.data.entity.Vendor;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.orderfulfillment.OrderFulfillmentService;
-import com.makinus.unitedsupplies.common.data.service.prodorder.ProductOrderService;
-import com.makinus.unitedsupplies.common.data.service.vendor.VendorService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.FulfillmentForm;
+import com.makinus.Inventory.common.data.entity.OrderFulfillment;
+import com.makinus.Inventory.common.data.entity.ProductOrder;
+import com.makinus.Inventory.common.data.entity.Vendor;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.orderfulfillment.OrderFulfillmentService;
+import com.makinus.Inventory.common.data.service.prodorder.ProductOrderService;
+import com.makinus.Inventory.common.data.service.vendor.VendorService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,11 +31,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Component
 @Qualifier("FulfillmentMapper")
@@ -53,7 +53,7 @@ public class FulfillmentMapper implements EntityMapper<FulfillmentForm, OrderFul
     private final Logger LOG = LogManager.getLogger(FulfillmentMapper.class);
 
     @Override
-    public OrderFulfillment map(FulfillmentForm fulfillmentForm) throws UnitedSuppliesException {
+    public OrderFulfillment map(FulfillmentForm fulfillmentForm) throws InventoryException {
         LOG.info("Map Fulfillment Form to Fulfillment Entity");
         List<ProductOrder> prodOrders = productOrderService.getProductListByOrderRefAndFulfillment(Long.valueOf(fulfillmentForm.getOrderRef()), YNStatus.NO.getStatus());
         Vendor vendor = StringUtils.isNotEmpty(fulfillmentForm.getProdVendorId()) ? vendorService.findVendor(Long.valueOf(fulfillmentForm.getProdVendorId())) : new Vendor();

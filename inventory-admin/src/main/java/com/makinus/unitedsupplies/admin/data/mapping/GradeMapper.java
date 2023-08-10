@@ -7,24 +7,24 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
-import com.makinus.unitedsupplies.admin.data.forms.GradeForm;
-import com.makinus.unitedsupplies.common.data.entity.Grade;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.GradeForm;
+import com.makinus.Inventory.common.data.entity.Grade;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Component
 @Qualifier("GradeMapper")
 public class GradeMapper
@@ -35,7 +35,7 @@ public class GradeMapper
   private final Logger LOG = LogManager.getLogger(GradeMapper.class);
 
   @Override
-  public Grade map(GradeForm gradeForm) throws UnitedSuppliesException {
+  public Grade map(GradeForm gradeForm) throws InventoryException {
     LOG.info("Map Grade Form to Grade Entity");
     Grade grade = new Grade();
     grade.setGrade(gradeForm.getGrade());
@@ -50,7 +50,7 @@ public class GradeMapper
   }
 
   @Override
-  public Grade map(GradeForm gradeForm, Grade grade) throws UnitedSuppliesException {
+  public Grade map(GradeForm gradeForm, Grade grade) throws InventoryException {
 
     LOG.info("Map Grade Form to Updated Grade Entity");
     grade.setGrade(gradeForm.getGrade());
@@ -63,7 +63,7 @@ public class GradeMapper
   }
 
   @Override
-  public GradeForm remap(Grade grade) throws UnitedSuppliesException {
+  public GradeForm remap(Grade grade) throws InventoryException {
     LOG.info("Map Grade Entity to Grade Form");
     GradeForm gradeForm = new GradeForm();
     gradeForm.setGradeID(String.valueOf(grade.getId()));

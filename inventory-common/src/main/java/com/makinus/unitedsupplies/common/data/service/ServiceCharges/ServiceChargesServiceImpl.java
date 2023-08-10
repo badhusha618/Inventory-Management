@@ -2,7 +2,7 @@ package com.makinus.unitedsupplies.common.data.service.ServiceCharges;
 
 import com.makinus.unitedsupplies.common.data.dao.ServiceChargeRepository;
 import com.makinus.unitedsupplies.common.data.entity.ServiceCharge;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +37,12 @@ public class ServiceChargesServiceImpl implements ServiceChargesService {
     }
 
     @Override
-    public ServiceCharge findServiceCharges(Long id) throws UnitedSuppliesException {
+    public ServiceCharge findServiceCharges(Long id) throws InventoryException {
         Optional<ServiceCharge> chargesOptional = serviceChargeRepository.findById(id);
         if (chargesOptional.isPresent()) {
             return chargesOptional.get();
         }
-        throw new UnitedSuppliesException(format("Order is not found with the id %d", id));
+        throw new InventoryException(format("Order is not found with the id %d", id));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ServiceChargesServiceImpl implements ServiceChargesService {
     }
 
     @Override
-    public ServiceCharge updateServiceCharge(Long id, String amount) throws UnitedSuppliesException {
+    public ServiceCharge updateServiceCharge(Long id, String amount) throws InventoryException {
         ServiceCharge serviceCharge = findServiceCharges(id);
         serviceCharge.setAmount(amount);
         serviceCharge.setUpdatedBy(getCurrentUser());

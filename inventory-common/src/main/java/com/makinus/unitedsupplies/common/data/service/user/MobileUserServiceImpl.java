@@ -13,7 +13,7 @@ import com.makinus.unitedsupplies.common.data.dao.MobileUserRepository;
 import com.makinus.unitedsupplies.common.data.entity.User;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
 import com.makinus.unitedsupplies.common.data.service.image.ImageWriter;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 import static java.lang.String.format;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -78,7 +78,7 @@ public class MobileUserServiceImpl implements MobileUserService {
     }
 
     @Override
-    public User findById(Long id) throws UnitedSuppliesException {
+    public User findById(Long id) throws InventoryException {
         Optional<User> userOptional = mobileUserRepository.findById(id);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -87,21 +87,21 @@ public class MobileUserServiceImpl implements MobileUserService {
 //      }
             return user;
         }
-        throw new UnitedSuppliesException(format("Mobile User is not found with the id %d", id));
+        throw new InventoryException(format("Mobile User is not found with the id %d", id));
     }
 
     @Override
-    public User findByMobile(String mobile) throws UnitedSuppliesException {
+    public User findByMobile(String mobile) throws InventoryException {
         Optional<User> userOptional = mobileUserRepository.findByMobile(mobile);
         if (userOptional.isPresent()) {
             return userOptional.get();
         }
-        throw new UnitedSuppliesException(
+        throw new InventoryException(
                 format("Mobile User is not found with the username %s", mobile));
     }
 
     @Override
-    public User removeUser(Long id) throws UnitedSuppliesException {
+    public User removeUser(Long id) throws InventoryException {
         Optional<User> userOptional = mobileUserRepository.findById(id);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -110,10 +110,10 @@ public class MobileUserServiceImpl implements MobileUserService {
             user.setUpdatedDate(getInstant());
             return user;
         }
-        throw new UnitedSuppliesException(format("Mobile User is not found with the id %d", id));
+        throw new InventoryException(format("Mobile User is not found with the id %d", id));
     }
 
-    public User otpInvoked(Long id) throws UnitedSuppliesException {
+    public User otpInvoked(Long id) throws InventoryException {
         Optional<User> userOptional = mobileUserRepository.findById(id);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -122,6 +122,6 @@ public class MobileUserServiceImpl implements MobileUserService {
             user.setUpdatedDate(getInstant());
             return user;
         }
-        throw new UnitedSuppliesException(format("Mobile User is not found with the id %d", id));
+        throw new InventoryException(format("Mobile User is not found with the id %d", id));
     }
 }

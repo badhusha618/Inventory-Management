@@ -7,18 +7,18 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import com.makinus.unitedsupplies.admin.data.forms.CategoryForm;
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.image.ImageWriter;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
-import com.makinus.unitedsupplies.common.s3.AmazonS3Client;
-import com.makinus.unitedsupplies.common.utils.AppUtils;
+import com.makinus.Inventory.admin.data.forms.CategoryForm;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.image.ImageWriter;
+import com.makinus.Inventory.common.exception.InventoryException;
+import com.makinus.Inventory.common.s3.AmazonS3Client;
+import com.makinus.Inventory.common.utils.AppUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +29,11 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.*;
+import static com.makinus.Inventory.common.utils.AppUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Component
 @Qualifier("CategoryMapper")
@@ -51,7 +51,7 @@ public class CategoryMapper implements EntityMapper<CategoryForm, Category>, Ent
     private String bucketName;
 
     @Override
-    public Category map(CategoryForm categoryForm) throws UnitedSuppliesException {
+    public Category map(CategoryForm categoryForm) throws InventoryException {
         LOG.info("Map Category Form to Category Entity");
         Category category = new Category();
         try {
@@ -71,13 +71,13 @@ public class CategoryMapper implements EntityMapper<CategoryForm, Category>, Ent
             category.setDeleted(YNStatus.NO.getStatus());
         } catch (IOException e) {
             LOG.warn("CategoryMapper.map throws exception {}", e.getMessage());
-            throw new UnitedSuppliesException(e.getMessage());
+            throw new InventoryException(e.getMessage());
         }
         return category;
     }
 
     @Override
-    public Category map(CategoryForm categoryForm, Category category) throws UnitedSuppliesException {
+    public Category map(CategoryForm categoryForm, Category category) throws InventoryException {
         LOG.info("Map Category Form to Updated Category Entity");
         try {
             category.setCategoryName(categoryForm.getCategoryName());
@@ -95,18 +95,18 @@ public class CategoryMapper implements EntityMapper<CategoryForm, Category>, Ent
             category.setActive(categoryForm.isActiveCategory() ? YNStatus.YES.getStatus() : YNStatus.NO.getStatus());
         } catch (IOException e) {
             LOG.warn("ProductMapper.map throws exception {}", e.getMessage());
-            throw new UnitedSuppliesException(e.getMessage());
+            throw new InventoryException(e.getMessage());
         }
         return category;
     }
 
     @Deprecated
-    private String imagePath(Category category) throws UnitedSuppliesException {
+    private String imagePath(Category category) throws InventoryException {
         return imageWriter.writeImage(category.getImage(), category.getCreatedDateAsFolderName(), String.valueOf(AppUtils.timestamp()));
     }
 
     @Override
-    public CategoryForm remap(Category category) throws UnitedSuppliesException {
+    public CategoryForm remap(Category category) throws InventoryException {
         CategoryForm categoryForm = new CategoryForm();
         categoryForm.setCategoryID(String.valueOf(category.getId()));
         categoryForm.setCategoryName(category.getCategoryName());

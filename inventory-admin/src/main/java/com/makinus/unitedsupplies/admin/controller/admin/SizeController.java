@@ -7,19 +7,19 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.SizeForm;
-import com.makinus.unitedsupplies.admin.data.mapping.SizeMapper;
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.entity.Size;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.size.SizeService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.SizeForm;
+import com.makinus.Inventory.admin.data.mapping.SizeMapper;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.entity.Size;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.size.SizeService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +36,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.subCategoryMap;
+import static com.makinus.Inventory.admin.utils.AdminUtils.subCategoryMap;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class SizeController {
@@ -74,7 +74,7 @@ public class SizeController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/size.mk")
-    public String size(ModelMap model) throws UnitedSuppliesException {
+    public String size(ModelMap model) throws InventoryException {
         LOG.info("Open Size page - {}", this.getClass().getSimpleName());
         SizeForm sizeForm = new SizeForm();
         sizeForm.setActive(Boolean.TRUE);
@@ -88,7 +88,7 @@ public class SizeController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/size.mk")
-    public String addNewSize(@ModelAttribute("sizeForm") SizeForm sizeForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewSize(@ModelAttribute("sizeForm") SizeForm sizeForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Open Add new Size - {}", this.getClass().getSimpleName());
         Size savedSize = sizeService.saveSize(sizeMapper.map(sizeForm));
         redirectAttrs.addFlashAttribute("sizeName", sizeForm.getSize());
@@ -98,7 +98,7 @@ public class SizeController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/size.mk")
-    public String editSizePage(ModelMap model, HttpServletRequest request, @PathVariable("id") String sizeId) throws UnitedSuppliesException {
+    public String editSizePage(ModelMap model, HttpServletRequest request, @PathVariable("id") String sizeId) throws InventoryException {
         LOG.info("Open Edit Size page - {}", this.getClass().getSimpleName());
         SizeForm savedSize = sizeMapper.remap(sizeService.findSize(Long.valueOf(sizeId)));
         model.addAttribute("editSizeForm", savedSize);
@@ -110,7 +110,7 @@ public class SizeController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/size.mk")
-    public String updateSize(@ModelAttribute("editSizeForm") SizeForm sizeForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateSize(@ModelAttribute("editSizeForm") SizeForm sizeForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Size page - {}", this.getClass().getSimpleName());
         Size updateSize = sizeService.findSize(Long.valueOf(sizeForm.getSizeID()));
         Size savedSize = sizeService.updateSize(sizeMapper.map(sizeForm, updateSize));
@@ -130,7 +130,7 @@ public class SizeController {
             Size removedSize = sizeService.removeSize(Long.valueOf(id));
             LOG.info("Size is removed? {}", (removedSize != null && removedSize.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

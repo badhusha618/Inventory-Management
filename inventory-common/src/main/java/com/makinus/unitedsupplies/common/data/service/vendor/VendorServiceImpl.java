@@ -6,7 +6,7 @@ import com.makinus.unitedsupplies.common.data.dao.filter.vendor.VendorFilterDAO;
 import com.makinus.unitedsupplies.common.data.entity.Vendor;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
 import com.makinus.unitedsupplies.common.data.service.image.ImageWriter;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +24,7 @@ import static java.nio.file.Paths.get;
 
 
 /**
- * Created by kingson
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -83,16 +83,16 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public Vendor findVendor(Long id) throws UnitedSuppliesException {
+    public Vendor findVendor(Long id) throws InventoryException {
         Optional<Vendor> unitOptional = vendorRepository.findById(id);
         if (unitOptional.isPresent()) {
             return unitOptional.get();
         }
-        throw new UnitedSuppliesException(String.format("vendor is not found with the id %d", id));
+        throw new InventoryException(String.format("vendor is not found with the id %d", id));
     }
 
     @Override
-    public Vendor removeVendor(Long id) throws UnitedSuppliesException {
+    public Vendor removeVendor(Long id) throws InventoryException {
         Optional<Vendor> vendorOptional = vendorRepository.findById(id);
         if (vendorOptional.isPresent()) {
             Vendor vendor = vendorOptional.get();
@@ -101,22 +101,22 @@ public class VendorServiceImpl implements VendorService {
             vendor.setUpdatedDate(getInstant());
             return vendor;
         }
-        throw new UnitedSuppliesException(String.format("Promotion is not found with the id %d", id));
+        throw new InventoryException(String.format("Promotion is not found with the id %d", id));
     }
 
     @Override
-    public Vendor findVendorWithImages(Long id) throws UnitedSuppliesException {
+    public Vendor findVendorWithImages(Long id) throws InventoryException {
         Optional<Vendor> vendorOptional = vendorRepository.findById(id);
         if (vendorOptional.isPresent()) {
             Vendor vendor = vendorOptional.get();
             vendor.setImage(imageWriter.readImage(get(vendor.getVendorSignature())));
             return vendor;
         }
-        throw new UnitedSuppliesException(format("Vendor is not found with the id %d", id));
+        throw new InventoryException(format("Vendor is not found with the id %d", id));
     }
 
     @Override
-    public List<Vendor> filterVendor(VendorFilterForm vendorFilterForm) throws UnitedSuppliesException {
+    public List<Vendor> filterVendor(VendorFilterForm vendorFilterForm) throws InventoryException {
         LOG.info("Search vendors by filter from the database");
         if (vendorFilterForm != null &&
                 (StringUtils.isNotEmpty(vendorFilterForm.getVendorCode())

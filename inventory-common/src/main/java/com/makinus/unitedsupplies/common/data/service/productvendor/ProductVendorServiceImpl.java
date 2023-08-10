@@ -12,7 +12,7 @@ package com.makinus.unitedsupplies.common.data.service.productvendor;
 import com.makinus.unitedsupplies.common.data.dao.ProductVendorRepository;
 import com.makinus.unitedsupplies.common.data.entity.ProductVendor;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,27 +98,27 @@ public class ProductVendorServiceImpl implements ProductVendorService {
     }
 
     @Override
-    public ProductVendor findProductVendor(Long id) throws UnitedSuppliesException {
+    public ProductVendor findProductVendor(Long id) throws InventoryException {
         Optional<ProductVendor> productVendorOptional = productVendorRepository.findById(id);
         if (productVendorOptional.isPresent()) {
             return productVendorOptional.get();
         }
-        throw new UnitedSuppliesException(
+        throw new InventoryException(
                 String.format("ProductVendor is not found with the id %d", id));
     }
 
     @Override
-    public ProductVendor findDefaultProductVendor(Long id) throws UnitedSuppliesException {
+    public ProductVendor findDefaultProductVendor(Long id) throws InventoryException {
         Optional<ProductVendor> productVendorOptional = productVendorRepository.findDefaultByProdId(id);
         if (productVendorOptional.isPresent()) {
             return productVendorOptional.get();
         }
-        throw new UnitedSuppliesException(
+        throw new InventoryException(
                 String.format("ProductVendor is not found with the id %d", id));
     }
 
     @Override
-    public ProductVendor removeProductVendor(Long id) throws UnitedSuppliesException {
+    public ProductVendor removeProductVendor(Long id) throws InventoryException {
         Optional<ProductVendor> productVendorOptional = productVendorRepository.findById(id);
         if (productVendorOptional.isPresent()) {
             ProductVendor productVendor = productVendorOptional.get();
@@ -127,7 +127,7 @@ public class ProductVendorServiceImpl implements ProductVendorService {
             productVendor.setUpdatedDate(getInstant());
             return productVendor;
         }
-        throw new UnitedSuppliesException(
+        throw new InventoryException(
                 String.format("ProductVendor is not found with the id %d", id));
     }
 }

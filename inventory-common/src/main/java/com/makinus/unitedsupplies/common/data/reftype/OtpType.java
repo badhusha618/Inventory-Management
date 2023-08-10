@@ -9,7 +9,7 @@
  */
 package com.makinus.unitedsupplies.common.data.reftype;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public enum OtpType {
   FORGET_PASSWORD("F", "Forget Password"),
   LOGIN_VIA_OTP("L", "Login");

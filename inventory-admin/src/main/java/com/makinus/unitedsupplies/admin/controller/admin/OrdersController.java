@@ -7,36 +7,36 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.FulfillmentForm;
-import com.makinus.unitedsupplies.admin.data.forms.ProductInvoiceForm;
-import com.makinus.unitedsupplies.admin.data.forms.ProductVendorForm;
-import com.makinus.unitedsupplies.admin.data.forms.ServiceInvoiceForm;
-import com.makinus.unitedsupplies.admin.data.mapping.FulfillmentMapper;
-import com.makinus.unitedsupplies.admin.data.service.excel.GenericWriter;
-import com.makinus.unitedsupplies.admin.data.service.excel.OrderExcelDTO;
-import com.makinus.unitedsupplies.admin.data.service.excel.ProductOrderExcelDTO;
-import com.makinus.unitedsupplies.common.data.dao.InvoiceProdSeqRepository;
-import com.makinus.unitedsupplies.common.data.entity.*;
-import com.makinus.unitedsupplies.common.data.form.OrderFilterForm;
-import com.makinus.unitedsupplies.common.data.form.ProductOrderFilterForm;
-import com.makinus.unitedsupplies.common.data.reftype.*;
-import com.makinus.unitedsupplies.common.data.service.ServiceCharges.ServiceChargesService;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.address.AddressService;
-import com.makinus.unitedsupplies.common.data.service.invoice.settings.InvoiceSettingsService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.orderfulfillment.OrderFulfillmentService;
-import com.makinus.unitedsupplies.common.data.service.prodorder.ProductOrderService;
-import com.makinus.unitedsupplies.common.data.service.product.ProductService;
-import com.makinus.unitedsupplies.common.data.service.productvendor.ProductVendorService;
-import com.makinus.unitedsupplies.common.data.service.transport.TransportService;
-import com.makinus.unitedsupplies.common.data.service.unit.UnitService;
-import com.makinus.unitedsupplies.common.data.service.vendor.VendorService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
-import com.makinus.unitedsupplies.common.utils.AppUtils;
-import com.makinus.unitedsupplies.common.utils.FTLTemplates;
+import com.makinus.Inventory.admin.data.forms.FulfillmentForm;
+import com.makinus.Inventory.admin.data.forms.ProductInvoiceForm;
+import com.makinus.Inventory.admin.data.forms.ProductVendorForm;
+import com.makinus.Inventory.admin.data.forms.ServiceInvoiceForm;
+import com.makinus.Inventory.admin.data.mapping.FulfillmentMapper;
+import com.makinus.Inventory.admin.data.service.excel.GenericWriter;
+import com.makinus.Inventory.admin.data.service.excel.OrderExcelDTO;
+import com.makinus.Inventory.admin.data.service.excel.ProductOrderExcelDTO;
+import com.makinus.Inventory.common.data.dao.InvoiceProdSeqRepository;
+import com.makinus.Inventory.common.data.entity.*;
+import com.makinus.Inventory.common.data.form.OrderFilterForm;
+import com.makinus.Inventory.common.data.form.ProductOrderFilterForm;
+import com.makinus.Inventory.common.data.reftype.*;
+import com.makinus.Inventory.common.data.service.ServiceCharges.ServiceChargesService;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.address.AddressService;
+import com.makinus.Inventory.common.data.service.invoice.settings.InvoiceSettingsService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.orderfulfillment.OrderFulfillmentService;
+import com.makinus.Inventory.common.data.service.prodorder.ProductOrderService;
+import com.makinus.Inventory.common.data.service.product.ProductService;
+import com.makinus.Inventory.common.data.service.productvendor.ProductVendorService;
+import com.makinus.Inventory.common.data.service.transport.TransportService;
+import com.makinus.Inventory.common.data.service.unit.UnitService;
+import com.makinus.Inventory.common.data.service.vendor.VendorService;
+import com.makinus.Inventory.common.exception.InventoryException;
+import com.makinus.Inventory.common.utils.AppUtils;
+import com.makinus.Inventory.common.utils.FTLTemplates;
 import freemarker.ext.beans.BeansWrapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -67,14 +67,14 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.common.data.service.ConvertToWords.convertToINRCurrency;
-import static com.makinus.unitedsupplies.common.utils.ApiUtils.FORWARD_SLASH;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.*;
+import static com.makinus.Inventory.common.data.service.ConvertToWords.convertToINRCurrency;
+import static com.makinus.Inventory.common.utils.ApiUtils.FORWARD_SLASH;
+import static com.makinus.Inventory.common.utils.AppUtils.*;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
- * @author ammar
+ * @author Bad_sha
  */
 @Controller
 public class OrdersController {
@@ -178,7 +178,7 @@ public class OrdersController {
     }
 
     @PostMapping(value = {"/order/products/search.mk"})
-    public String orderedProductSearch(@ModelAttribute("productOrderFilterForm") ProductOrderFilterForm productOrderFilterForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String orderedProductSearch(@ModelAttribute("productOrderFilterForm") ProductOrderFilterForm productOrderFilterForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Search Product Orders - {}", this.getClass().getSimpleName());
         List<ProductOrder> productOrders = productOrderService.filterProductOrder(productOrderFilterForm).stream().sorted(Comparator.comparing(ProductOrder::getOrderRef).reversed()).collect(Collectors.toList());
         redirectAttrs.addFlashAttribute("productOrderList", productOrders);
@@ -206,7 +206,7 @@ public class OrdersController {
     }
 
     @PostMapping(value = {"/orders/search.mk"})
-    public String orderSearch(@ModelAttribute("orderFilterForm") OrderFilterForm orderFilterForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String orderSearch(@ModelAttribute("orderFilterForm") OrderFilterForm orderFilterForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Search Orders - {}", this.getClass().getSimpleName());
         List<Order> orderList = orderService.filterOrder(orderFilterForm).stream().sorted(Comparator.comparing(Order::getCreatedDate).reversed()).collect(Collectors.toList());
         redirectAttrs.addFlashAttribute("orderList", orderList);
@@ -228,7 +228,7 @@ public class OrdersController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/orders/{orderRef}/product-details.mk")
-    public String listProductOrders(ModelMap model, @PathVariable Long orderRef, @ModelAttribute("fromPreview") String fromPreview, @ModelAttribute("previewFulfillmentForm") FulfillmentForm previewFulfillmentForm) throws UnitedSuppliesException {
+    public String listProductOrders(ModelMap model, @PathVariable Long orderRef, @ModelAttribute("fromPreview") String fromPreview, @ModelAttribute("previewFulfillmentForm") FulfillmentForm previewFulfillmentForm) throws InventoryException {
         Map<Long, Product> productMap = productService.productList().stream().collect(Collectors.toMap(Product::getId, Function.identity()));
         Map<Long, Vendor> vendorMap = vendorService.vendorList().stream().collect(Collectors.toMap(Vendor::getId, Function.identity()));
         Map<Long, OrderFulfillment> orderFulfillmentMap = orderFulfillmentService.getOrderFulfillmentListByOrder(orderRef).stream().collect(Collectors.toMap(OrderFulfillment::getId, Function.identity()));
@@ -263,7 +263,7 @@ public class OrdersController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/order/fulfillment/{stage}.mk")
-    public String orderFulfillment(@PathVariable("stage") String stage, @ModelAttribute("fulfillmentForm") FulfillmentForm fulfillmentForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String orderFulfillment(@PathVariable("stage") String stage, @ModelAttribute("fulfillmentForm") FulfillmentForm fulfillmentForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Order fulfillment Page - {}", this.getClass().getSimpleName());
         if (stage != null && stage.equals(OrderFulfillmentStatus.PREVIEW.getStatus())) {
             String fromPreview = YNStatus.YES.getStatus();
@@ -287,7 +287,7 @@ public class OrdersController {
             Order removedOrder = orderService.removeOrder(Long.valueOf(id));
             LOG.info("Order is removed? {}", (removedOrder != null && removedOrder.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException usm) {
+        } catch (InventoryException usm) {
             map.put("valid", Boolean.FALSE);
         }
         return map;
@@ -328,7 +328,7 @@ public class OrdersController {
                 LOG.info("Vendor is updated {}", updatedProductOrder != null);
                 map.put("response", Boolean.TRUE);
             }
-        } catch (UnitedSuppliesException usm) {
+        } catch (InventoryException usm) {
             map.put("response", Boolean.FALSE);
         }
         return map;
@@ -337,7 +337,7 @@ public class OrdersController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/order/status/change.mk", produces = "application/json")
     @ResponseBody
-    public Map<String, String> changeOrderStatus(@RequestParam String pk, @RequestParam String value, HttpServletResponse response) throws UnitedSuppliesException {
+    public Map<String, String> changeOrderStatus(@RequestParam String pk, @RequestParam String value, HttpServletResponse response) throws InventoryException {
         LOG.info("Action on Order Status from dashboard - {}", this.getClass().getSimpleName());
         response.setStatus(HttpServletResponse.SC_OK);
         Map<String, String> map = new HashMap<>();
@@ -372,7 +372,7 @@ public class OrdersController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/payment/type/change.mk", produces = "application/json")
     @ResponseBody
-    public Map<String, String> changePaymentType(@RequestParam String pk, @RequestParam String value, HttpServletResponse response) throws UnitedSuppliesException {
+    public Map<String, String> changePaymentType(@RequestParam String pk, @RequestParam String value, HttpServletResponse response) throws InventoryException {
         LOG.info("Action on Payment Type from dashboard -{}", this.getClass().getSimpleName());
         response.setStatus(HttpServletResponse.SC_OK);
         Map<String, String> map = new HashMap<>();
@@ -405,7 +405,7 @@ public class OrdersController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "order/{orderRef}/product/invoice.mk")
-    public String productInvoicePage(ModelMap model, @PathVariable("orderRef") String orderRef) throws UnitedSuppliesException {
+    public String productInvoicePage(ModelMap model, @PathVariable("orderRef") String orderRef) throws InventoryException {
         LOG.info("Open product invoice page - {}", this.getClass().getSimpleName());
         try {
             ProductInvoiceForm productInvoiceForm = new ProductInvoiceForm();
@@ -418,13 +418,13 @@ public class OrdersController {
             model.addAttribute("productInvoiceForm", productInvoiceForm);
             return ADD_PRODUCT_INPUT_PAGE;
         } catch (Exception e) {
-            throw new UnitedSuppliesException("Exception occurred while enter product invoice form" + e.getMessage());
+            throw new InventoryException("Exception occurred while enter product invoice form" + e.getMessage());
         }
     }
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/order/receipt/{orderRef}/download.mk")
-    public void loadOrderStatusList(HttpServletResponse response, @PathVariable String orderRef) throws UnitedSuppliesException {
+    public void loadOrderStatusList(HttpServletResponse response, @PathVariable String orderRef) throws InventoryException {
         LOG.info("Download Receipt for order - Orders Controller - {}", this.getClass().getSimpleName());
         try {
             Order order = orderService.findOrderByOrderRef(Long.valueOf(orderRef));
@@ -435,11 +435,11 @@ public class OrdersController {
             ITextRenderer renderer = renderPdfForAttachment(freemarkerConfig, FTLTemplates.ADMIN_ORDER_RECEIPT_FTL, getOrderDetails(order));
             renderer.createPDF(response.getOutputStream());
         } catch (Exception e) {
-            throw new UnitedSuppliesException("IO Exception occurred while downloading order receipt" + e.getMessage());
+            throw new InventoryException("IO Exception occurred while downloading order receipt" + e.getMessage());
         }
     }
 
-    private Map<String, Object> getOrderDetails(Order order) throws UnitedSuppliesException {
+    private Map<String, Object> getOrderDetails(Order order) throws InventoryException {
         Map<String, Object> model = new HashMap<>();
         LOG.info("Open Approve Confirmation page - {}", this.getClass().getSimpleName());
         List<ProductOrder> productOrders = productOrderService.getProductListByOrderRef(order.getId());
@@ -460,7 +460,7 @@ public class OrdersController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/product/receipt/download.mk")
-    public void loadProductStatusList(HttpServletResponse response, @ModelAttribute("productInvoiceForm") ProductInvoiceForm productInvoiceForm) throws UnitedSuppliesException {
+    public void loadProductStatusList(HttpServletResponse response, @ModelAttribute("productInvoiceForm") ProductInvoiceForm productInvoiceForm) throws InventoryException {
         LOG.info("Download receipt for product invoice - Orders Controller - {}", this.getClass().getSimpleName());
         try {
             Order order = orderService.findOrderByOrderRef(Long.valueOf(productInvoiceForm.getOrderRef()));
@@ -475,7 +475,7 @@ public class OrdersController {
             ITextRenderer renderer = renderPdfForAttachment(freemarkerConfig, FTLTemplates.ADMIN_PRODUCT_RECEIPT_FTL, getProductInvoiceDetails(order, orderFulfillment, productInvoiceForm));
             renderer.createPDF(response.getOutputStream());
         } catch (Exception e) {
-            throw new UnitedSuppliesException("IO Exception occurred while downloading product receipt" + e.getMessage());
+            throw new InventoryException("IO Exception occurred while downloading product receipt" + e.getMessage());
         }
     }
 
@@ -492,7 +492,7 @@ public class OrdersController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/service/seller/download.mk")
-    public void loadServiceSellerList(HttpServletResponse response, @ModelAttribute("serviceInvoiceForm") ServiceInvoiceForm serviceInvoiceForm) throws UnitedSuppliesException {
+    public void loadServiceSellerList(HttpServletResponse response, @ModelAttribute("serviceInvoiceForm") ServiceInvoiceForm serviceInvoiceForm) throws InventoryException {
         LOG.info("Download Receipt for seller - Orders Controller - {}", this.getClass().getSimpleName());
         try {
             Order order = orderService.findOrderByOrderRef(Long.valueOf(serviceInvoiceForm.getOrderRef()));
@@ -505,14 +505,14 @@ public class OrdersController {
             ITextRenderer renderer = renderPdfForAttachment(freemarkerConfig, FTLTemplates.ADMIN_SERVICE_SELLER_RECEIPT_FTL, getServiceDetails(order, serviceInvoiceForm));
             renderer.createPDF(response.getOutputStream());
         } catch (Exception e) {
-            throw new UnitedSuppliesException(
+            throw new InventoryException(
                     "IO Exception occurred while downloading Service Seller receipt" + e.getMessage());
         }
     }
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/customer/invoice/{ref}.mk")
-    public String customerInvoicePage(ModelMap model, @PathVariable("ref") String ref) throws UnitedSuppliesException {
+    public String customerInvoicePage(ModelMap model, @PathVariable("ref") String ref) throws InventoryException {
         LOG.info("Open Customer Invoice page - {}", this.getClass().getSimpleName());
         Order order = orderService.findOrderByOrderRef(Long.valueOf(ref));
         ServiceInvoiceForm serviceInvoiceForm = new ServiceInvoiceForm(ref, InvoiceHeader.ORIGINAL_FOR_RECIPIENT.getStatus());
@@ -528,7 +528,7 @@ public class OrdersController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/customer/receipt/download.mk")
-    public void loadServiceCustomerList(HttpServletResponse response, @ModelAttribute("serviceInvoiceForm") ServiceInvoiceForm serviceInvoiceForm) throws UnitedSuppliesException {
+    public void loadServiceCustomerList(HttpServletResponse response, @ModelAttribute("serviceInvoiceForm") ServiceInvoiceForm serviceInvoiceForm) throws InventoryException {
         LOG.info("Download Receipt for Customer - Orders Controller - {}", this.getClass().getSimpleName());
         try {
             Order order = orderService.findOrderByOrderRef(Long.valueOf(serviceInvoiceForm.getOrderRef()));
@@ -541,11 +541,11 @@ public class OrdersController {
             ITextRenderer renderer = renderPdfForAttachment(freemarkerConfig, FTLTemplates.ADMIN_SERVICE_CUSTOMER_RECEIPT_FTL, getServiceDetails(order, serviceInvoiceForm));
             renderer.createPDF(response.getOutputStream());
         } catch (Exception e) {
-            throw new UnitedSuppliesException("IO Exception occurred while downloading Service Customer receipt" + e.getMessage());
+            throw new InventoryException("IO Exception occurred while downloading Service Customer receipt" + e.getMessage());
         }
     }
 
-    private Map<String, Object> getServiceDetails(Order order, ServiceInvoiceForm serviceInvoiceForm) throws UnitedSuppliesException, ParseException {
+    private Map<String, Object> getServiceDetails(Order order, ServiceInvoiceForm serviceInvoiceForm) throws InventoryException, ParseException {
         Map<String, Object> model = new HashMap<>();
         LOG.info("Open Approve Confirmation page - {}", this.getClass().getSimpleName());
         List<ProductOrder> productOrders = productOrderService.getProductListByOrderRef(order.getId());
@@ -574,7 +574,7 @@ public class OrdersController {
         return model;
     }
 
-    private Map<String, Object> getProductInvoiceDetails(Order order, OrderFulfillment orderFulfillment, ProductInvoiceForm productInvoiceForm) throws UnitedSuppliesException, IOException, TemplateModelException {
+    private Map<String, Object> getProductInvoiceDetails(Order order, OrderFulfillment orderFulfillment, ProductInvoiceForm productInvoiceForm) throws InventoryException, IOException, TemplateModelException {
         LOG.info("Open Approve Confirmation page - {}", this.getClass().getSimpleName());
         Map<String, Object> model = new HashMap<>();
         List<ProductOrder> productOrders = productOrderService.getProductListByFulfillment(Long.valueOf(productInvoiceForm.getOrderFulfillment()));
@@ -584,7 +584,7 @@ public class OrdersController {
         productInvoiceForm.setInvoiceHeaderDisplay(InvoiceHeader.statusMatch(productInvoiceForm.getInvoiceHeader()).getDisplay());
         BeansWrapper wrapper = BeansWrapper.getDefaultInstance();
         TemplateHashModel staticModels = wrapper.getStaticModels();
-        TemplateHashModel myUtilsWrapper = (TemplateHashModel) staticModels.get("com.makinus.unitedsupplies.common.data.service.ConvertToWords");
+        TemplateHashModel myUtilsWrapper = (TemplateHashModel) staticModels.get("com.makinus.Inventory.common.data.service.ConvertToWords");
         model.put("Utils", myUtilsWrapper);
         model.put("usLogo", getUSLogoAsBase64());
         model.put("orderDate", utcDateForDDMMYYYY(order.getOrderDate()));
@@ -631,25 +631,25 @@ public class OrdersController {
         return renderer;
     }
 
-    static String getUSLogoAsBase64() throws UnitedSuppliesException {
+    static String getUSLogoAsBase64() throws InventoryException {
         try {
             return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(Files.readAllBytes((ResourceUtils.getFile("classpath:static/img/Splash.png").toPath())));
         } catch (Exception e) {
-            throw new UnitedSuppliesException(e.getMessage());
+            throw new InventoryException(e.getMessage());
         }
     }
 
-    static String getSignatureAsBase64() throws UnitedSuppliesException {
+    static String getSignatureAsBase64() throws InventoryException {
         try {
             return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(Files.readAllBytes((ResourceUtils.getFile("classpath:static/img/US_Signature.jpeg").toPath())));
         } catch (Exception e) {
-            throw new UnitedSuppliesException(e.getMessage());
+            throw new InventoryException(e.getMessage());
         }
     }
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/export/orders.mk")
-    public void exportOrderListToExcel(@ModelAttribute("orderFilterForm") OrderFilterForm orderFilterForm, HttpServletResponse response) throws UnitedSuppliesException {
+    public void exportOrderListToExcel(@ModelAttribute("orderFilterForm") OrderFilterForm orderFilterForm, HttpServletResponse response) throws InventoryException {
         LOG.info("Export Order details in Excel - {}", this.getClass().getSimpleName());
         List<Order> orderList = orderService.filterOrder(orderFilterForm).stream().sorted(Comparator.comparing(Order::getCreatedDate).reversed()).collect(Collectors.toList());
 
@@ -680,7 +680,7 @@ public class OrdersController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/prod/order/status/change.mk", produces = "application/json")
     @ResponseBody
-    public Map<String, String> changeProductOrderStatus(@RequestParam String pk, @RequestParam String value, HttpServletResponse response) throws UnitedSuppliesException {
+    public Map<String, String> changeProductOrderStatus(@RequestParam String pk, @RequestParam String value, HttpServletResponse response) throws InventoryException {
         LOG.info("Action on Product Order Status from dashboard - {}", this.getClass().getSimpleName());
         response.setStatus(HttpServletResponse.SC_OK);
         Map<String, String> map = new HashMap<>();
@@ -746,7 +746,7 @@ public class OrdersController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/export/productorders.mk")
-    public void exportProductOrderListToExcel(HttpServletResponse response, @ModelAttribute("zone") TimeZone zone) throws UnitedSuppliesException {
+    public void exportProductOrderListToExcel(HttpServletResponse response, @ModelAttribute("zone") TimeZone zone) throws InventoryException {
         LOG.info("Export Product Order details in Excel - {}", this.getClass().getSimpleName());
         List<ProductOrder> productOrderList = productOrderService.productOrdersList();
         Map<Long, Product> productMap = productService.productList().stream().collect(Collectors.toMap(Product::getId, Function.identity()));
@@ -789,7 +789,7 @@ public class OrdersController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
     @PostMapping(value = "/product/invoice/available.mk", produces = "application/json")
     @ResponseBody
-    public Boolean isExistingProductInvoiceNumber(HttpServletRequest request) throws UnitedSuppliesException {
+    public Boolean isExistingProductInvoiceNumber(HttpServletRequest request) throws InventoryException {
         LOG.info("Checking if the invoice number exists - {}", this.getClass().getSimpleName());
         String fulfillmentId = request.getParameter("fulfillmentId").trim();
         if (StringUtils.isNotEmpty(fulfillmentId)) {
@@ -803,7 +803,7 @@ public class OrdersController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
     @PostMapping(value = "/service/invoice/available.mk", produces = "application/json")
     @ResponseBody
-    public Boolean isExistingServiceInvoiceNumber(HttpServletRequest request) throws UnitedSuppliesException {
+    public Boolean isExistingServiceInvoiceNumber(HttpServletRequest request) throws InventoryException {
         LOG.info("Checking if the invoice number exists - {}", this.getClass().getSimpleName());
         String fulfillmentId = request.getParameter("fulfillmentId").trim();
         if (StringUtils.isNotEmpty(fulfillmentId)) {
@@ -817,7 +817,7 @@ public class OrdersController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
     @PostMapping(value = "/customer/invoice/available.mk", produces = "application/json")
     @ResponseBody
-    public Boolean isExistingCustomerInvoiceNumber(HttpServletRequest request) throws UnitedSuppliesException {
+    public Boolean isExistingCustomerInvoiceNumber(HttpServletRequest request) throws InventoryException {
         LOG.info("Checking if the invoice number exists - {}", this.getClass().getSimpleName());
         boolean isInvoiceNumberAvailable = orderService.isCustomerInvoiceAvailable(request.getParameter("invoiceNo").trim(), Long.valueOf(request.getParameter("orderRef")));
         LOG.info("Invoice number is available? {}", isInvoiceNumberAvailable);
@@ -827,11 +827,11 @@ public class OrdersController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
     @PostMapping(value = "/product/receipt/{id}/invoice/confirmation.mk", produces = "application/json")
     @ResponseBody
-    public void updateProductReceiptInvoiceNo(HttpServletRequest request, @PathVariable Long id) throws UnitedSuppliesException {
+    public void updateProductReceiptInvoiceNo(HttpServletRequest request, @PathVariable Long id) throws InventoryException {
         LOG.info("Update Product Receipt Invoice No from Database");
         OrderFulfillment orderFulfillment = orderFulfillmentService.findOrderFulfillmentById(id);
         if (StringUtils.isNotEmpty(orderFulfillment.getProductInvoiceNo())) {
-            throw new UnitedSuppliesException("Invoice number already generated for product invoice");
+            throw new InventoryException("Invoice number already generated for product invoice");
         }
         orderFulfillment.setProductInvoiceNo(generateReceiptNo(SequenceGenerationType.PRODUCT_INVOICE.getStatus(), generateAndGetProductInvoiceNo(orderFulfillment.getProdVendorId()), orderFulfillment.getVendorCode()));
         orderFulfillment.setProductInvoiceDate(getInstant());
@@ -841,11 +841,11 @@ public class OrdersController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
     @PostMapping(value = "/seller/receipt/{id}/{serviceCharge}/invoice/confirmation.mk", produces = "application/json")
     @ResponseBody
-    public void updateSellerReceiptInvoiceNo(HttpServletRequest request, @PathVariable Long id, @PathVariable String serviceCharge) throws UnitedSuppliesException {
+    public void updateSellerReceiptInvoiceNo(HttpServletRequest request, @PathVariable Long id, @PathVariable String serviceCharge) throws InventoryException {
         LOG.info("Update Seller Receipt Invoice No from Database");
         OrderFulfillment orderFulfillment = orderFulfillmentService.findOrderFulfillmentById(id);
         if (StringUtils.isNotEmpty(orderFulfillment.getSellServInvoiceNo())) {
-            throw new UnitedSuppliesException("Invoice number already generated for service invoice");
+            throw new InventoryException("Invoice number already generated for service invoice");
         }
         orderFulfillment.setSellServInvoiceNo(formatInvoiceNo(updateReceiptNoInInvoiceSettings()));
         orderFulfillment.setSellServInvoiceDate(getInstant());
@@ -856,17 +856,17 @@ public class OrdersController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
     @PostMapping(value = "/customer/receipt/{id}/invoice/confirmation.mk", produces = "application/json")
     @ResponseBody
-    public void updateServiceReceiptInvoiceNo(HttpServletRequest request, @PathVariable Long id) throws UnitedSuppliesException {
+    public void updateServiceReceiptInvoiceNo(HttpServletRequest request, @PathVariable Long id) throws InventoryException {
         Order order = orderService.findOrderByOrderRef(id);
         if (StringUtils.isNotEmpty(order.getCustServInvoiceNo())) {
-            throw new UnitedSuppliesException("Invoice number already generated for service invoice");
+            throw new InventoryException("Invoice number already generated for service invoice");
         }
         order.setCustServInvoiceNo(formatInvoiceNo(updateReceiptNoInInvoiceSettings()));
         order.setCustServInvoiceDate(getInstant());
         orderService.updateOrder(order);
     }
 
-    private String GetProductInvoiceNo(Long vendorId) throws UnitedSuppliesException {
+    private String GetProductInvoiceNo(Long vendorId) throws InventoryException {
         InvoiceProdSeq invoiceProdSeq = new InvoiceProdSeq();
         List<InvoiceProdSeq> ref = invoiceProdSeqRepository.findAllByVendorId(vendorId);
         if (ref.isEmpty()) {
@@ -877,7 +877,7 @@ public class OrdersController {
         return String.valueOf(invoiceProdSeq.nextInvoiceProdRef() + 1);
     }
 
-    private String generateAndGetProductInvoiceNo(Long vendorId) throws UnitedSuppliesException {
+    private String generateAndGetProductInvoiceNo(Long vendorId) throws InventoryException {
         InvoiceProdSeq invoiceProdSeq = new InvoiceProdSeq();
         List<InvoiceProdSeq> ref = invoiceProdSeqRepository.findAllByVendorId(vendorId);
         if (ref.isEmpty()) {
@@ -890,10 +890,10 @@ public class OrdersController {
         return invoiceProdSeq.getInvoiceProdRef();
     }
 
-    private String generateReceiptNo(String sequenceType, String invoiceSeqNo, String vendorCode) throws UnitedSuppliesException {
+    private String generateReceiptNo(String sequenceType, String invoiceSeqNo, String vendorCode) throws InventoryException {
         List<InvoiceSettings> invoiceSettingsList = invoiceSettingsService.invoiceSettingsListByType(sequenceType);
         if (invoiceSettingsList.isEmpty() || invoiceSettingsList.get(0).getSequenceNo().equals(SequenceGenerationType.SERVICE_INVOICE.getStatus()) && StringUtils.isEmpty(invoiceSettingsList.get(0).getSequenceNo())) {
-            throw new UnitedSuppliesException("Invoice Settings not updated for receipt no");
+            throw new InventoryException("Invoice Settings not updated for receipt no");
         }
         InvoiceSettings invoiceSettings = invoiceSettingsList.get(0);
         String invoiceNo = sequenceType.equals(SequenceGenerationType.PRODUCT_INVOICE.getStatus()) ? invoiceSeqNo : String.valueOf(invoiceSettings.nextReceiptRef() + 1);

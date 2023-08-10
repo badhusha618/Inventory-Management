@@ -13,7 +13,7 @@ import com.makinus.unitedsupplies.common.data.entity.AddressRef;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 public interface AddressRefRepository extends JpaRepository<AddressRef, Long> {
 

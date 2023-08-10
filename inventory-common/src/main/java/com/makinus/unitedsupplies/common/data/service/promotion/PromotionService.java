@@ -10,21 +10,22 @@
 package com.makinus.unitedsupplies.common.data.service.promotion;
 
 import com.makinus.unitedsupplies.common.data.entity.Promotion;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
+
 import java.util.List;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface PromotionService {
 
   Promotion savePromotion(final Promotion promotion);
 
-  Promotion updateSalePromotion(final Promotion promotion) throws UnitedSuppliesException;
+  Promotion updateSalePromotion(final Promotion promotion) throws InventoryException;
 
   List<Promotion> promotionsList();
 
   List<Promotion> activePromotionsList();
 
-  Promotion removePromotion(Long id) throws UnitedSuppliesException;
+  Promotion removePromotion(Long id) throws InventoryException;
 
-  Promotion findSalePromotion(Long id) throws UnitedSuppliesException;
+  Promotion findSalePromotion(Long id) throws InventoryException;
 }

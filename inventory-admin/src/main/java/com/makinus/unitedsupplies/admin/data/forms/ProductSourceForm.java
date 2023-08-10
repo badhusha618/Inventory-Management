@@ -7,11 +7,11 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.forms;
+package com.makinus.Inventory.admin.data.forms;
 
 import java.io.Serializable;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public class ProductSourceForm implements Serializable {
 
   private String id;

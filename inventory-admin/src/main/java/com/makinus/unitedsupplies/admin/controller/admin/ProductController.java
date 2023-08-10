@@ -7,40 +7,40 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.ProductForm;
-import com.makinus.unitedsupplies.admin.data.forms.ProductVendorForm;
-import com.makinus.unitedsupplies.admin.data.mapping.ProductMapper;
-import com.makinus.unitedsupplies.admin.data.mapping.ProductVendorMapper;
-import com.makinus.unitedsupplies.admin.data.service.excel.GenericWriter;
-import com.makinus.unitedsupplies.admin.data.service.excel.ProdVendorExcelDTO;
-import com.makinus.unitedsupplies.admin.data.service.excel.ProductExcelDTO;
-import com.makinus.unitedsupplies.common.data.entity.*;
-import com.makinus.unitedsupplies.common.data.form.ProductFilterForm;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.brand.BrandService;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.color.ColorService;
-import com.makinus.unitedsupplies.common.data.service.crusher.CrusherService;
-import com.makinus.unitedsupplies.common.data.service.grade.GradeService;
-import com.makinus.unitedsupplies.common.data.service.material.MaterialService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.product.ProductService;
-import com.makinus.unitedsupplies.common.data.service.productchargehistory.ProductChargeHistoryService;
-import com.makinus.unitedsupplies.common.data.service.productvendor.ProductVendorService;
-import com.makinus.unitedsupplies.common.data.service.quality.QualityService;
-import com.makinus.unitedsupplies.common.data.service.size.SizeService;
-import com.makinus.unitedsupplies.common.data.service.specification.SpecificationService;
-import com.makinus.unitedsupplies.common.data.service.transport.TransportService;
-import com.makinus.unitedsupplies.common.data.service.type.TypeService;
-import com.makinus.unitedsupplies.common.data.service.unit.UnitService;
-import com.makinus.unitedsupplies.common.data.service.unitmapping.UnitMappingService;
-import com.makinus.unitedsupplies.common.data.service.vendor.VendorService;
-import com.makinus.unitedsupplies.common.data.service.weight.WeightService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
-import com.makinus.unitedsupplies.common.s3.AmazonS3Client;
+import com.makinus.Inventory.admin.data.forms.ProductForm;
+import com.makinus.Inventory.admin.data.forms.ProductVendorForm;
+import com.makinus.Inventory.admin.data.mapping.ProductMapper;
+import com.makinus.Inventory.admin.data.mapping.ProductVendorMapper;
+import com.makinus.Inventory.admin.data.service.excel.GenericWriter;
+import com.makinus.Inventory.admin.data.service.excel.ProdVendorExcelDTO;
+import com.makinus.Inventory.admin.data.service.excel.ProductExcelDTO;
+import com.makinus.Inventory.common.data.entity.*;
+import com.makinus.Inventory.common.data.form.ProductFilterForm;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.brand.BrandService;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.color.ColorService;
+import com.makinus.Inventory.common.data.service.crusher.CrusherService;
+import com.makinus.Inventory.common.data.service.grade.GradeService;
+import com.makinus.Inventory.common.data.service.material.MaterialService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.product.ProductService;
+import com.makinus.Inventory.common.data.service.productchargehistory.ProductChargeHistoryService;
+import com.makinus.Inventory.common.data.service.productvendor.ProductVendorService;
+import com.makinus.Inventory.common.data.service.quality.QualityService;
+import com.makinus.Inventory.common.data.service.size.SizeService;
+import com.makinus.Inventory.common.data.service.specification.SpecificationService;
+import com.makinus.Inventory.common.data.service.transport.TransportService;
+import com.makinus.Inventory.common.data.service.type.TypeService;
+import com.makinus.Inventory.common.data.service.unit.UnitService;
+import com.makinus.Inventory.common.data.service.unitmapping.UnitMappingService;
+import com.makinus.Inventory.common.data.service.vendor.VendorService;
+import com.makinus.Inventory.common.data.service.weight.WeightService;
+import com.makinus.Inventory.common.exception.InventoryException;
+import com.makinus.Inventory.common.s3.AmazonS3Client;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -63,14 +63,14 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.*;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.admin.utils.AdminUtils.*;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.springframework.util.FileCopyUtils.copy;
 
 /**
- * @author ammar
+ * @author Bad_sha
  */
 @Controller
 public class ProductController {
@@ -172,7 +172,7 @@ public class ProductController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/list/products.mk")
-    public String listProduct(ModelMap model, @ModelAttribute("productList") ArrayList<Product> products, @ModelAttribute("productFilterForm") ProductFilterForm productFilterForm, @ModelAttribute("fromSearch") String fromSearch) throws UnitedSuppliesException {
+    public String listProduct(ModelMap model, @ModelAttribute("productList") ArrayList<Product> products, @ModelAttribute("productFilterForm") ProductFilterForm productFilterForm, @ModelAttribute("fromSearch") String fromSearch) throws InventoryException {
         LOG.info("List Products page - {}", this.getClass().getSimpleName());
         List<Category> categories = categoryService.categoryList();
         model.addAttribute("categoryMap", categories.stream().collect(Collectors.toMap(Category::getId, Category::getCategoryName)));
@@ -191,7 +191,7 @@ public class ProductController {
     }
 
     @PostMapping(value = {"/product/search.mk"})
-    public String productSearch(@ModelAttribute("productFilterForm") ProductFilterForm productFilterForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String productSearch(@ModelAttribute("productFilterForm") ProductFilterForm productFilterForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Search ordered product - {}", this.getClass().getSimpleName());
         List<Product> productList = productService.filterProduct(productFilterForm).stream().sorted(Comparator.comparing(Product::getCreatedDate).reversed()).collect(Collectors.toList());
         redirectAttrs.addFlashAttribute("productList", productList);
@@ -202,7 +202,7 @@ public class ProductController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/add/product.mk")
-    public String addProductPage(ModelMap model) throws UnitedSuppliesException {
+    public String addProductPage(ModelMap model) throws InventoryException {
         LOG.info("Open Add Product page - {}", this.getClass().getSimpleName());
         ProductForm productForm = new ProductForm();
         productForm.setInStock(Boolean.TRUE);
@@ -241,7 +241,7 @@ public class ProductController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/new/product.mk")
-    public String addNewProduct(@ModelAttribute("productForm") ProductForm productForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewProduct(@ModelAttribute("productForm") ProductForm productForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Add New Product page - {}", this.getClass().getSimpleName());
         Product savedProduct = productService.addNewProduct(productMapper.map(productForm));
         productVendorService.saveProductVendorList(productVendorMapper.mapExtra(productForm.getProductVendorForms(), savedProduct));
@@ -254,7 +254,7 @@ public class ProductController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/product/available.mk", produces = "application/json")
     @ResponseBody
-    public Boolean isExistingproduct(HttpServletRequest request) throws UnitedSuppliesException {
+    public Boolean isExistingproduct(HttpServletRequest request) throws InventoryException {
         LOG.info("Checking if the product exists - {}", this.getClass().getSimpleName());
         boolean isProductAvailable = productService.isProductAvailable(request.getParameter("productCode").trim());
         LOG.info("Product is available? {}", isProductAvailable);
@@ -263,7 +263,7 @@ public class ProductController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/product.mk")
-    public String editProductPage(ModelMap model, @PathVariable("id") String productId) throws UnitedSuppliesException {
+    public String editProductPage(ModelMap model, @PathVariable("id") String productId) throws InventoryException {
         LOG.info("Open Edit Product page - {}", this.getClass().getSimpleName());
         Product product = productService.findProduct(Long.valueOf(productId));
         ProductForm productForm = productMapper.remap(product);
@@ -312,7 +312,7 @@ public class ProductController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/product.mk")
-    public String updateProduct(@ModelAttribute("editProductForm") ProductForm productForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateProduct(@ModelAttribute("editProductForm") ProductForm productForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Product page - {}", this.getClass().getSimpleName());
         Product updateProduct = productService.findProduct(Long.valueOf(productForm.getProductID()));
         if (updateProduct.getImagePath() != null && productForm.getEditProductImage() != null && !productForm.getEditProductImage().isEmpty()) {
@@ -383,7 +383,7 @@ public class ProductController {
                 LOG.info("Old image is removed  in s3 by key {}", imagePathKey);
             }
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException usm) {
+        } catch (InventoryException usm) {
             map.put("valid", Boolean.FALSE);
         }
         return map;
@@ -392,7 +392,7 @@ public class ProductController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/view/{id}/product.mk")
     public void viewProduct(HttpServletResponse response, @PathVariable String id)
-            throws UnitedSuppliesException {
+            throws InventoryException {
         LOG.info("View Product from dashboard - {}", this.getClass().getSimpleName());
         try {
             Product product = productService.findProduct(Long.valueOf(id));
@@ -405,21 +405,21 @@ public class ProductController {
                 copy(product.getImage(), response.getOutputStream());
             }
         } catch (IOException e) {
-            throw new UnitedSuppliesException("IO Exception occurred while viewing product image " + e.getMessage());
+            throw new InventoryException("IO Exception occurred while viewing product image " + e.getMessage());
         }
     }
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/subcategory.mk", produces = "application/json")
     @ResponseBody
-    public List<Category> viewSubCategories(@RequestParam String id) throws UnitedSuppliesException {
+    public List<Category> viewSubCategories(@RequestParam String id) throws InventoryException {
         LOG.info("Fetch Subcategories for parent category from dashboard - {}", this.getClass().getSimpleName());
         return categoryService.categoryListByParent(Long.valueOf(id));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/view/{prodId}/price.mk")
-    public String viewAllVendorPriceHistory(ModelMap model, @PathVariable String prodId) throws UnitedSuppliesException {
+    public String viewAllVendorPriceHistory(ModelMap model, @PathVariable String prodId) throws InventoryException {
         LOG.info("Fetch Vendor price history - {}", this.getClass().getSimpleName());
         List<Vendor> vendors = vendorService.vendorList();
         List<ProductChargeHistory> productChargeHistories = productChargeHistoryService.getProductChargeHistory(Long.valueOf(prodId));
@@ -430,7 +430,7 @@ public class ProductController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/view/{prodId}/vendor/{vendorId}/price.mk")
-    public String viewVendorPriceHistory(ModelMap model, @PathVariable String prodId, @PathVariable String vendorId) throws UnitedSuppliesException {
+    public String viewVendorPriceHistory(ModelMap model, @PathVariable String prodId, @PathVariable String vendorId) throws InventoryException {
         LOG.info("Fetch Vendor price history - {}", this.getClass().getSimpleName());
         List<ProductChargeHistory> productChargeHistories = productChargeHistoryService.productChargeHistoryList(Long.valueOf(prodId), Long.valueOf(vendorId));
         model.addAttribute("vendorPriceList", productChargeHistories);
@@ -439,7 +439,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/export/products.mk")
-    public void exportProductListToExcel(@ModelAttribute("productFilterForm") ProductFilterForm productFilterForm, HttpServletResponse response) throws UnitedSuppliesException {
+    public void exportProductListToExcel(@ModelAttribute("productFilterForm") ProductFilterForm productFilterForm, HttpServletResponse response) throws InventoryException {
         LOG.info("Export Product details in Excel - {}", this.getClass().getSimpleName());
         List<Product> productList = productService.filterProduct(productFilterForm).stream().sorted(Comparator.comparing(Product::getCreatedDate).reversed()).collect(Collectors.toList());
 
@@ -513,7 +513,7 @@ public class ProductController {
         productExcelWriter.write(productExcelDTOList, response);
     }
 
-    private void updateProductHistory(Long productId, List<ProductVendorForm> productVendorForms) throws UnitedSuppliesException {
+    private void updateProductHistory(Long productId, List<ProductVendorForm> productVendorForms) throws InventoryException {
         Map<Long, List<ProductChargeHistory>> vendorMap = productChargeHistoryService.getProductChargeHistory(productId).stream().collect(Collectors.groupingBy(ProductChargeHistory::getVendorId));
         List<ProductChargeHistory> productChargeHistoryList = new ArrayList<>();
         productVendorForms.forEach(pvf -> {

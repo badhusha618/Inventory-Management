@@ -7,19 +7,19 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.CrusherForm;
-import com.makinus.unitedsupplies.admin.data.mapping.CrusherMapper;
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.entity.Crusher;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.crusher.CrusherService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.CrusherForm;
+import com.makinus.Inventory.admin.data.mapping.CrusherMapper;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.entity.Crusher;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.crusher.CrusherService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +36,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.subCategoryMap;
+import static com.makinus.Inventory.admin.utils.AdminUtils.subCategoryMap;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class CrusherController {
@@ -75,7 +75,7 @@ public class CrusherController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/crusher.mk")
-    public String crusher(ModelMap model) throws UnitedSuppliesException {
+    public String crusher(ModelMap model) throws InventoryException {
         LOG.info("Open Crusher page - {}", this.getClass().getSimpleName());
         CrusherForm crusherForm = new CrusherForm();
         crusherForm.setActive(Boolean.TRUE);
@@ -89,7 +89,7 @@ public class CrusherController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/crusher.mk")
-    public String addNewCrusher(@ModelAttribute("crusherForm") CrusherForm crusherForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewCrusher(@ModelAttribute("crusherForm") CrusherForm crusherForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Open Add new Crusher - {}", this.getClass().getSimpleName());
         Crusher savedCrusher = crusherService.saveCrusher(crusherMapper.map(crusherForm));
         redirectAttrs.addFlashAttribute("crusherName", crusherForm.getCrusher());
@@ -99,7 +99,7 @@ public class CrusherController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/crusher.mk")
-    public String editCrusherPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String crusherId) throws UnitedSuppliesException {
+    public String editCrusherPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String crusherId) throws InventoryException {
         LOG.info("Open Edit Crusher page - {}", this.getClass().getSimpleName());
         CrusherForm savedCrusher = crusherMapper.remap(crusherService.findCrusher(Long.valueOf(crusherId)));
         model.addAttribute("editCrusherForm", savedCrusher);
@@ -112,7 +112,7 @@ public class CrusherController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/crusher.mk")
-    public String updateCrusher(@ModelAttribute("editCrusherForm") CrusherForm crusherForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateCrusher(@ModelAttribute("editCrusherForm") CrusherForm crusherForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Crusher page - {}", this.getClass().getSimpleName());
         Crusher updateCrusher = crusherService.findCrusher(Long.valueOf(crusherForm.getCrusherID()));
         Crusher savedCrusher = crusherService.updateCrusher(crusherMapper.map(crusherForm, updateCrusher));
@@ -142,7 +142,7 @@ public class CrusherController {
             Crusher removedCrusher = crusherService.removeCrusher(Long.valueOf(id));
             LOG.info("Crusher is removed? {}", (removedCrusher != null && removedCrusher.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

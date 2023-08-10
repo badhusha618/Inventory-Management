@@ -7,10 +7,10 @@
  *  Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.service.excel;
+package com.makinus.Inventory.admin.data.service.excel;
 
 /**
- * @author ammar
+ * @author Bad_sha
  */
 public class ProductOrderExcelDTO {
 

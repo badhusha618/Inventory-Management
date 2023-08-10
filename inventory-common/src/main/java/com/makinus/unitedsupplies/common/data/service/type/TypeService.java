@@ -10,12 +10,12 @@
 package com.makinus.unitedsupplies.common.data.service.type;
 
 import com.makinus.unitedsupplies.common.data.entity.Type;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface TypeService {
 
@@ -29,7 +29,7 @@ public interface TypeService {
 
     Type updateType(final Type type);
 
-    Type findType(Long id) throws UnitedSuppliesException;
+    Type findType(Long id) throws InventoryException;
 
-    Type removeType(Long id) throws UnitedSuppliesException;
+    Type removeType(Long id) throws InventoryException;
 }

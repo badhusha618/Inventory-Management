@@ -41,7 +41,7 @@ import static java.lang.String.format;
 import static java.util.Base64.getEncoder;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface AppUtils {
 

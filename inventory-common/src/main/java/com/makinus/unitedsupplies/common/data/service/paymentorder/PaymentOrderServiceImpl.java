@@ -11,7 +11,7 @@ package com.makinus.unitedsupplies.common.data.service.paymentorder;
 
 import com.makinus.unitedsupplies.common.data.dao.PaymentOrderRepository;
 import com.makinus.unitedsupplies.common.data.entity.PaymentOrder;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 import static java.lang.String.format;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -73,16 +73,16 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     }
 
     @Override
-    public PaymentOrder findPaymentOrder(Long id) throws UnitedSuppliesException {
+    public PaymentOrder findPaymentOrder(Long id) throws InventoryException {
         Optional<PaymentOrder> paymentOrderOptional = paymentOrderRepository.findById(id);
         if (paymentOrderOptional.isPresent()) {
             return paymentOrderOptional.get();
         }
-        throw new UnitedSuppliesException(format("Payment Order is not found with the id %d", id));
+        throw new InventoryException(format("Payment Order is not found with the id %d", id));
     }
 
     @Override
-    public PaymentOrder removePaymentOrder(Long id) throws UnitedSuppliesException {
+    public PaymentOrder removePaymentOrder(Long id) throws InventoryException {
         Optional<PaymentOrder> paymentOrderOptional = paymentOrderRepository.findById(id);
         if (paymentOrderOptional.isPresent()) {
             PaymentOrder paymentOrder = paymentOrderOptional.get();
@@ -90,6 +90,6 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             paymentOrder.setUpdatedDate(getInstant());
             return paymentOrder;
         }
-        throw new UnitedSuppliesException(format("Payment Order is not found with the id %s", id));
+        throw new InventoryException(format("Payment Order is not found with the id %s", id));
     }
 }

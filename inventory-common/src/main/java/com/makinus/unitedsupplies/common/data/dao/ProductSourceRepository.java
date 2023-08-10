@@ -16,7 +16,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-/** @author abuabdul */
+/**
+ * @author Bad_sha
+ */
 public interface ProductSourceRepository extends JpaRepository<ProductSource, Long> {
 
   @Query("select p from ProductSource p")

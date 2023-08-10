@@ -7,18 +7,18 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.PromotionForm;
-import com.makinus.unitedsupplies.admin.data.mapping.PromotionMapper;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.entity.Promotion;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.promotion.PromotionService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
-import com.makinus.unitedsupplies.common.s3.AmazonS3Client;
+import com.makinus.Inventory.admin.data.forms.PromotionForm;
+import com.makinus.Inventory.admin.data.mapping.PromotionMapper;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.entity.Promotion;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.promotion.PromotionService;
+import com.makinus.Inventory.common.exception.InventoryException;
+import com.makinus.Inventory.common.s3.AmazonS3Client;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.springframework.util.FileCopyUtils.copy;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class PromotionController {
@@ -80,7 +80,7 @@ public class PromotionController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/promotions.mk")
-    public String promotion(ModelMap model) throws UnitedSuppliesException {
+    public String promotion(ModelMap model) throws InventoryException {
         LOG.info("Open Promotions page - {}", this.getClass().getSimpleName());
         model.addAttribute("promotionList", promotionService.promotionsList());
         return PROMOTION_PAGE;
@@ -88,7 +88,7 @@ public class PromotionController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/new/promotion.mk")
-    public String newPromotion(ModelMap model) throws UnitedSuppliesException {
+    public String newPromotion(ModelMap model) throws InventoryException {
         LOG.info("Open Promotion add form page - {}", this.getClass().getSimpleName());
         PromotionForm promotionForm = new PromotionForm();
         promotionForm.setActivePromotion(Boolean.TRUE);
@@ -98,7 +98,7 @@ public class PromotionController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/promotion.mk")
-    public String addSalePromotion(@ModelAttribute("promotionForm") PromotionForm promotionForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addSalePromotion(@ModelAttribute("promotionForm") PromotionForm promotionForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Add New Promotion on admin panel dashboard - {}", this.getClass().getSimpleName());
         Promotion savedPromotion = promotionService.savePromotion(promotionMapper.map(promotionForm));
         redirectAttrs.addFlashAttribute("promotionName", savedPromotion.getPromotionName());
@@ -108,7 +108,7 @@ public class PromotionController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/promotion/{id}/edit.mk")
-    public String editSalePromotion(ModelMap model, @PathVariable("id") Long promotionId) throws UnitedSuppliesException {
+    public String editSalePromotion(ModelMap model, @PathVariable("id") Long promotionId) throws InventoryException {
         LOG.info("Edit Promotion on admin panel dashboard - {}", this.getClass().getSimpleName());
         PromotionForm savedPromotionForm = promotionMapper.remap(promotionService.findSalePromotion(promotionId));
         model.addAttribute("editPromotionForm", savedPromotionForm);
@@ -117,7 +117,7 @@ public class PromotionController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/promotion.mk")
-    public String updateSalePromotion(@ModelAttribute("editPromotionForm") PromotionForm promotionForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateSalePromotion(@ModelAttribute("editPromotionForm") PromotionForm promotionForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Promotion on admin panel dashboard - {}", this, getClass().getSimpleName());
         Promotion updatePromotion = promotionService.findSalePromotion(Long.valueOf(promotionForm.getPromotionID()));
         if (updatePromotion.getImagePath() != null && promotionForm.getEditPromotionImage() != null && !promotionForm.getEditPromotionImage().isEmpty()) {
@@ -149,7 +149,7 @@ public class PromotionController {
                 LOG.info("Old image is removed  in s3 by key {}", imagePathKey);
             }
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException usm) {
+        } catch (InventoryException usm) {
             map.put("valid", Boolean.FALSE);
         }
         return map;
@@ -158,7 +158,7 @@ public class PromotionController {
     @Deprecated
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/promotion/{id}/view.mk")
-    public void viewPromotionImage(HttpServletResponse response, @PathVariable String id) throws UnitedSuppliesException {
+    public void viewPromotionImage(HttpServletResponse response, @PathVariable String id) throws InventoryException {
         LOG.info("View Promotion from dashboard - {}", this.getClass().getSimpleName());
         try {
             Promotion promotion = promotionService.findSalePromotion(Long.valueOf(id));
@@ -171,7 +171,7 @@ public class PromotionController {
                 copy(promotion.getImage(), response.getOutputStream());
             }
         } catch (IOException e) {
-            throw new UnitedSuppliesException("IO Exception occurred while viewing Promotion " + e.getMessage());
+            throw new InventoryException("IO Exception occurred while viewing Promotion " + e.getMessage());
         }
     }
 }

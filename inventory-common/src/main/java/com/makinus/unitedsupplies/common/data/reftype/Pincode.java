@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Pincode {

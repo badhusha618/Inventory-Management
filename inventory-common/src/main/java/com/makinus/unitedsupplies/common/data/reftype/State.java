@@ -12,7 +12,7 @@ package com.makinus.unitedsupplies.common.data.reftype;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum State {
   ALABAMA(1, "Alabama"),

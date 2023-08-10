@@ -16,7 +16,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-/** @author abuabdul */
+/**
+ * @author Bad_sha
+ */
 public interface UnitRepository extends JpaRepository<Unit, Long> {
 
   @Query("select u from Unit u where u.deleted = 'F' order by updatedDate desc")

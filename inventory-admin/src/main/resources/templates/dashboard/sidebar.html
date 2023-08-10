@@ -31,7 +31,7 @@
             </div>
             <div class="admin-info">
                 <div class="font-strong"><span sec:authorize="isAuthenticated()"><span sec:authentication="name"/></span></div>
-                <small th:text="${T(com.makinus.unitedsupplies.common.data.reftype.UserRole).statusMatchByName(#authentication.principal.authorities).getDisplay()}">
+                <small th:text="${T(com.makinus.Inventory.common.data.reftype.UserRole).statusMatchByName(#authentication.principal.authorities).getDisplay()}">
                     Administrator
                 </small>
             </div>

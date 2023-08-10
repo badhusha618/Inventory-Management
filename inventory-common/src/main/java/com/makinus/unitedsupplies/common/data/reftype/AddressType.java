@@ -9,7 +9,7 @@
  */
 package com.makinus.unitedsupplies.common.data.reftype;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public enum AddressType {
   INDIVIDUAL("I", "Individual"),
   FIRM_OR_COMPANY("F", "Firm or Company");

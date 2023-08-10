@@ -12,7 +12,7 @@ package com.makinus.unitedsupplies.common.data.service.quality;
 import com.makinus.unitedsupplies.common.data.dao.QualityRepository;
 import com.makinus.unitedsupplies.common.data.entity.Quality;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
 import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -74,16 +74,16 @@ public class QualityServiceImpl implements QualityService {
     }
 
     @Override
-    public Quality findQuality(Long id) throws UnitedSuppliesException {
+    public Quality findQuality(Long id) throws InventoryException {
         Optional<Quality> qualityOptional = qualityRepository.findById(id);
         if (qualityOptional.isPresent()) {
             return qualityOptional.get();
         }
-        throw new UnitedSuppliesException(String.format("Quality is not found with the id %d", id));
+        throw new InventoryException(String.format("Quality is not found with the id %d", id));
     }
 
     @Override
-    public Quality removeQuality(Long id) throws UnitedSuppliesException {
+    public Quality removeQuality(Long id) throws InventoryException {
         Optional<Quality> qualityOptional = qualityRepository.findById(id);
         if (qualityOptional.isPresent()) {
             Quality quality = qualityOptional.get();
@@ -92,6 +92,6 @@ public class QualityServiceImpl implements QualityService {
             quality.setUpdatedDate(getInstant());
             return quality;
         }
-        throw new UnitedSuppliesException(String.format("Promotion is not found with the id %d", id));
+        throw new InventoryException(String.format("Promotion is not found with the id %d", id));
     }
 }

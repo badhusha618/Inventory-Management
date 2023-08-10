@@ -113,7 +113,7 @@
                     &nbsp;&nbsp;United Supplies & Ecommerce (OPC) Pvt. Ltd.<br/>
                     &nbsp;&nbsp;24 C , Ambai Road, Melapalayam<br/>
                     &nbsp;&nbsp;Tirunelveli-627005<br/>
-                    &nbsp;&nbsp;support@unitedsupplies.in
+                    &nbsp;&nbsp;support@Inventory.in
                 </td>
                 <td colspan="3" class="align-right" style="padding-right:40px;padding-top:20px">
                     <img height="80px" width="80px" id="usLogo" src="${usLogo}"/>

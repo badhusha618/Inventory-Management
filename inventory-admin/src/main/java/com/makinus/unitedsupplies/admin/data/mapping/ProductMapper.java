@@ -7,18 +7,18 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import com.makinus.unitedsupplies.admin.data.forms.ProductForm;
-import com.makinus.unitedsupplies.common.data.entity.Product;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.image.ImageWriter;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
-import com.makinus.unitedsupplies.common.s3.AmazonS3Client;
-import com.makinus.unitedsupplies.common.utils.AppUtils;
+import com.makinus.Inventory.admin.data.forms.ProductForm;
+import com.makinus.Inventory.common.data.entity.Product;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.image.ImageWriter;
+import com.makinus.Inventory.common.exception.InventoryException;
+import com.makinus.Inventory.common.s3.AmazonS3Client;
+import com.makinus.Inventory.common.utils.AppUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,11 +29,11 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.*;
+import static com.makinus.Inventory.common.utils.AppUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 
 @Component
@@ -52,7 +52,7 @@ public class ProductMapper
     private AmazonS3Client amazonS3Client;
 
     @Override
-    public Product map(ProductForm productForm) throws UnitedSuppliesException {
+    public Product map(ProductForm productForm) throws InventoryException {
         LOG.info("Map Product Form to Product Entity");
         Product product = new Product();
         try {
@@ -150,29 +150,29 @@ public class ProductMapper
 
         } catch (IOException e) {
             LOG.warn("ProductMapper.map throws exception {}", e.getMessage());
-            throw new UnitedSuppliesException(e.getMessage());
+            throw new InventoryException(e.getMessage());
         }
         return product;
     }
 
-    private String imagePath(Product product) throws UnitedSuppliesException {
+    private String imagePath(Product product) throws InventoryException {
         return imageWriter.writeImage(product.getImage(), product.getCreatedDateAsFolderName(), String.valueOf(AppUtils.timestamp()));
     }
 
-    private String optImage1Path(Product product) throws UnitedSuppliesException {
+    private String optImage1Path(Product product) throws InventoryException {
         return imageWriter.writeImage(product.getOptImage1(), product.getCreatedDateAsFolderName(), product.getOptImage1FileName());
     }
 
-    private String optImage2Path(Product product) throws UnitedSuppliesException {
+    private String optImage2Path(Product product) throws InventoryException {
         return imageWriter.writeImage(product.getOptImage2(), product.getCreatedDateAsFolderName(), product.getOptImage2FileName());
     }
 
-    private String optImage3Path(Product product) throws UnitedSuppliesException {
+    private String optImage3Path(Product product) throws InventoryException {
         return imageWriter.writeImage(product.getOptImage3(), product.getCreatedDateAsFolderName(), product.getOptImage3FileName());
     }
 
     @Override
-    public Product map(ProductForm productForm, Product product) throws UnitedSuppliesException {
+    public Product map(ProductForm productForm, Product product) throws InventoryException {
         LOG.info("Map Product Form to Updated Product Entity");
         try {
             product.setProductCode(productForm.getProductCode());
@@ -244,7 +244,7 @@ public class ProductMapper
             product.setMaxOrderQty(Short.valueOf(productForm.getMaxOrderQty()));
         } catch (IOException e) {
             LOG.warn("ProductMapper.map throws exception {}", e.getMessage());
-            throw new UnitedSuppliesException(e.getMessage());
+            throw new InventoryException(e.getMessage());
         }
         return product;
     }

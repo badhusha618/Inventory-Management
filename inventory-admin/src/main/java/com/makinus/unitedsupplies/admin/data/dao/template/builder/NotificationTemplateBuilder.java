@@ -7,15 +7,15 @@
  *  Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.dao.template.builder;
+package com.makinus.Inventory.admin.data.dao.template.builder;
 
-import com.makinus.unitedsupplies.admin.data.forms.NotificationForm;
+import com.makinus.Inventory.admin.data.forms.NotificationForm;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 
 /**
- * Created by hussain
+ * @author Bad_sha
  */
 public class NotificationTemplateBuilder {
 

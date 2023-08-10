@@ -15,13 +15,13 @@ import com.makinus.unitedsupplies.common.data.entity.ProductOrder;
 import com.makinus.unitedsupplies.common.data.reftype.OrderStatus;
 import com.makinus.unitedsupplies.common.data.reftype.PaymentType;
 import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface OrderService {
 
@@ -37,25 +37,25 @@ public interface OrderService {
 
     List<Order> ordersListByUser(Long userId);
 
-    Order findOrderByOrderRef(Long orderRef) throws UnitedSuppliesException;
+    Order findOrderByOrderRef(Long orderRef) throws InventoryException;
 
-    Order updateOrder(final Order order) throws UnitedSuppliesException;
+    Order updateOrder(final Order order) throws InventoryException;
 
-    void updateOrdersBasedVendorAllocation(ProductOrder oldProductOrder, BigDecimal saleRate, BigDecimal transportCharge, String vendorId) throws UnitedSuppliesException;
+    void updateOrdersBasedVendorAllocation(ProductOrder oldProductOrder, BigDecimal saleRate, BigDecimal transportCharge, String vendorId) throws InventoryException;
 
     void updateOrderList(List<Order> orders);
 
-    Order findOrder(final Long id) throws UnitedSuppliesException;
+    Order findOrder(final Long id) throws InventoryException;
 
-    Order removeOrder(final Long id) throws UnitedSuppliesException;
+    Order removeOrder(final Long id) throws InventoryException;
 
-    Order orderDetailsUpdated(Long ref) throws UnitedSuppliesException;
+    Order orderDetailsUpdated(Long ref) throws InventoryException;
 
-    Order updateOrderStatus(Long ref, OrderStatus orderStatus) throws UnitedSuppliesException;
+    Order updateOrderStatus(Long ref, OrderStatus orderStatus) throws InventoryException;
 
-    Order updatePaymentType(Long id, PaymentType paymentType) throws UnitedSuppliesException;
+    Order updatePaymentType(Long id, PaymentType paymentType) throws InventoryException;
 
-    List<Order> filterOrder(OrderFilterForm orderFilterForm) throws UnitedSuppliesException;
+    List<Order> filterOrder(OrderFilterForm orderFilterForm) throws InventoryException;
 
-    boolean isCustomerInvoiceAvailable(final String username, Long orderRef) throws UnitedSuppliesException;
+    boolean isCustomerInvoiceAvailable(final String username, Long orderRef) throws InventoryException;
 }

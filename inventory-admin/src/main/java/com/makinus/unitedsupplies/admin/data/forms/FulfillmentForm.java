@@ -1,9 +1,9 @@
-package com.makinus.unitedsupplies.admin.data.forms;
+package com.makinus.Inventory.admin.data.forms;
 
 import java.io.Serializable;
 import java.util.List;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public class FulfillmentForm implements Serializable {
 
   private String id;

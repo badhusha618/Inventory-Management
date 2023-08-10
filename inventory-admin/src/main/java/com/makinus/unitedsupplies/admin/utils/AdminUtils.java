@@ -8,13 +8,13 @@
  *
  */
 
-package com.makinus.unitedsupplies.admin.utils;
+package com.makinus.Inventory.admin.utils;
 
-import com.makinus.unitedsupplies.admin.data.forms.CategoryForm;
-import com.makinus.unitedsupplies.admin.data.forms.UnitForm;
-import com.makinus.unitedsupplies.common.data.entity.*;
-import com.makinus.unitedsupplies.common.data.service.Triplet;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
+import com.makinus.Inventory.admin.data.forms.CategoryForm;
+import com.makinus.Inventory.admin.data.forms.UnitForm;
+import com.makinus.Inventory.common.data.entity.*;
+import com.makinus.Inventory.common.data.service.Triplet;
+import com.makinus.Inventory.common.data.service.Tuple;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,10 +26,10 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus.*;
+import static com.makinus.Inventory.common.data.reftype.ProdOrderStatus.*;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface AdminUtils { // TODO refactor
 

@@ -10,12 +10,12 @@
 package com.makinus.unitedsupplies.common.data.service.quality;
 
 import com.makinus.unitedsupplies.common.data.entity.Quality;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface QualityService {
 
@@ -29,7 +29,7 @@ public interface QualityService {
 
     Quality updateQuality(final Quality quality);
 
-    Quality findQuality(Long id) throws UnitedSuppliesException;
+    Quality findQuality(Long id) throws InventoryException;
 
-    Quality removeQuality(Long id) throws UnitedSuppliesException;
+    Quality removeQuality(Long id) throws InventoryException;
 }

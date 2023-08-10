@@ -85,7 +85,7 @@
                                             <label>Status</label>
                                             <select class="form-control" id="statusInput" th:field="*{status}">
                                                 <option value="">Select</option>
-                                                <th:block th:each="productOrderStatus: ${T(com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus).values()}">
+                                                <th:block th:each="productOrderStatus: ${T(com.makinus.Inventory.common.data.reftype.ProdOrderStatus).values()}">
                                                     <option th:value="${productOrderStatus.status}" th:text="${productOrderStatus.display}"></option>
                                                 </th:block>
                                             </select>
@@ -134,21 +134,21 @@
                             <span th:text="${'REF'+orderListMap.get(productOrder.orderRef).orderRef }" >Order No</span>
                         </td>
                         <td>
-                            <span th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getLocalTimezoneDate(orderListMap.get(productOrder.orderRef).orderDate, zone)}">Order Date</span>
+                            <span th:text="${T(com.makinus.Inventory.common.utils.AppUtils).getLocalTimezoneDate(orderListMap.get(productOrder.orderRef).orderDate, zone)}">Order Date</span>
                         </td>
                         <td>
-                            <span class="badge badge-default">Code</span> <span th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getProductFromMap(productMap, productOrder.productId).productCode}">Product Code</span>
+                            <span class="badge badge-default">Code</span> <span th:text="${T(com.makinus.Inventory.common.utils.AppUtils).getProductFromMap(productMap, productOrder.productId).productCode}">Product Code</span>
                             <br/>
-                            <span th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getProductFromMap(productMap, productOrder.productId).productName}">Product Name</span><br/>
+                            <span th:text="${T(com.makinus.Inventory.common.utils.AppUtils).getProductFromMap(productMap, productOrder.productId).productName}">Product Name</span><br/>
                         </td>
                         <td>
                             <span th:text="${productOrder.proQuantity}">Quantity</span>
                         </td>
                         <td>
-                            <span th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getVendorFromMap(vendorMap,productOrder.prodVendorId).vendorCode + ' - ' + T(com.makinus.unitedsupplies.common.utils.AppUtils).getVendorFromMap(vendorMap,productOrder.prodVendorId).vendorName}">Vendor</span>
+                            <span th:text="${T(com.makinus.Inventory.common.utils.AppUtils).getVendorFromMap(vendorMap,productOrder.prodVendorId).vendorCode + ' - ' + T(com.makinus.Inventory.common.utils.AppUtils).getVendorFromMap(vendorMap,productOrder.prodVendorId).vendorName}">Vendor</span>
                         </td>
                         <td>
-                            <span th:text="${T(com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus).statusMatch(productOrder.Status).getDisplay()}">Status</span>
+                            <span th:text="${T(com.makinus.Inventory.common.data.reftype.ProdOrderStatus).statusMatch(productOrder.Status).getDisplay()}">Status</span>
                         </td>
                         <td>
                             <span th:text="${(productOrder.proQuantity * productOrder.prodSaleRate) + productOrder.loadingCharges + productOrder.transportCharges}">Total Amount</span>

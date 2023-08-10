@@ -7,13 +7,13 @@
  *  Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.encrypt;
+package com.makinus.Inventory.admin.encrypt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Component
 public class MakinusCryptorImpl implements MakinusCryptor {
 

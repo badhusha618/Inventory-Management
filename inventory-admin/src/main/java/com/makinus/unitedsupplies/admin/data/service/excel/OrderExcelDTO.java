@@ -1,4 +1,4 @@
-package com.makinus.unitedsupplies.admin.data.service.excel;
+package com.makinus.Inventory.admin.data.service.excel;
 
 import java.math.BigDecimal;
 import java.util.Date;

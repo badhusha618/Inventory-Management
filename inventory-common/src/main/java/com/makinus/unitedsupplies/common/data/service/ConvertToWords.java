@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public class ConvertToWords {
 

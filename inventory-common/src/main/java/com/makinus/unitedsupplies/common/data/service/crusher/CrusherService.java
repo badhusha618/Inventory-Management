@@ -10,12 +10,12 @@
 package com.makinus.unitedsupplies.common.data.service.crusher;
 
 import com.makinus.unitedsupplies.common.data.entity.Crusher;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface CrusherService {
 
@@ -29,7 +29,7 @@ public interface CrusherService {
 
     Crusher updateCrusher(final Crusher crusher);
 
-    Crusher findCrusher(Long id) throws UnitedSuppliesException;
+    Crusher findCrusher(Long id) throws InventoryException;
 
-    Crusher removeCrusher(Long id) throws UnitedSuppliesException;
+    Crusher removeCrusher(Long id) throws InventoryException;
 }

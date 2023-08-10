@@ -1,10 +1,9 @@
 package com.makinus.unitedsupplies.common.data.service.weight;
 
 import com.makinus.unitedsupplies.common.data.dao.WeightRepository;
-import com.makinus.unitedsupplies.common.data.entity.Type;
 import com.makinus.unitedsupplies.common.data.entity.Weight;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,9 @@ import java.util.Optional;
 import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
 import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 
-/** Created by kingson */
+/**
+ * @author Bad_sha
+ */
 @Service
 @Transactional
 public class WeightServiceImpl implements WeightService {
@@ -64,16 +65,16 @@ public class WeightServiceImpl implements WeightService {
     }
 
     @Override
-    public Weight findWeight(Long id) throws UnitedSuppliesException {
+    public Weight findWeight(Long id) throws InventoryException {
         Optional<Weight> weightOptional = weightRepository.findById(id);
         if (weightOptional.isPresent()) {
             return weightOptional.get();
         }
-        throw new UnitedSuppliesException(String.format("Weight is not found with the id %d", id));
+        throw new InventoryException(String.format("Weight is not found with the id %d", id));
     }
 
     @Override
-    public Weight removeWeight(Long id) throws UnitedSuppliesException {
+    public Weight removeWeight(Long id) throws InventoryException {
         Optional<Weight> weightOptional = weightRepository.findById(id);
         if (weightOptional.isPresent()) {
             Weight weight = weightOptional.get();
@@ -82,7 +83,7 @@ public class WeightServiceImpl implements WeightService {
             weight.setUpdatedDate(getInstant());
             return weight;
         }
-        throw new UnitedSuppliesException(String.format("Promotion is not found with the id %d", id));
+        throw new InventoryException(String.format("Promotion is not found with the id %d", id));
     }
 
 }

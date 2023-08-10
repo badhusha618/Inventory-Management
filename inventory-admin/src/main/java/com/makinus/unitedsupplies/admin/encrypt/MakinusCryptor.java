@@ -7,9 +7,9 @@
  *  Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.encrypt;
+package com.makinus.Inventory.admin.encrypt;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface MakinusCryptor {
 
   String hashpw(String message);

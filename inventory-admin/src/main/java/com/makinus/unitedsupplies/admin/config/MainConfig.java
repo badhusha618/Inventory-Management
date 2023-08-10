@@ -7,9 +7,9 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.config;
+package com.makinus.Inventory.admin.config;
 
-import com.makinus.unitedsupplies.admin.controller.api.ApiImageRestController;
+import com.makinus.Inventory.admin.controller.api.ApiImageRestController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -26,7 +26,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.util.concurrent.Executor;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Configuration
 public class MainConfig {
@@ -58,8 +58,8 @@ public class MainConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("UnitedSupplies REST API Endpoints")
-                .description("\"UnitedSupplies REST API for Online Ordering\"")
+                .title("Inventory REST API Endpoints")
+                .description("\"Inventory REST API for Online Ordering\"")
                 .version("1.0")
                 .license("Commercial")
                 .licenseUrl("https://makinus.com")

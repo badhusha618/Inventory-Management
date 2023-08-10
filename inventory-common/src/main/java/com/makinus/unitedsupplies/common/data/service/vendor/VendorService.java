@@ -2,12 +2,12 @@ package com.makinus.unitedsupplies.common.data.service.vendor;
 
 import com.makinus.unitedsupplies.common.data.form.VendorFilterForm;
 import com.makinus.unitedsupplies.common.data.entity.Vendor;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * @author kings
+ * @author Bad_sha
  */
 public interface VendorService {
 
@@ -23,12 +23,12 @@ public interface VendorService {
 
     Vendor updateVendor(final Vendor vendor);
 
-    Vendor findVendor(Long Id) throws UnitedSuppliesException;
+    Vendor findVendor(Long Id) throws InventoryException;
 
-    Vendor removeVendor(Long Id) throws UnitedSuppliesException;
+    Vendor removeVendor(Long Id) throws InventoryException;
 
-    Vendor findVendorWithImages(Long id) throws UnitedSuppliesException;
+    Vendor findVendorWithImages(Long id) throws InventoryException;
 
-    List<Vendor> filterVendor(VendorFilterForm vendorFilterForm) throws UnitedSuppliesException;
+    List<Vendor> filterVendor(VendorFilterForm vendorFilterForm) throws InventoryException;
 
 }

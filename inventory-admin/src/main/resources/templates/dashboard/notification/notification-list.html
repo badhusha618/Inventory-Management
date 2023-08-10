@@ -83,13 +83,13 @@
                             <span th:text="${notifications.mobileNo}">Mobile Number</span>
                         </td>
                         <td>
-                            <span th:text="${T(com.makinus.unitedsupplies.common.data.reftype.NotificationStatus).statusMatch(notifications.status).getDisplay()}">Status</span>
+                            <span th:text="${T(com.makinus.Inventory.common.data.reftype.NotificationStatus).statusMatch(notifications.status).getDisplay()}">Status</span>
                         </td>
                         <td>
-                            <span th:text="${T(com.makinus.unitedsupplies.common.data.reftype.NotificationOrderStatus).statusMatch(notifications.orderStatus).getDisplay()}">Order Status</span>
+                            <span th:text="${T(com.makinus.Inventory.common.data.reftype.NotificationOrderStatus).statusMatch(notifications.orderStatus).getDisplay()}">Order Status</span>
                         </td>
                         <td>
-                            <span th:text="${T(com.makinus.unitedsupplies.common.data.reftype.NotificationType).statusMatch(notifications.type).getDisplay()}">Type</span>
+                            <span th:text="${T(com.makinus.Inventory.common.data.reftype.NotificationType).statusMatch(notifications.type).getDisplay()}">Type</span>
                         </td>
                         <td>
                             <div th:if="${notifications.deliveryDate != null}">

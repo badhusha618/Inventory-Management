@@ -9,10 +9,10 @@
  */
 package com.makinus.unitedsupplies.common.data.mapper;
 
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface EntityWithExtraValueMapper<I, E, O> {
 
-  O mapExtra(I input, E extraValue) throws UnitedSuppliesException;
+  O mapExtra(I input, E extraValue) throws InventoryException;
 }

@@ -7,16 +7,16 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.service.user;
+package com.makinus.Inventory.admin.data.service.user;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.*;
+import static com.makinus.Inventory.common.utils.AppUtils.*;
 import static java.lang.String.format;
 
-import com.makinus.unitedsupplies.admin.data.dao.AdminUserRepository;
-import com.makinus.unitedsupplies.common.data.entity.AdminUser;
-import com.makinus.unitedsupplies.common.data.reftype.UserRole;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.dao.AdminUserRepository;
+import com.makinus.Inventory.common.data.entity.AdminUser;
+import com.makinus.Inventory.common.data.reftype.UserRole;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.exception.InventoryException;
 import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Service
 @Transactional
 public class AdminUserServiceImpl implements AdminUserService {
@@ -40,25 +40,25 @@ public class AdminUserServiceImpl implements AdminUserService {
 
   @Override
   public AdminUser addOrUpdateMaterialUser(AdminUser user) {
-    LOG.info("Update UnitedSupplies User in the database");
+    LOG.info("Update Inventory User in the database");
     return adminUserRepository.save(user);
   }
 
   @Override
   public List<AdminUser> materialUserList() {
-    LOG.info("List UnitedSupplies Users from database");
+    LOG.info("List Inventory Users from database");
     return adminUserRepository.findAllActiveUsers();
   }
 
   @Override
   public boolean isMaterialUserAvailable(String username) {
-    LOG.info("Check if UnitedSupplies User is available from database");
+    LOG.info("Check if Inventory User is available from database");
     AdminUser user = adminUserRepository.findActiveUser(username);
     return user != null;
   }
 
   @Override
-  public AdminUser removeUser(Long id) throws UnitedSuppliesException {
+  public AdminUser removeUser(Long id) throws InventoryException {
     Optional<AdminUser> userOptional = adminUserRepository.findById(id);
     if (userOptional.isPresent()) {
       AdminUser user = userOptional.get();
@@ -67,20 +67,20 @@ public class AdminUserServiceImpl implements AdminUserService {
       user.setUpdatedDate(getInstant());
       return user;
     }
-    throw new UnitedSuppliesException(format("User is not found with the id %d", id));
+    throw new InventoryException(format("User is not found with the id %d", id));
   }
 
   @Override
-  public AdminUser findActiveUser(String username) throws UnitedSuppliesException {
+  public AdminUser findActiveUser(String username) throws InventoryException {
     AdminUser user = adminUserRepository.findActiveUser(username);
     if (user == null) {
-      throw new UnitedSuppliesException(format("User is not found with the username %s", username));
+      throw new InventoryException(format("User is not found with the username %s", username));
     }
     return user;
   }
 
   @Override
-  public AdminUser resetPassword(Long id, String pwdDigest) throws UnitedSuppliesException {
+  public AdminUser resetPassword(Long id, String pwdDigest) throws InventoryException {
     Optional<AdminUser> userOptional = adminUserRepository.findById(id);
     if (userOptional.isPresent()) {
       AdminUser user = userOptional.get();
@@ -89,12 +89,12 @@ public class AdminUserServiceImpl implements AdminUserService {
       user.setUpdatedDate(getInstant());
       return user;
     }
-    throw new UnitedSuppliesException(format("User is not found with the id %d", id));
+    throw new InventoryException(format("User is not found with the id %d", id));
   }
 
   @Override
   public AdminUser updateMaterialUserRole(Long id, UserRole newRole)
-      throws UnitedSuppliesException {
+      throws InventoryException {
     Optional<AdminUser> userOptional = adminUserRepository.findById(id);
     if (userOptional.isPresent()) {
       AdminUser user = userOptional.get();
@@ -103,11 +103,11 @@ public class AdminUserServiceImpl implements AdminUserService {
       user.setUpdatedDate(getInstant());
       return user;
     }
-    throw new UnitedSuppliesException(format("User is not found with the id %d", id));
+    throw new InventoryException(format("User is not found with the id %d", id));
   }
 
   @Override
-  public AdminUser updateFullName(Long id, String name) throws UnitedSuppliesException {
+  public AdminUser updateFullName(Long id, String name) throws InventoryException {
     Optional<AdminUser> userOptional = adminUserRepository.findById(id);
     if (userOptional.isPresent()) {
       AdminUser user = userOptional.get();
@@ -116,11 +116,11 @@ public class AdminUserServiceImpl implements AdminUserService {
       user.setUpdatedDate(getInstant());
       return user;
     }
-    throw new UnitedSuppliesException(format("User is not found with the id %d", id));
+    throw new InventoryException(format("User is not found with the id %d", id));
   }
 
   @Override
-  public AdminUser updateMobile(Long id, String mobile) throws UnitedSuppliesException {
+  public AdminUser updateMobile(Long id, String mobile) throws InventoryException {
     Optional<AdminUser> userOptional = adminUserRepository.findById(id);
     if (userOptional.isPresent()) {
       AdminUser user = userOptional.get();
@@ -129,11 +129,11 @@ public class AdminUserServiceImpl implements AdminUserService {
       user.setUpdatedDate(getInstant());
       return user;
     }
-    throw new UnitedSuppliesException(format("User is not found with the id %d", id));
+    throw new InventoryException(format("User is not found with the id %d", id));
   }
 
   @Override
-  public AdminUser updateEmail(Long id, String email) throws UnitedSuppliesException {
+  public AdminUser updateEmail(Long id, String email) throws InventoryException {
     Optional<AdminUser> userOptional = adminUserRepository.findById(id);
     if (userOptional.isPresent()) {
       AdminUser user = userOptional.get();
@@ -142,6 +142,6 @@ public class AdminUserServiceImpl implements AdminUserService {
       user.setUpdatedDate(getInstant());
       return user;
     }
-    throw new UnitedSuppliesException(format("User is not found with the id %d", id));
+    throw new InventoryException(format("User is not found with the id %d", id));
   }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author sabique
+ * @author Bad_sha
  */
 public interface TransportRepository extends JpaRepository<Transport, Long> {
 

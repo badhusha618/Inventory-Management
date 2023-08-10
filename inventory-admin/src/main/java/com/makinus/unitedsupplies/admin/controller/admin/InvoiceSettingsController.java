@@ -7,13 +7,13 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.InvoiceSettingsForm;
-import com.makinus.unitedsupplies.admin.data.mapping.InvoiceSettingsMapper;
-import com.makinus.unitedsupplies.common.data.entity.InvoiceSettings;
-import com.makinus.unitedsupplies.common.data.service.invoice.settings.InvoiceSettingsService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.InvoiceSettingsForm;
+import com.makinus.Inventory.admin.data.mapping.InvoiceSettingsMapper;
+import com.makinus.Inventory.common.data.entity.InvoiceSettings;
+import com.makinus.Inventory.common.data.service.invoice.settings.InvoiceSettingsService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 /**
- * @author ibrahim
+ * @author Bad_sha
  */
 @Controller
 public class InvoiceSettingsController {
@@ -48,7 +48,7 @@ public class InvoiceSettingsController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/{type}/invoice-settings.mk")
-    public String getInvoiceSettingsListPage(ModelMap model, @PathVariable("type") String type) throws UnitedSuppliesException {
+    public String getInvoiceSettingsListPage(ModelMap model, @PathVariable("type") String type) throws InventoryException {
         LOG.info("Open InvoiceSettings List Page");
         List<InvoiceSettings> invoiceSettingsList = invoiceSettingsService.invoiceSettingsListByType(type);
         InvoiceSettingsForm invoiceSettingsForm = invoiceSettingsList.size() > 0 ? invoiceSettingsMapper.remap(invoiceSettingsList.get(0)) : new InvoiceSettingsForm(type);
@@ -58,7 +58,7 @@ public class InvoiceSettingsController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/invoice-settings.mk")
-    public String updateInvoiceSettingsPage(@ModelAttribute("invoiceSettingsForm") InvoiceSettingsForm invoiceSettingsForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateInvoiceSettingsPage(@ModelAttribute("invoiceSettingsForm") InvoiceSettingsForm invoiceSettingsForm, RedirectAttributes redirectAttrs) throws InventoryException {
         List<InvoiceSettings> invoiceSettingsList = invoiceSettingsService.invoiceSettingsListByType(invoiceSettingsForm.getSequenceType());
         InvoiceSettings updatedInvoiceSettings = invoiceSettingsService.updateInvoiceSettings(invoiceSettingsMapper.map(invoiceSettingsForm, invoiceSettingsList.size() > 0 ? invoiceSettingsList.get(0) : new InvoiceSettings()));
         redirectAttrs.addFlashAttribute("editFlag", Boolean.TRUE);

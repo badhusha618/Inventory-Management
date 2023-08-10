@@ -11,7 +11,7 @@ package com.makinus.unitedsupplies.common.data.reftype;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ServiceType {
   PROFESSIONAL("P", "Professional"),

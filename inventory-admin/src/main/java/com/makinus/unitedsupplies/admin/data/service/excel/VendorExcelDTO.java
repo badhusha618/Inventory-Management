@@ -1,4 +1,4 @@
-package com.makinus.unitedsupplies.admin.data.service.excel;
+package com.makinus.Inventory.admin.data.service.excel;
 
 public class VendorExcelDTO {
 

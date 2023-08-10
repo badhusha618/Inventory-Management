@@ -7,7 +7,7 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.config;
+package com.makinus.Inventory.admin.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {

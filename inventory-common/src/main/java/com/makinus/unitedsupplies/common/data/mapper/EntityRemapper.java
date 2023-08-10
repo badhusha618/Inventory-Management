@@ -9,10 +9,10 @@
  */
 package com.makinus.unitedsupplies.common.data.mapper;
 
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface EntityRemapper<I, O> {
 
-  O remap(I input) throws UnitedSuppliesException;
+  O remap(I input) throws InventoryException;
 }

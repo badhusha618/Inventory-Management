@@ -10,29 +10,29 @@
 package com.makinus.unitedsupplies.common.data.service.usercart;
 
 import com.makinus.unitedsupplies.common.data.entity.UserCart;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by sabique
+ * @author Bad_sha
  */
 public interface UserCartService {
 
-    UserCart findCartById(Long id) throws UnitedSuppliesException;
+    UserCart findCartById(Long id) throws InventoryException;
 
     UserCart saveUserCart(UserCart userCart);
 
     List<UserCart> saveUserCartList(List<UserCart> userCart);
 
-    List<UserCart> getAllUserCart(Long id) throws UnitedSuppliesException;
+    List<UserCart> getAllUserCart(Long id) throws InventoryException;
 
     Optional<UserCart> getCartByProductIdAndUserId(Long userId, Long productId);
 
-    UserCart findCartByProductIdAndUserId(Long userId, Long productId) throws UnitedSuppliesException;
+    UserCart findCartByProductIdAndUserId(Long userId, Long productId) throws InventoryException;
 
-    List<UserCart> removeAllUserCart(Long id) throws UnitedSuppliesException;
+    List<UserCart> removeAllUserCart(Long id) throws InventoryException;
 
-    UserCart removeCartByProductIdAndUserId(Long id, Long productId) throws UnitedSuppliesException;
+    UserCart removeCartByProductIdAndUserId(Long id, Long productId) throws InventoryException;
 }

@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * Created by ammar
+ * @author Bad_sha
  */
 @Entity
 @Table(name = "NOTIFICATIONS")

@@ -7,17 +7,17 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import com.makinus.unitedsupplies.admin.data.forms.ProductForm;
-import com.makinus.unitedsupplies.admin.data.forms.ProductVendorForm;
-import com.makinus.unitedsupplies.common.data.entity.Product;
-import com.makinus.unitedsupplies.common.data.entity.ProductVendor;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityWithExtraValueMapper;
-import com.makinus.unitedsupplies.common.data.mapper.ListEntityWithExtraValueUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.product.ProductService;
+import com.makinus.Inventory.admin.data.forms.ProductForm;
+import com.makinus.Inventory.admin.data.forms.ProductVendorForm;
+import com.makinus.Inventory.common.data.entity.Product;
+import com.makinus.Inventory.common.data.entity.ProductVendor;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityWithExtraValueMapper;
+import com.makinus.Inventory.common.data.mapper.ListEntityWithExtraValueUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.product.ProductService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,12 +32,12 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.common.data.reftype.YNStatus.YES;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.data.reftype.YNStatus.YES;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Component
 @Qualifier("ProductVendorMapper")

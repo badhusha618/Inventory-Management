@@ -7,14 +7,14 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.api;
+package com.makinus.Inventory.admin.controller.api;
 
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.entity.Promotion;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.product.ProductService;
-import com.makinus.unitedsupplies.common.data.service.promotion.PromotionService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.entity.Promotion;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.product.ProductService;
+import com.makinus.Inventory.common.data.service.promotion.PromotionService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -37,7 +37,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.springframework.util.FileCopyUtils.copy;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @RestController
 @RequestMapping(value = "/img")
@@ -65,7 +65,7 @@ public class ApiImageRestController {
                     @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
             })
     public void categoryImage(HttpServletResponse response, @RequestParam("id") String id)
-            throws UnitedSuppliesException {
+            throws InventoryException {
         LOG.info("View Category Image");
         try {
             Category category = categoryService.findCategory(Long.valueOf(id));
@@ -78,7 +78,7 @@ public class ApiImageRestController {
                 copy(category.getImage(), response.getOutputStream());
             }
         } catch (IOException e) {
-            throw new UnitedSuppliesException("IO Exception occurred while viewing category image " + e.getMessage());
+            throw new InventoryException("IO Exception occurred while viewing category image " + e.getMessage());
         }
     }
 
@@ -91,7 +91,7 @@ public class ApiImageRestController {
                     @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
                     @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
             })
-    public void promotionImage(HttpServletResponse response, @RequestParam("id") String id) throws UnitedSuppliesException {
+    public void promotionImage(HttpServletResponse response, @RequestParam("id") String id) throws InventoryException {
         LOG.info("View Promotion Image");
         try {
             Promotion promotion = promotionService.findSalePromotion(Long.valueOf(id));
@@ -104,7 +104,7 @@ public class ApiImageRestController {
                 copy(promotion.getImage(), response.getOutputStream());
             }
         } catch (IOException e) {
-            throw new UnitedSuppliesException("IO Exception occurred while viewing Promotion image " + e.getMessage());
+            throw new InventoryException("IO Exception occurred while viewing Promotion image " + e.getMessage());
         }
     }
 
@@ -117,7 +117,7 @@ public class ApiImageRestController {
                     @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
                     @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
             })
-    public void productImage(HttpServletResponse response, @RequestParam("id") String id) throws UnitedSuppliesException {
+    public void productImage(HttpServletResponse response, @RequestParam("id") String id) throws InventoryException {
         LOG.info("View Product Image");
     /*  try {
         Product product = productService.findProduct(Long.valueOf(id));
@@ -130,7 +130,7 @@ public class ApiImageRestController {
             copy(product.getImage(), response.getOutputStream());
         }
     } catch (IOException e) {
-        throw new UnitedSuppliesException("IO Exception occurred while viewing product image " + e.getMessage());
+        throw new InventoryException("IO Exception occurred while viewing product image " + e.getMessage());
     } */
 
     }
@@ -140,7 +140,7 @@ public class ApiImageRestController {
   @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved slider image"), @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
           @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
           @ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
-  public void sliderImage(HttpServletResponse response, @RequestParam("id") String id) throws UnitedSuppliesException {
+  public void sliderImage(HttpServletResponse response, @RequestParam("id") String id) throws InventoryException {
       LOG.info("View Slider Image");
       try {
           HomeSlider homeSlider = homeSliderService.findHomeSlider(Long.valueOf(id));
@@ -153,7 +153,7 @@ public class ApiImageRestController {
               copy(homeSlider.getImage(), response.getOutputStream());
           }
       } catch (IOException e) {
-          throw new UnitedSuppliesException("IO Exception occurred while viewing home slider " + e.getMessage());
+          throw new InventoryException("IO Exception occurred while viewing home slider " + e.getMessage());
       }
   }*/
 }

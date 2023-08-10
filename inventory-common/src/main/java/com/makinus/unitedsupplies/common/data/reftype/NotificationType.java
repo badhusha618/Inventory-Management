@@ -10,7 +10,7 @@
 package com.makinus.unitedsupplies.common.data.reftype;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public enum NotificationType {
 

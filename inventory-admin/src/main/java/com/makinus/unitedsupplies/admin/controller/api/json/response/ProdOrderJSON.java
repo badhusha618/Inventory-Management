@@ -7,11 +7,11 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.api.json.response;
+package com.makinus.Inventory.admin.controller.api.json.response;
 
 import io.swagger.annotations.ApiModelProperty;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public class ProdOrderJSON {
 
   @ApiModelProperty(notes = "Id of the product Order")

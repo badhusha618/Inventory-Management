@@ -9,22 +9,22 @@
  */
 package com.makinus.unitedsupplies.admin.data.mapping;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 
-import com.makinus.unitedsupplies.admin.data.forms.BrandForm;
+import com.makinus.Inventory.admin.data.forms.BrandForm;
+import com.makinus.inventory.reftype.YNStatus;
 import com.makinus.unitedsupplies.common.data.entity.Brand;
 import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
 import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
 import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-/** Created by abuabdul */
+import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+
+/** Created by Bad_sha */
 @Component
 @Qualifier("BrandMapper")
 public class BrandMapper
@@ -35,7 +35,7 @@ public class BrandMapper
   private final Logger LOG = LogManager.getLogger(BrandMapper.class);
 
   @Override
-  public Brand map(BrandForm brandForm) throws UnitedSuppliesException {
+  public Brand map(BrandForm brandForm) {
     LOG.info("Map Brand Form to Brand Entity");
     Brand brand = new Brand();
     brand.setBrandName(brandForm.getBrandName());
@@ -50,7 +50,7 @@ public class BrandMapper
   }
 
   @Override
-  public Brand map(BrandForm brandForm, Brand brand) throws UnitedSuppliesException {
+  public Brand map(BrandForm brandForm, Brand brand) {
 
     LOG.info("Map Brand Form to Updated Brand Entity");
     brand.setBrandName(brandForm.getBrandName());
@@ -63,7 +63,7 @@ public class BrandMapper
   }
 
   @Override
-  public BrandForm remap(Brand brand) throws UnitedSuppliesException {
+  public BrandForm remap(Brand brand) {
     LOG.info("Map Brand Entity to Brand Form");
     BrandForm brandForm = new BrandForm();
     brandForm.setBrandID(String.valueOf(brand.getId()));

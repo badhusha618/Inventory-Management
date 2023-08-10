@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * @author kings
+ * @author Bad_sha
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VendorFilterRequest {

@@ -1,19 +1,19 @@
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import com.makinus.unitedsupplies.admin.data.forms.WeightForm;
-import com.makinus.unitedsupplies.common.data.entity.Weight;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.WeightForm;
+import com.makinus.Inventory.common.data.entity.Weight;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
 @Component
 @Qualifier("WeightMapper")
@@ -25,7 +25,7 @@ public class WeightMapper
     private final Logger LOG = LogManager.getLogger(WeightMapper.class);
 
     @Override
-    public Weight map(WeightForm weightForm) throws UnitedSuppliesException {
+    public Weight map(WeightForm weightForm) throws InventoryException {
         LOG.info("Map Weight Form to Weight Entity");
         Weight weight = new Weight();
         weight.setWeight(weightForm.getWeight());
@@ -40,7 +40,7 @@ public class WeightMapper
     }
 
     @Override
-    public Weight map(WeightForm weightForm, Weight weight) throws UnitedSuppliesException {
+    public Weight map(WeightForm weightForm, Weight weight) throws InventoryException {
 
         LOG.info("Map Weight Form to Updated Weight weight");
         weight.setWeight(weightForm.getWeight());
@@ -53,7 +53,7 @@ public class WeightMapper
     }
 
     @Override
-    public WeightForm remap(Weight weight) throws UnitedSuppliesException {
+    public WeightForm remap(Weight weight) throws InventoryException {
         LOG.info("Map Weight Entity to Quality Form");
         WeightForm weightForm = new WeightForm();
         weightForm.setWeightID(String.valueOf(weight.getId()));

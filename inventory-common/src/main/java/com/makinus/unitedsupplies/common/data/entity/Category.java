@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Entity
 @Table(name = "CATEGORY")
 @JsonIgnoreProperties({

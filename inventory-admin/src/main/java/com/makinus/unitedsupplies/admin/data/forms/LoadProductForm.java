@@ -1,4 +1,4 @@
-package com.makinus.unitedsupplies.admin.data.forms;
+package com.makinus.Inventory.admin.data.forms;
 
 public class LoadProductForm {
 

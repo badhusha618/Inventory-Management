@@ -7,19 +7,19 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.QualityForm;
-import com.makinus.unitedsupplies.admin.data.mapping.QualityMapper;
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.entity.Quality;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.quality.QualityService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.QualityForm;
+import com.makinus.Inventory.admin.data.mapping.QualityMapper;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.entity.Quality;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.quality.QualityService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +36,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.subCategoryMap;
+import static com.makinus.Inventory.admin.utils.AdminUtils.subCategoryMap;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class QualityController {
@@ -74,7 +74,7 @@ public class QualityController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/quality.mk")
-    public String quality(ModelMap model) throws UnitedSuppliesException {
+    public String quality(ModelMap model) throws InventoryException {
         LOG.info("Open Quality page - {}", this.getClass().getSimpleName());
         QualityForm qualityForm = new QualityForm();
         qualityForm.setActive(Boolean.TRUE);
@@ -88,7 +88,7 @@ public class QualityController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/quality.mk")
-    public String addNewQuality(@ModelAttribute("qualityForm") QualityForm qualityForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewQuality(@ModelAttribute("qualityForm") QualityForm qualityForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Open Add new Quality - {}", this.getClass().getSimpleName());
         Quality savedQuality = qualityService.saveQuality(qualityMapper.map(qualityForm));
         redirectAttrs.addFlashAttribute("qualityName", qualityForm.getQuality());
@@ -108,7 +108,7 @@ public class QualityController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/quality.mk")
-    public String editQualityPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String qualityId) throws UnitedSuppliesException {
+    public String editQualityPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String qualityId) throws InventoryException {
         LOG.info("Open Edit Quality page - {}", this.getClass().getSimpleName());
         QualityForm savedQuality = qualityMapper.remap(qualityService.findQuality(Long.valueOf(qualityId)));
         model.addAttribute("editQualityForm", savedQuality);
@@ -121,7 +121,7 @@ public class QualityController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/quality.mk")
-    public String updateQuality(@ModelAttribute("editQualityForm") QualityForm qualityForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateQuality(@ModelAttribute("editQualityForm") QualityForm qualityForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Quality page - {}", this.getClass().getSimpleName());
         Quality updateQuality = qualityService.findQuality(Long.valueOf(qualityForm.getQualityID()));
         Quality savedQuality = qualityService.updateQuality(qualityMapper.map(qualityForm, updateQuality));
@@ -141,7 +141,7 @@ public class QualityController {
             Quality removedQuality = qualityService.removeQuality(Long.valueOf(id));
             LOG.info("Quality is removed? {}", (removedQuality != null && removedQuality.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

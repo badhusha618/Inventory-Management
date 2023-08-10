@@ -15,7 +15,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-/** @author abuabdul */
+/**
+ * @author Bad_sha
+ */
 public interface PromotionRepository extends JpaRepository<Promotion, Long> {
 
   @Query("select so from Promotion so where so.deleted = 'F' order by updatedDate desc")

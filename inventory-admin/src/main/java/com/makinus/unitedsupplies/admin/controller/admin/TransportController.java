@@ -7,20 +7,20 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.TransportForm;
-import com.makinus.unitedsupplies.admin.data.mapping.TransportMapper;
-import com.makinus.unitedsupplies.common.data.entity.*;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.product.ProductService;
-import com.makinus.unitedsupplies.common.data.service.transport.TransportService;
-import com.makinus.unitedsupplies.common.data.service.unit.UnitService;
-import com.makinus.unitedsupplies.common.data.service.unitmapping.UnitMappingService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.TransportForm;
+import com.makinus.Inventory.admin.data.mapping.TransportMapper;
+import com.makinus.Inventory.common.data.entity.*;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.product.ProductService;
+import com.makinus.Inventory.common.data.service.transport.TransportService;
+import com.makinus.Inventory.common.data.service.unit.UnitService;
+import com.makinus.Inventory.common.data.service.unitmapping.UnitMappingService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +38,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.*;
+import static com.makinus.Inventory.admin.utils.AdminUtils.*;
 
 /**
- * @author sabique
+ * @author Bad_sha
  */
 @Controller
 public class TransportController {
@@ -86,7 +86,7 @@ public class TransportController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/list/shipment.mk")
-    public String listTranpsort(ModelMap model) throws UnitedSuppliesException {
+    public String listTranpsort(ModelMap model) throws InventoryException {
         LOG.info("List Products page - {}", this.getClass().getSimpleName());
         model.addAttribute("transportList", transportService.transportList());
         model.addAttribute("productMap", productService.productList().stream()
@@ -98,7 +98,7 @@ public class TransportController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/add/shipment.mk")
-    public String addTransport(ModelMap model) throws UnitedSuppliesException {
+    public String addTransport(ModelMap model) throws InventoryException {
         LOG.info("Open Add Product page - {}", this.getClass().getSimpleName());
         model.addAttribute("transportForm", new TransportForm());
         List<UnitMapping> unitMappings = unitMappingService.unitMappingList();
@@ -125,7 +125,7 @@ public class TransportController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/shipment.mk")
-    public String editTransportPage(ModelMap model, @PathVariable("id") String transportId) throws UnitedSuppliesException {
+    public String editTransportPage(ModelMap model, @PathVariable("id") String transportId) throws InventoryException {
         LOG.info("Open Edit Product page - {}", this.getClass().getSimpleName());
         TransportForm savedTransport = transportMapper.remap(transportService.findTransport(Long.valueOf(transportId)));
         model.addAttribute("editTransportForm", savedTransport);
@@ -141,7 +141,7 @@ public class TransportController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/shipment.mk")
-    public String updateProduct(@ModelAttribute("editTransportForm") TransportForm transportForm, RedirectAttributes redirectAttributes) throws UnitedSuppliesException {
+    public String updateProduct(@ModelAttribute("editTransportForm") TransportForm transportForm, RedirectAttributes redirectAttributes) throws InventoryException {
         LOG.info("Update Product page - {}", this.getClass().getSimpleName());
         Transport updateTransport = transportService.findTransport(Long.valueOf(transportForm.getId()));
         Transport savedTransport = transportService.updateTransport(transportMapper.map(transportForm, updateTransport));
@@ -161,7 +161,7 @@ public class TransportController {
             Transport removedTransport = transportService.removeTransport(Long.valueOf(id));
             LOG.info("Product is removed? {}", (removedTransport != null && removedTransport.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException usm) {
+        } catch (InventoryException usm) {
             map.put("valid", Boolean.FALSE);
         }
         return map;
@@ -184,7 +184,7 @@ public class TransportController {
     /*@PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/available/transport-charges.mk", produces = "application/json")
     @ResponseBody
-    public Boolean isExistingLoadingCharges(HttpServletRequest request) throws UnitedSuppliesException {
+    public Boolean isExistingLoadingCharges(HttpServletRequest request) throws InventoryException {
         LOG.info("Checking if the quantity for product exists");
         String quantity = request.getParameter("quantity").trim();
         String distance = request.getParameter("distance").trim();

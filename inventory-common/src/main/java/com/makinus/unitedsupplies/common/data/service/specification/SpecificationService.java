@@ -10,12 +10,12 @@
 package com.makinus.unitedsupplies.common.data.service.specification;
 
 import com.makinus.unitedsupplies.common.data.entity.Specification;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * Created by ammar
+ * @author Bad_sha
  */
 public interface SpecificationService {
 
@@ -27,7 +27,7 @@ public interface SpecificationService {
 
     Specification updateSpecification(final Specification specification);
 
-    Specification findSpecification(Long id) throws UnitedSuppliesException;
+    Specification findSpecification(Long id) throws InventoryException;
 
-    Specification removeSpecification(Long id) throws UnitedSuppliesException;
+    Specification removeSpecification(Long id) throws InventoryException;
 }

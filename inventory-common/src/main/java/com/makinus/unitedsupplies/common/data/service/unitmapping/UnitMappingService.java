@@ -10,12 +10,12 @@
 package com.makinus.unitedsupplies.common.data.service.unitmapping;
 
 import com.makinus.unitedsupplies.common.data.entity.UnitMapping;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.util.List;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface UnitMappingService {
 
@@ -29,7 +29,7 @@ public interface UnitMappingService {
 
     UnitMapping updateUnitMapping(final UnitMapping unitMapping);
 
-    UnitMapping findUnitMapping(Long id) throws UnitedSuppliesException;
+    UnitMapping findUnitMapping(Long id) throws InventoryException;
 
-    UnitMapping removeUnitMapping(Long id) throws UnitedSuppliesException;
+    UnitMapping removeUnitMapping(Long id) throws InventoryException;
 }

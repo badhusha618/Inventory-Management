@@ -16,7 +16,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.makinus</groupId>
-    <artifactId>unitedsupplies</artifactId>
+    <artifactId>inventory</artifactId>
     <version>1.0.0-beta</version>
 
     <packaging>pom</packaging>
@@ -24,10 +24,10 @@
     <description>United Supplies Application</description>
 
     <modules>
-        <module>unitedsupplies-api</module>
-        <module>unitedsupplies-common</module>
-        <module>unitedsupplies-db</module>
-        <module>unitedsupplies-admin</module>
+        <module>inventory-api</module>
+        <module>inventory-common</module>
+        <module>inventory-db</module>
+        <module>inventory-admin</module>
     </modules>
 
     <parent>

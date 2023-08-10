@@ -70,7 +70,7 @@
                             24C, Ambai Road, Melapalayam,<br/>
                              Tirunelveli,Tamilnadu,<br/>
                              India-627005<br/>
-                             support@unitedsupplies.in<br/>
+                             support@Inventory.in<br/>
                             PAN No.&nbsp;&nbsp; AACCU6937B <br/>
                             GST No.&nbsp;&nbsp; 33AACU693781ZJ </p>
                     </div>

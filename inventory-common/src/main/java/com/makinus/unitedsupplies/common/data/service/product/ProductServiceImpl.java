@@ -15,7 +15,7 @@ import com.makinus.unitedsupplies.common.data.entity.Product;
 import com.makinus.unitedsupplies.common.data.form.ProductFilterForm;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
 import com.makinus.unitedsupplies.common.data.service.image.ImageWriter;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,7 +32,7 @@ import static java.lang.String.format;
 import static java.nio.file.Paths.get;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -96,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product removeProduct(Long id) throws UnitedSuppliesException {
+    public Product removeProduct(Long id) throws InventoryException {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {
             Product product = productOptional.get();
@@ -105,7 +105,7 @@ public class ProductServiceImpl implements ProductService {
             product.setUpdatedDate(getInstant());
             return product;
         }
-        throw new UnitedSuppliesException(format("Product is not found with the id %s", id));
+        throw new InventoryException(format("Product is not found with the id %s", id));
     }
 
     @Override
@@ -116,18 +116,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findProduct(Long id) throws UnitedSuppliesException {
+    public Product findProduct(Long id) throws InventoryException {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {
             Product product = productOptional.get();
 //            product.setImage(imageWriter.readImage(get(product.getImagePath())));
             return product;
         }
-        throw new UnitedSuppliesException(format("Product is not found with the id %d", id));
+        throw new InventoryException(format("Product is not found with the id %d", id));
     }
 
     @Override
-    public Product findProductWithImages(Long id) throws UnitedSuppliesException {
+    public Product findProductWithImages(Long id) throws InventoryException {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {
             Product product = productOptional.get();
@@ -143,7 +143,7 @@ public class ProductServiceImpl implements ProductService {
             }
             return product;
         }
-        throw new UnitedSuppliesException(format("Product is not found with the id %d", id));
+        throw new InventoryException(format("Product is not found with the id %d", id));
     }
 
     @Override
@@ -159,7 +159,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> filterProduct(ProductFilterForm productFilterForm) throws UnitedSuppliesException {
+    public List<Product> filterProduct(ProductFilterForm productFilterForm) throws InventoryException {
         LOG.info("Search Products by filter from the database");
         if (productFilterForm != null && (StringUtils.isNotEmpty(productFilterForm.getCategory()) || StringUtils.isNotEmpty(productFilterForm.getSubCategory()) || StringUtils.isNotEmpty(productFilterForm.getFromDate()) || StringUtils.isNotEmpty(productFilterForm.getToDate()) || StringUtils.isNotEmpty(productFilterForm.getProductName()) || StringUtils.isNotEmpty(productFilterForm.getProductCode()))) {
             return productFilterDAO.filterProduct(productFilterForm);

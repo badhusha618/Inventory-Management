@@ -10,7 +10,7 @@
 package com.makinus.unitedsupplies.common.utils;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 public interface FTLTemplates {
 

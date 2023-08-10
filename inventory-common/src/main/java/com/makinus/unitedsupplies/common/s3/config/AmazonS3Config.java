@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Configuration
 public class AmazonS3Config {

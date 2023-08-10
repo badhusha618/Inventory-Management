@@ -15,10 +15,9 @@ import com.makinus.unitedsupplies.common.data.entity.Address;
 import com.makinus.unitedsupplies.common.data.entity.AddressRef;
 import com.makinus.unitedsupplies.common.data.reftype.City;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +29,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
 import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 
 /**
- * Created by sabique
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -70,27 +69,27 @@ public class AddressServiceImpl implements AddressService {
         address.setIsDefault(addressCount > 0 ? YNStatus.NO.getStatus() : YNStatus.YES.getStatus());
     }
 
-    public Address findAddressById(Long id) throws UnitedSuppliesException {
+    public Address findAddressById(Long id) throws InventoryException {
         Optional<Address> addressOptional = addressRepository.findById(id);
         if (addressOptional.isPresent()) {
             Address address = addressOptional.get();
             address.setCityDisplay(City.statusMatch(address.getCity()).getDisplay());
             return address;
         }
-        throw new UnitedSuppliesException(String.format("Address is not found with the id %d", id));
+        throw new InventoryException(String.format("Address is not found with the id %d", id));
     }
 
     @Override
-    public Address findAddressByRef(Long ref) throws UnitedSuppliesException {
+    public Address findAddressByRef(Long ref) throws InventoryException {
         Optional<Address> addressOptional = addressRepository.findAddressByRef(ref);
         if (addressOptional.isPresent()) {
             return addressOptional.get();
         }
-        throw new UnitedSuppliesException(String.format("Address is not found with the ref %d", ref));
+        throw new InventoryException(String.format("Address is not found with the ref %d", ref));
     }
 
     @Override
-    public Optional<Address> findDefaultAddressByUserAndCategory(Long userId, String category) throws UnitedSuppliesException {
+    public Optional<Address> findDefaultAddressByUserAndCategory(Long userId, String category) throws InventoryException {
         return addressRepository.findDefaultAddressByUserAndCategory(userId, category);
     }
 
@@ -115,12 +114,12 @@ public class AddressServiceImpl implements AddressService {
         return addressList;
     }
 
-    public Address updateAddress(final Address address) throws UnitedSuppliesException {
+    public Address updateAddress(final Address address) throws InventoryException {
         LOG.info("Update existing address in the database");
         return addressRepository.save(address);
     }
 
-    public Address updateDefaultStatus(Long ref) throws UnitedSuppliesException {
+    public Address updateDefaultStatus(Long ref) throws InventoryException {
         LOG.info("Update existing address default status in the database");
         Optional<Address> addressOptional = addressRepository.findAddressByRef(ref);
         if (addressOptional.isPresent()) {
@@ -136,10 +135,10 @@ public class AddressServiceImpl implements AddressService {
             address.setUpdatedDate(getInstant());
             return address;
         }
-        throw new UnitedSuppliesException(String.format("Address is not found with the ref %d", ref));
+        throw new InventoryException(String.format("Address is not found with the ref %d", ref));
     }
 
-    public Address removeAddress(Long ref) throws UnitedSuppliesException {
+    public Address removeAddress(Long ref) throws InventoryException {
         Optional<Address> addressOptional = addressRepository.findAddressByRef(ref);
         if (addressOptional.isPresent()) {
             Address address = addressOptional.get();
@@ -148,6 +147,6 @@ public class AddressServiceImpl implements AddressService {
             address.setUpdatedDate(getInstant());
             return address;
         }
-        throw new UnitedSuppliesException(String.format("Address is not found with the id %d", ref));
+        throw new InventoryException(String.format("Address is not found with the id %d", ref));
     }
 }

@@ -10,10 +10,11 @@
 package com.makinus.unitedsupplies.common.data.service.userotp;
 
 import com.makinus.unitedsupplies.common.data.entity.UserOTP;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
+
 import java.util.Optional;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public interface UserOtpService {
 
   UserOTP saveUserOtp(final UserOTP userOtp);
@@ -22,5 +23,5 @@ public interface UserOtpService {
 
   Optional<UserOTP> findLatestOtpByMobileAndByOtpType(String mobile, String otpType);
 
-  UserOTP removeUserOTP(String mobile, String otpType) throws UnitedSuppliesException;
+  UserOTP removeUserOTP(String mobile, String otpType) throws InventoryException;
 }

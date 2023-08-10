@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 /**
- * @author ammar
+ * @author Bad_sha
  */
 public interface NotificationsRepository extends JpaRepository<Notifications, Long> {
 

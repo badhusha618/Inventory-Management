@@ -1,15 +1,15 @@
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import com.makinus.unitedsupplies.admin.data.forms.VendorForm;
-import com.makinus.unitedsupplies.common.data.entity.Vendor;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.image.ImageWriter;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
-import com.makinus.unitedsupplies.common.s3.AmazonS3Client;
-import com.makinus.unitedsupplies.common.utils.AppUtils;
+import com.makinus.Inventory.admin.data.forms.VendorForm;
+import com.makinus.Inventory.common.data.entity.Vendor;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.image.ImageWriter;
+import com.makinus.Inventory.common.exception.InventoryException;
+import com.makinus.Inventory.common.s3.AmazonS3Client;
+import com.makinus.Inventory.common.utils.AppUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.*;
+import static com.makinus.Inventory.common.utils.AppUtils.*;
 
 /**
- * Created by Kingson
+ * @author Bad_sha
  */
 @Component
 @Qualifier("VendorMapper")
@@ -39,7 +39,7 @@ public class VendorMapper
     private AmazonS3Client amazonS3Client;
 
     @Override
-    public Vendor map(VendorForm vendorForm) throws UnitedSuppliesException {
+    public Vendor map(VendorForm vendorForm) throws InventoryException {
         LOG.info("Map Vendor Form to Vendor Entity");
         Vendor vendor = new Vendor();
         try {
@@ -70,13 +70,13 @@ public class VendorMapper
             vendor.setDeleted(YNStatus.NO.getStatus());
         } catch (IOException e) {
             LOG.warn("CategoryMapper.map throws exception {}", e.getMessage());
-            throw new UnitedSuppliesException(e.getMessage());
+            throw new InventoryException(e.getMessage());
         }
         return vendor;
     }
 
     @Override
-    public Vendor map(VendorForm vendorForm, Vendor vendor) throws UnitedSuppliesException {
+    public Vendor map(VendorForm vendorForm, Vendor vendor) throws InventoryException {
         LOG.info("Map Vendor Form to Updated Vendor Entity");
         try {
             vendor.setVendorCode(vendorForm.getVendorCode());
@@ -107,12 +107,12 @@ public class VendorMapper
             vendor.setUpdatedDate(getInstant());
         } catch (IOException e) {
             LOG.warn("CategoryMapper.map throws exception {}", e.getMessage());
-            throw new UnitedSuppliesException(e.getMessage());
+            throw new InventoryException(e.getMessage());
         }
         return vendor;
     }
 
-    private String imagePath(Vendor vendor) throws UnitedSuppliesException {
+    private String imagePath(Vendor vendor) throws InventoryException {
         return imageWriter.writeImage(
                 vendor.getImage(),
                 vendor.getCreatedDateAsFolderName(),
@@ -120,7 +120,7 @@ public class VendorMapper
     }
 
     @Override
-    public VendorForm remap(Vendor vendor) throws UnitedSuppliesException {
+    public VendorForm remap(Vendor vendor) throws InventoryException {
         LOG.info("Map Vendor Entity to Vendor Form");
         VendorForm vendorForm = new VendorForm();
         vendorForm.setId(String.valueOf(vendor.getId()));

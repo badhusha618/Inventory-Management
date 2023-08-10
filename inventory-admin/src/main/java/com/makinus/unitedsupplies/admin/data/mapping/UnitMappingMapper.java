@@ -7,24 +7,24 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
-import com.makinus.unitedsupplies.admin.data.forms.UnitMappingForm;
-import com.makinus.unitedsupplies.common.data.entity.UnitMapping;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.UnitMappingForm;
+import com.makinus.Inventory.common.data.entity.UnitMapping;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Component
 @Qualifier("UnitMappingMapper")
 public class UnitMappingMapper
@@ -35,7 +35,7 @@ public class UnitMappingMapper
   private final Logger LOG = LogManager.getLogger(UnitMappingMapper.class);
 
   @Override
-  public UnitMapping map(UnitMappingForm unitMappingForm) throws UnitedSuppliesException {
+  public UnitMapping map(UnitMappingForm unitMappingForm) throws InventoryException {
     LOG.info("Map UnitMapping Form to UnitMapping Entity");
     UnitMapping unitMapping = new UnitMapping();
     unitMapping.setUnit(Long.valueOf(unitMappingForm.getUnit()));
@@ -52,7 +52,7 @@ public class UnitMappingMapper
 
   @Override
   public UnitMapping map(UnitMappingForm unitMappingForm, UnitMapping unitMapping)
-      throws UnitedSuppliesException {
+      throws InventoryException {
 
     LOG.info("Map UnitMapping Form to Updated UnitMapping Entity");
     unitMapping.setUnit(Long.valueOf(unitMappingForm.getUnit()));

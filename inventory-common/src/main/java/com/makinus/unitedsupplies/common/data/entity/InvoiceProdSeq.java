@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 /**
- * Created by ibrahim
+ * @author Bad_sha
  */
 @Entity
 @Table(name = "INVOICE_PROD_SEQ")

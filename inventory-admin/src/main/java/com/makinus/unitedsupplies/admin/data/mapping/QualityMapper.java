@@ -7,24 +7,26 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.mapping;
+package com.makinus.Inventory.admin.data.mapping;
 
-import com.makinus.unitedsupplies.admin.data.forms.QualityForm;
-import com.makinus.unitedsupplies.common.data.entity.Quality;
-import com.makinus.unitedsupplies.common.data.mapper.EntityMapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityRemapper;
-import com.makinus.unitedsupplies.common.data.mapper.EntityUpdateMapper;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.QualityForm;
+import com.makinus.Inventory.common.data.entity.Quality;
+import com.makinus.Inventory.common.data.mapper.EntityMapper;
+import com.makinus.Inventory.common.data.mapper.EntityRemapper;
+import com.makinus.Inventory.common.data.mapper.EntityUpdateMapper;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.utils.AppUtils.getCurrentUser;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 
-/** Created by ammar */
+/**
+ * @author Bad_sha
+ */
 @Component
 @Qualifier("QualityMapper")
 public class QualityMapper
@@ -35,7 +37,7 @@ public class QualityMapper
   private final Logger LOG = LogManager.getLogger(QualityMapper.class);
 
   @Override
-  public Quality map(QualityForm qualityForm) throws UnitedSuppliesException {
+  public Quality map(QualityForm qualityForm) throws InventoryException {
     LOG.info("Map Quality Form to Quality Entity");
     Quality quality = new Quality();
     quality.setQuality(qualityForm.getQuality());
@@ -50,7 +52,7 @@ public class QualityMapper
   }
 
   @Override
-  public Quality map(QualityForm qualityForm, Quality quality) throws UnitedSuppliesException {
+  public Quality map(QualityForm qualityForm, Quality quality) throws InventoryException {
 
     LOG.info("Map Quality Form to Updated Quality Entity");
     quality.setQuality(qualityForm.getQuality());
@@ -63,7 +65,7 @@ public class QualityMapper
   }
 
   @Override
-  public QualityForm remap(Quality quality) throws UnitedSuppliesException {
+  public QualityForm remap(Quality quality) throws InventoryException {
     LOG.info("Map Quality Entity to Quality Form");
     QualityForm qualityForm = new QualityForm();
     qualityForm.setQualityID(String.valueOf(quality.getId()));

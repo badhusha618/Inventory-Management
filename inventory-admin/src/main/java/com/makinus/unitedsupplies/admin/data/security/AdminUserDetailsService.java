@@ -7,12 +7,12 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.data.security;
+package com.makinus.Inventory.admin.data.security;
 
-import static com.makinus.unitedsupplies.common.data.reftype.UserRole.statusMatch;
+import static com.makinus.Inventory.common.data.reftype.UserRole.statusMatch;
 
-import com.makinus.unitedsupplies.admin.data.dao.AdminUserRepository;
-import com.makinus.unitedsupplies.common.data.entity.AdminUser;
+import com.makinus.Inventory.admin.data.dao.AdminUserRepository;
+import com.makinus.Inventory.common.data.entity.AdminUser;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -26,7 +26,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Service
 @Transactional
 public class AdminUserDetailsService implements UserDetailsService {

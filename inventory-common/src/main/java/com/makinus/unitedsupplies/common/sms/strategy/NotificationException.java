@@ -9,7 +9,9 @@
  */
 package com.makinus.unitedsupplies.common.sms.strategy;
 
-/** @author abuabdul */
+/**
+ * @author Bad_sha
+ */
 public class NotificationException extends Exception {
 
   private String exceptionType;

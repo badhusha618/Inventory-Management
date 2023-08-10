@@ -14,7 +14,8 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.*;
 import com.makinus.unitedsupplies.common.data.dao.UnitRepository;
 import com.makinus.unitedsupplies.common.data.entity.Unit;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
+
 import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Service
 @Transactional
 public class UnitServiceImpl implements UnitService {
@@ -76,16 +77,16 @@ public class UnitServiceImpl implements UnitService {
   }
 
   @Override
-  public Unit findUnit(Long id) throws UnitedSuppliesException {
+  public Unit findUnit(Long id) throws InventoryException {
     Optional<Unit> unitOptional = unitRepository.findById(id);
     if (unitOptional.isPresent()) {
       return unitOptional.get();
     }
-    throw new UnitedSuppliesException(String.format("Unit is not found with the id %d", id));
+    throw new InventoryException(String.format("Unit is not found with the id %d", id));
   }
 
   @Override
-  public Unit removeUnit(Long id) throws UnitedSuppliesException {
+  public Unit removeUnit(Long id) throws InventoryException {
     Optional<Unit> unitOptional = unitRepository.findById(id);
     if (unitOptional.isPresent()) {
       Unit unit = unitOptional.get();
@@ -94,6 +95,6 @@ public class UnitServiceImpl implements UnitService {
       unit.setUpdatedDate(getInstant());
       return unit;
     }
-    throw new UnitedSuppliesException(String.format("Promotion is not found with the id %d", id));
+    throw new InventoryException(String.format("Promotion is not found with the id %d", id));
   }
 }

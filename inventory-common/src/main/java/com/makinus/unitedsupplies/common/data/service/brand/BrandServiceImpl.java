@@ -12,7 +12,7 @@ package com.makinus.unitedsupplies.common.data.service.brand;
 import com.makinus.unitedsupplies.common.data.dao.BrandRepository;
 import com.makinus.unitedsupplies.common.data.entity.Brand;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
 import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -74,15 +74,15 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public Brand findBrand(Long id) throws UnitedSuppliesException {
+    public Brand findBrand(Long id) throws InventoryException {
         Optional<Brand> brandOptional = brandRepository.findById(id);
         if (brandOptional.isPresent()) {
             return brandOptional.get();
         }
-        throw new UnitedSuppliesException(String.format("Brand is not found with the id %d", id));
+        throw new InventoryException(String.format("Brand is not found with the id %d", id));
     }
 
-    public Brand removeBrand(Long id) throws UnitedSuppliesException {
+    public Brand removeBrand(Long id) throws InventoryException {
         Optional<Brand> brandOptional = brandRepository.findById(id);
         if (brandOptional.isPresent()) {
             Brand brand = brandOptional.get();
@@ -91,6 +91,6 @@ public class BrandServiceImpl implements BrandService {
             brand.setUpdatedDate(getInstant());
             return brand;
         }
-        throw new UnitedSuppliesException(String.format("Promotion is not found with the id %d", id));
+        throw new InventoryException(String.format("Promotion is not found with the id %d", id));
     }
 }

@@ -84,12 +84,12 @@
                             <span class="badge badge-default">Loading Charges </span><span th:text="${productOrder.loadingCharges}" class="m-3">Loading Charges</span>
                         </td>
                         <td width="20%">
-                            <span class="badge badge-primary" th:text="${T(com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus).statusMatch(productOrder.status).getDisplay()}">SaleRate</span>
+                            <span class="badge badge-primary" th:text="${T(com.makinus.Inventory.common.data.reftype.ProdOrderStatus).statusMatch(productOrder.status).getDisplay()}">SaleRate</span>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-                <form id="fulfillmentForm" th:action="@{/order/fulfillment/{stage}.mk(stage=${T(com.makinus.unitedsupplies.common.data.reftype.OrderFulfillmentStatus).ACCEPT.getStatus()})}" th:object="${previewFulfillmentForm}" method="post">
+                <form id="fulfillmentForm" th:action="@{/order/fulfillment/{stage}.mk(stage=${T(com.makinus.Inventory.common.data.reftype.OrderFulfillmentStatus).ACCEPT.getStatus()})}" th:object="${previewFulfillmentForm}" method="post">
                     <input class="d-none" th:field="*{orderRef}" />
                     <input class="d-none" th:field="*{prodVendorId}" />
                     <input class="d-none" th:field="*{prodOrderIds}" />

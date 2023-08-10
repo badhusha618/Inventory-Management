@@ -9,7 +9,7 @@
  */
 package com.makinus.unitedsupplies.common.data.reftype;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public enum AddressCategory {
   DELIVERY_ADDRESS("D", "Delivery Address"),
   BILLING_ADDRESS("B", "Billing Address");

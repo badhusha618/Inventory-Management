@@ -18,7 +18,7 @@ import java.util.Objects;
 import javax.persistence.*;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Entity
 @Table(name = "LOADING_CHARGES")

@@ -7,18 +7,18 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.CategoryForm;
-import com.makinus.unitedsupplies.admin.data.mapping.CategoryMapper;
-import com.makinus.unitedsupplies.common.data.entity.Category;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
-import com.makinus.unitedsupplies.common.s3.AmazonS3Client;
+import com.makinus.Inventory.admin.data.forms.CategoryForm;
+import com.makinus.Inventory.admin.data.mapping.CategoryMapper;
+import com.makinus.Inventory.common.data.entity.Category;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.exception.InventoryException;
+import com.makinus.Inventory.common.s3.AmazonS3Client;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +40,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.admin.utils.AdminUtils.*;
+import static com.makinus.Inventory.admin.utils.AdminUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.springframework.util.FileCopyUtils.copy;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class CategoryController {
@@ -83,7 +83,7 @@ public class CategoryController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/category.mk")
     public String category(ModelMap model, HttpServletRequest request)
-            throws UnitedSuppliesException {
+            throws InventoryException {
         LOG.info("Open Category page - {}", this.getClass().getSimpleName());
         List<Category> categories = categoryService.categoryList();
         model.addAttribute("categoryList", categories);
@@ -94,7 +94,7 @@ public class CategoryController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/new/category.mk")
-    public String newCategory(ModelMap model, HttpServletRequest request) throws UnitedSuppliesException {
+    public String newCategory(ModelMap model, HttpServletRequest request) throws InventoryException {
         LOG.info("Open Category add form page - {}", this.getClass().getSimpleName());
         CategoryForm categoryForm = new CategoryForm();
         categoryForm.setActiveCategory(Boolean.TRUE);
@@ -107,7 +107,7 @@ public class CategoryController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/category.mk")
-    public String addCategory(@ModelAttribute("categoryForm") CategoryForm categoryForm, ModelMap model, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addCategory(@ModelAttribute("categoryForm") CategoryForm categoryForm, ModelMap model, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Create New Category on admin panel dashboard - {}", this.getClass().getSimpleName());
         Category savedCategory = categoryService.saveCategory(categoryMapper.map(categoryForm));
         redirectAttrs.addFlashAttribute("categoryName", savedCategory.getCategoryName());
@@ -118,7 +118,7 @@ public class CategoryController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN','ROLE_MANAGER')")
     @PostMapping(value = "/category/available.mk", produces = "application/json")
     @ResponseBody
-    public Boolean isCategoryAvailable(HttpServletRequest request) throws UnitedSuppliesException {
+    public Boolean isCategoryAvailable(HttpServletRequest request) throws InventoryException {
         LOG.info("Checking if the category exists - {}", this.getClass().getSimpleName());
         boolean isCategoryAvailable = categoryService.isCategoryAvailable(request.getParameter("categoryName"));
         LOG.info("category is available? {}", isCategoryAvailable);
@@ -127,7 +127,7 @@ public class CategoryController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/category.mk")
-    public String editCategory(ModelMap model, @PathVariable("id") String categoryId) throws UnitedSuppliesException {
+    public String editCategory(ModelMap model, @PathVariable("id") String categoryId) throws InventoryException {
         LOG.info("Open Edit Category page - {}", this.getClass().getSimpleName());
         CategoryForm savedCategory = categoryMapper.remap(categoryService.findCategory(Long.valueOf(categoryId)));
         model.addAttribute("editCategoryForm", savedCategory);
@@ -138,7 +138,7 @@ public class CategoryController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/category.mk")
-    public String updateCategory(@ModelAttribute("editCategoryForm") CategoryForm categoryForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateCategory(@ModelAttribute("editCategoryForm") CategoryForm categoryForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Category page - {}", this.getClass().getSimpleName());
         Category updateCategory = categoryService.findCategory(Long.valueOf(categoryForm.getCategoryID()));
         if (updateCategory.getImagePath() != null && categoryForm.getEditCategoryImage() != null && !categoryForm.getEditCategoryImage().isEmpty()) {
@@ -170,7 +170,7 @@ public class CategoryController {
                 LOG.info("Old image is removed  in s3 by key {}", imagePathKey);
             }
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException usm) {
+        } catch (InventoryException usm) {
             map.put("valid", Boolean.FALSE);
         }
         return map;
@@ -179,7 +179,7 @@ public class CategoryController {
     @Deprecated
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/category/{id}/view.mk")
-    public void viewCategoryImage(HttpServletResponse response, @PathVariable String id) throws UnitedSuppliesException {
+    public void viewCategoryImage(HttpServletResponse response, @PathVariable String id) throws InventoryException {
         LOG.info("View Category from dashboard - {}", this.getClass().getSimpleName());
         try {
             Category category = categoryService.findCategory(Long.valueOf(id));
@@ -192,7 +192,7 @@ public class CategoryController {
                 copy(category.getImage(), response.getOutputStream());
             }
         } catch (IOException e) {
-            throw new UnitedSuppliesException("IO Exception occurred while viewing category image " + e.getMessage());
+            throw new InventoryException("IO Exception occurred while viewing category image " + e.getMessage());
         }
     }
 }

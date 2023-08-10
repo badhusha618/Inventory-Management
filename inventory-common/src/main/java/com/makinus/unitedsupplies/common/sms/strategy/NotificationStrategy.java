@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 import java.util.Scanner;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 public interface NotificationStrategy<T> {
 

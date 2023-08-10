@@ -12,7 +12,7 @@ package com.makinus.unitedsupplies.common.data.service.material;
 import com.makinus.unitedsupplies.common.data.dao.MaterialRepository;
 import com.makinus.unitedsupplies.common.data.entity.Material;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
 import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 
 /**
- * Created by ammar
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -74,16 +74,16 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public Material findMaterial(Long id) throws UnitedSuppliesException {
+    public Material findMaterial(Long id) throws InventoryException {
         Optional<Material> materialOptional = materialRepository.findById(id);
         if (materialOptional.isPresent()) {
             return materialOptional.get();
         }
-        throw new UnitedSuppliesException(String.format("Material is not found with the id %d", id));
+        throw new InventoryException(String.format("Material is not found with the id %d", id));
     }
 
     @Override
-    public Material removeMaterial(Long id) throws UnitedSuppliesException {
+    public Material removeMaterial(Long id) throws InventoryException {
         Optional<Material> materialOptional = materialRepository.findById(id);
         if (materialOptional.isPresent()) {
             Material material = materialOptional.get();
@@ -92,6 +92,6 @@ public class MaterialServiceImpl implements MaterialService {
             material.setUpdatedDate(getInstant());
             return material;
         }
-        throw new UnitedSuppliesException(String.format("Promotion is not found with the id %d", id));
+        throw new InventoryException(String.format("Promotion is not found with the id %d", id));
     }
 }

@@ -7,18 +7,18 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.UnitForm;
-import com.makinus.unitedsupplies.admin.data.mapping.UnitMapper;
-import com.makinus.unitedsupplies.common.data.entity.Order;
-import com.makinus.unitedsupplies.common.data.entity.Unit;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.Tuple;
-import com.makinus.unitedsupplies.common.data.service.category.CategoryService;
-import com.makinus.unitedsupplies.common.data.service.order.OrderService;
-import com.makinus.unitedsupplies.common.data.service.unit.UnitService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.Inventory.admin.data.forms.UnitForm;
+import com.makinus.Inventory.admin.data.mapping.UnitMapper;
+import com.makinus.Inventory.common.data.entity.Order;
+import com.makinus.Inventory.common.data.entity.Unit;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.Tuple;
+import com.makinus.Inventory.common.data.service.category.CategoryService;
+import com.makinus.Inventory.common.data.service.order.OrderService;
+import com.makinus.Inventory.common.data.service.unit.UnitService;
+import com.makinus.Inventory.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Controller
 public class UnitController {
@@ -72,7 +72,7 @@ public class UnitController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/units.mk")
-    public String unit(ModelMap model) throws UnitedSuppliesException {
+    public String unit(ModelMap model) throws InventoryException {
         LOG.info("Open Unit page - {}", this.getClass().getSimpleName());
         UnitForm unitForm = new UnitForm();
         unitForm.setActive(Boolean.TRUE);
@@ -83,7 +83,7 @@ public class UnitController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/add/unit.mk")
-    public String addNewUnit(@ModelAttribute("unitForm") UnitForm unitForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewUnit(@ModelAttribute("unitForm") UnitForm unitForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Open Add new Unit - {}", this.getClass().getSimpleName());
         Unit savedUnit = unitService.saveUnit(unitMapper.map(unitForm));
         redirectAttrs.addFlashAttribute("unitName", unitForm.getUnitName());
@@ -93,7 +93,7 @@ public class UnitController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/unit.mk")
-    public String editUnitPage(ModelMap model, @PathVariable("id") String unitId) throws UnitedSuppliesException {
+    public String editUnitPage(ModelMap model, @PathVariable("id") String unitId) throws InventoryException {
         LOG.info("Open Edit Unit page - {}", this.getClass().getSimpleName());
         UnitForm savedUnit = unitMapper.remap(unitService.findUnit(Long.valueOf(unitId)));
         model.addAttribute("editUnitForm", savedUnit);
@@ -102,7 +102,7 @@ public class UnitController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/unit.mk")
-    public String updateUnit(@ModelAttribute("editUnitForm") UnitForm unitForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateUnit(@ModelAttribute("editUnitForm") UnitForm unitForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Unit page - {}", this.getClass().getSimpleName());
         Unit updateUnit = unitService.findUnit(Long.valueOf(unitForm.getUnitID()));
         Unit savedUnit = unitService.updateUnit(unitMapper.map(unitForm, updateUnit));
@@ -115,7 +115,7 @@ public class UnitController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
     @PostMapping(value = "/unit/available.mk", produces = "application/json")
     @ResponseBody
-    public Boolean isExistingUnit(HttpServletRequest request) throws UnitedSuppliesException {
+    public Boolean isExistingUnit(HttpServletRequest request) throws InventoryException {
         LOG.info("Checking if the unit exists - {}", this.getClass().getSimpleName());
         boolean isUnitAvailable = unitService.isUnitAvailable(request.getParameter("unitCode").trim());
         LOG.info("UnitCode is available? {}", isUnitAvailable);
@@ -132,7 +132,7 @@ public class UnitController {
             Unit removedUnit = unitService.removeUnit(Long.valueOf(id));
             LOG.info("Unit is removed? {}", (removedUnit != null && removedUnit.getDeleted().equalsIgnoreCase(YNStatus.YES.getStatus())));
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;

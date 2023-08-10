@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Entity
 @Table(name = "PROD_ORDERS")

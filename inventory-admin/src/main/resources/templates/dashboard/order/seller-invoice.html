@@ -73,7 +73,7 @@
                                     <label>Invoice Header</label>&nbsp;<span class="text-danger">*</span>
                                     <select class="form-control" id="invoiceHeader" th:field="*{invoiceHeader}">
                                         <option value="">Select</option>
-                                        <th:block th:each="invoiceHeader: ${T(com.makinus.unitedsupplies.common.data.reftype.ServiceInvoiceHeader).values()}">
+                                        <th:block th:each="invoiceHeader: ${T(com.makinus.Inventory.common.data.reftype.ServiceInvoiceHeader).values()}">
                                             <option th:value="${invoiceHeader.status}" th:text="${invoiceHeader.display}"></option>
                                         </th:block>
                                     </select>

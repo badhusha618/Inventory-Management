@@ -7,18 +7,18 @@
  *    Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.admin;
+package com.makinus.Inventory.admin.controller.admin;
 
-import com.makinus.unitedsupplies.admin.data.forms.VendorForm;
-import com.makinus.unitedsupplies.admin.data.mapping.VendorMapper;
-import com.makinus.unitedsupplies.admin.data.service.excel.GenericWriter;
-import com.makinus.unitedsupplies.admin.data.service.excel.VendorExcelDTO;
-import com.makinus.unitedsupplies.common.data.entity.Vendor;
-import com.makinus.unitedsupplies.common.data.form.VendorFilterForm;
-import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.data.service.vendor.VendorService;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
-import com.makinus.unitedsupplies.common.s3.AmazonS3Client;
+import com.makinus.Inventory.admin.data.forms.VendorForm;
+import com.makinus.Inventory.admin.data.mapping.VendorMapper;
+import com.makinus.Inventory.admin.data.service.excel.GenericWriter;
+import com.makinus.Inventory.admin.data.service.excel.VendorExcelDTO;
+import com.makinus.Inventory.common.data.entity.Vendor;
+import com.makinus.Inventory.common.data.form.VendorFilterForm;
+import com.makinus.Inventory.common.data.reftype.YNStatus;
+import com.makinus.Inventory.common.data.service.vendor.VendorService;
+import com.makinus.Inventory.common.exception.InventoryException;
+import com.makinus.Inventory.common.s3.AmazonS3Client;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,12 +39,12 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
+import static com.makinus.Inventory.common.utils.AppUtils.getInstant;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.springframework.util.FileCopyUtils.copy;
 
 /**
- * @author ammar
+ * @author Bad_sha
  */
 @Controller
 public class VendorController {
@@ -77,7 +77,7 @@ public class VendorController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/list/vendor.mk")
-    public String listVendor(ModelMap model, @ModelAttribute("vendorList") ArrayList<Vendor> vendors, @ModelAttribute("vendorFilterForm") VendorFilterForm vendorFilterForm, @ModelAttribute("fromSearch") String fromSearch) throws UnitedSuppliesException {
+    public String listVendor(ModelMap model, @ModelAttribute("vendorList") ArrayList<Vendor> vendors, @ModelAttribute("vendorFilterForm") VendorFilterForm vendorFilterForm, @ModelAttribute("fromSearch") String fromSearch) throws InventoryException {
         LOG.info("List Vendor page - {}", this.getClass().getSimpleName());
         model.addAttribute("vendorList", new ArrayList<>());
         if (StringUtils.isNotEmpty(fromSearch)) {
@@ -92,7 +92,7 @@ public class VendorController {
     }
 
     @PostMapping(value = {"/vendor/search.mk"})
-    public String vendorSearch(@ModelAttribute("vendorFilterForm") VendorFilterForm vendorFilterForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String vendorSearch(@ModelAttribute("vendorFilterForm") VendorFilterForm vendorFilterForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Search vendor - {}", this.getClass().getSimpleName());
         List<Vendor> vendorList = vendorService.filterVendor(vendorFilterForm).stream().sorted(Comparator.comparing(Vendor::getCreatedDate).reversed()).collect(Collectors.toList());
         redirectAttrs.addFlashAttribute("vendorList", vendorList);
@@ -112,7 +112,7 @@ public class VendorController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN','ROLE_MANAGER')")
     @PostMapping(value = "/save/vendor.mk")
-    public String addNewVendor(@ModelAttribute("vendorForm") VendorForm vendorForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String addNewVendor(@ModelAttribute("vendorForm") VendorForm vendorForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Open Add New Vendor - {}", this.getClass().getSimpleName());
         Vendor savedVendor = vendorService.saveVendor(vendorMapper.map(vendorForm));
         redirectAttrs.addFlashAttribute("vendorName", savedVendor.getVendorName());
@@ -122,7 +122,7 @@ public class VendorController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/edit/{id}/vendor.mk")
-    public String editVendorPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String Id) throws UnitedSuppliesException {
+    public String editVendorPage(ModelMap model, HttpServletRequest request, @PathVariable("id") String Id) throws InventoryException {
         LOG.info("Open Edit Vendor page - {}", this.getClass().getSimpleName());
         VendorForm vendorFormEdit = vendorMapper.remap(vendorService.findVendor(Long.valueOf(Id)));
         model.addAttribute("editVendorForm", vendorFormEdit);
@@ -131,7 +131,7 @@ public class VendorController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/update/vendor.mk")
-    public String updateVendor(@ModelAttribute("editVendorForm") VendorForm vendorForm, RedirectAttributes redirectAttrs) throws UnitedSuppliesException {
+    public String updateVendor(@ModelAttribute("editVendorForm") VendorForm vendorForm, RedirectAttributes redirectAttrs) throws InventoryException {
         LOG.info("Update Vendor page - {}", this.getClass().getSimpleName());
         Vendor updateVendor = vendorService.findVendor(Long.valueOf(vendorForm.getId()));
         if (updateVendor.getVendorSignature() != null && vendorForm.getEditSignature() != null && ! vendorForm.getEditSignature().isEmpty()) {
@@ -163,7 +163,7 @@ public class VendorController {
                 LOG.info("Old image is removed  in s3 by key {}", imagePathKey);
             }
             map.put("valid", Boolean.TRUE);
-        } catch (UnitedSuppliesException e) {
+        } catch (InventoryException e) {
             map.put("valid", Boolean.FALSE);
         }
         return map;
@@ -172,7 +172,7 @@ public class VendorController {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
     @PostMapping(value = "/vendor/available.mk", produces = "application/json")
     @ResponseBody
-    public Boolean isExistingVendor(HttpServletRequest request) throws UnitedSuppliesException {
+    public Boolean isExistingVendor(HttpServletRequest request) throws InventoryException {
         LOG.info("Checking if the vendor exists - {}", this.getClass().getSimpleName());
         boolean isVendorAvailable = vendorService.isVendorAvailable(request.getParameter("vendorCode").trim());
         LOG.info("vendorCode is available? {}", isVendorAvailable);
@@ -181,7 +181,7 @@ public class VendorController {
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping(value = "/view/{id}/vendor.mk")
-    public void viewVendorSignature(HttpServletResponse response, @PathVariable String id) throws UnitedSuppliesException {
+    public void viewVendorSignature(HttpServletResponse response, @PathVariable String id) throws InventoryException {
         LOG.info("View Vendor from dashboard - {}", this.getClass().getSimpleName());
         try {
             Vendor vendor = vendorService.findVendorWithImages(Long.valueOf(id));
@@ -194,13 +194,13 @@ public class VendorController {
                 copy(vendor.getImage(), response.getOutputStream());
             }
         } catch (IOException e) {
-            throw new UnitedSuppliesException("IO Exception occurred while viewing vendor image " + e.getMessage());
+            throw new InventoryException("IO Exception occurred while viewing vendor image " + e.getMessage());
         }
     }
 
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping(value = "/export/vendor.mk")
-    public void exportVendorListToExcel(@ModelAttribute("vendorFilterForm") VendorFilterForm vendorFilterForm, HttpServletResponse response) throws UnitedSuppliesException {
+    public void exportVendorListToExcel(@ModelAttribute("vendorFilterForm") VendorFilterForm vendorFilterForm, HttpServletResponse response) throws InventoryException {
         LOG.info("Export vendor details in Excel - {}", this.getClass().getSimpleName());
         List<Vendor> vendorList = vendorService.filterVendor(vendorFilterForm).stream().sorted(Comparator.comparing(Vendor::getCreatedDate).reversed()).collect(Collectors.toList());
 

@@ -13,17 +13,17 @@ import com.makinus.unitedsupplies.common.data.entity.ProductOrder;
 import com.makinus.unitedsupplies.common.data.entity.Vendor;
 import com.makinus.unitedsupplies.common.data.form.ProductOrderFilterForm;
 import com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Created by ammar
+ * @author Bad_sha
  */
 public interface ProductOrderService {
 
-    ProductOrder findProductOrder(final Long id) throws UnitedSuppliesException;
+    ProductOrder findProductOrder(final Long id) throws InventoryException;
 
     List<ProductOrder> productOrdersList();
 
@@ -41,11 +41,11 @@ public interface ProductOrderService {
 
     List<ProductOrder> getProductOrderListByOrderRefs(List<Long> orderRefs);
 
-    ProductOrder updateProductOrderVendor(Long id, Long prodVendorId, Vendor vendor, BigDecimal saleRate, BigDecimal pincode) throws UnitedSuppliesException;
+    ProductOrder updateProductOrderVendor(Long id, Long prodVendorId, Vendor vendor, BigDecimal saleRate, BigDecimal pincode) throws InventoryException;
 
-    ProductOrder updateProductOrderStatus(Long id, ProdOrderStatus prodOrderStatus) throws UnitedSuppliesException;
+    ProductOrder updateProductOrderStatus(Long id, ProdOrderStatus prodOrderStatus) throws InventoryException;
 
-    List<ProductOrder> filterProductOrder(ProductOrderFilterForm productOrderFilterForm) throws UnitedSuppliesException;
+    List<ProductOrder> filterProductOrder(ProductOrderFilterForm productOrderFilterForm) throws InventoryException;
 
     List<ProductOrder> updateProductOrderFulfillmentIds(List<Long> ids, Long fulfillmentId);
 }

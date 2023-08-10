@@ -16,13 +16,13 @@
 
     <parent>
         <groupId>com.makinus</groupId>
-        <artifactId>unitedsupplies</artifactId>
+        <artifactId>inventory</artifactId>
         <version>1.0.0-beta</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>unitedsupplies-db</artifactId>
+    <artifactId>inventory-db</artifactId>
     <packaging>war</packaging>
     <name>United Supplies App DB</name>
 

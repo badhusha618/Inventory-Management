@@ -12,7 +12,7 @@ package com.makinus.unitedsupplies.common.data.service.transport;
 import com.makinus.unitedsupplies.common.data.dao.TransportRepository;
 import com.makinus.unitedsupplies.common.data.entity.Transport;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 import static java.lang.String.format;
 
 /**
- * Created by sabique
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -81,13 +81,13 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public Transport findTransport(Long id) throws UnitedSuppliesException {
+    public Transport findTransport(Long id) throws InventoryException {
         Optional<Transport> transportOptional = transportRepository.findById(id);
         if (transportOptional.isPresent()) {
             Transport transport = transportOptional.get();
             return transport;
         }
-        throw new UnitedSuppliesException(format("transport is not found with the id %d", id));
+        throw new InventoryException(format("transport is not found with the id %d", id));
     }
 
     @Override
@@ -97,7 +97,7 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public Transport removeTransport(Long id) throws UnitedSuppliesException {
+    public Transport removeTransport(Long id) throws InventoryException {
         Optional<Transport> transportOptional = transportRepository.findById(id);
         if (transportOptional.isPresent()) {
             Transport transport = transportOptional.get();
@@ -106,7 +106,7 @@ public class TransportServiceImpl implements TransportService {
             transport.setUpdatedDate(getInstant());
             return transport;
         }
-        throw new UnitedSuppliesException(format("Transport is not found with the id %s", id));
+        throw new InventoryException(format("Transport is not found with the id %s", id));
     }
 
     @Override

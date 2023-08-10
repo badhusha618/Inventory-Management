@@ -13,7 +13,7 @@ import com.makinus.unitedsupplies.common.data.dao.CategoryRepository;
 import com.makinus.unitedsupplies.common.data.entity.Category;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
 import com.makinus.unitedsupplies.common.data.service.image.ImageWriter;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import com.makinus.unitedsupplies.common.utils.AppUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +28,7 @@ import static java.lang.String.format;
 import static java.nio.file.Paths.get;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -92,7 +92,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category removeCategory(Long id) throws UnitedSuppliesException {
+    public Category removeCategory(Long id) throws InventoryException {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
             Category category = categoryOptional.get();
@@ -101,7 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
             category.setUpdatedDate(AppUtils.getInstant());
             return category;
         }
-        throw new UnitedSuppliesException(format("Promotion is not found with the id %d", id));
+        throw new InventoryException(format("Promotion is not found with the id %d", id));
     }
 
     @Override
@@ -111,14 +111,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category findCategory(Long id) throws UnitedSuppliesException {
+    public Category findCategory(Long id) throws InventoryException {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
             Category category = categoryOptional.get();
 //            category.setImage(imageWriter.readImage(get(category.getImagePath())));
             return category;
         }
-        throw new UnitedSuppliesException(format("Category is not found with the id %d", id));
+        throw new InventoryException(format("Category is not found with the id %d", id));
     }
 
 }

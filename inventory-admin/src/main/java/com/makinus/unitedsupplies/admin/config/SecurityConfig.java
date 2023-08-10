@@ -8,7 +8,7 @@
  *
  */
 
-package com.makinus.unitedsupplies.admin.config;
+package com.makinus.Inventory.admin.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
- * @author abuabdul
+ * @author Bad_sha
  */
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)

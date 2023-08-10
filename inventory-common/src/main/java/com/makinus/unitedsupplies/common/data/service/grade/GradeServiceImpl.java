@@ -12,7 +12,7 @@ package com.makinus.unitedsupplies.common.data.service.grade;
 import com.makinus.unitedsupplies.common.data.dao.GradeRepository;
 import com.makinus.unitedsupplies.common.data.entity.Grade;
 import com.makinus.unitedsupplies.common.data.reftype.YNStatus;
-import com.makinus.unitedsupplies.common.exception.UnitedSuppliesException;
+import com.makinus.unitedsupplies.common.exception.InventoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import static com.makinus.unitedsupplies.common.utils.AppUtils.getCurrentUser;
 import static com.makinus.unitedsupplies.common.utils.AppUtils.getInstant;
 
 /**
- * Created by abuabdul
+ * @author Bad_sha
  */
 @Service
 @Transactional
@@ -73,16 +73,16 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public Grade findGrade(Long id) throws UnitedSuppliesException {
+    public Grade findGrade(Long id) throws InventoryException {
         Optional<Grade> gradeOptional = gradeRepository.findById(id);
         if (gradeOptional.isPresent()) {
             return gradeOptional.get();
         }
-        throw new UnitedSuppliesException(String.format("Grade is not found with the id %d", id));
+        throw new InventoryException(String.format("Grade is not found with the id %d", id));
     }
 
     @Override
-    public Grade removeGrade(Long id) throws UnitedSuppliesException {
+    public Grade removeGrade(Long id) throws InventoryException {
         Optional<Grade> gradeOptional = gradeRepository.findById(id);
         if (gradeOptional.isPresent()) {
             Grade grade = gradeOptional.get();
@@ -91,6 +91,6 @@ public class GradeServiceImpl implements GradeService {
             grade.setUpdatedDate(getInstant());
             return grade;
         }
-        throw new UnitedSuppliesException(String.format("Promotion is not found with the id %d", id));
+        throw new InventoryException(String.format("Promotion is not found with the id %d", id));
     }
 }

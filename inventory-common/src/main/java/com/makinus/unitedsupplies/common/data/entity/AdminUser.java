@@ -12,7 +12,7 @@ package com.makinus.unitedsupplies.common.data.entity;
 import java.util.Date;
 import javax.persistence.*;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 @Entity
 @Table(name = "ADMIN_USERS")
 public class AdminUser {

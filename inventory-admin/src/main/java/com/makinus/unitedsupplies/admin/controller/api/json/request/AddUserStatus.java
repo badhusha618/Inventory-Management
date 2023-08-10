@@ -7,9 +7,9 @@
  *  Written by Makinus Pvt Ltd
  *
  */
-package com.makinus.unitedsupplies.admin.controller.api.json.request;
+package com.makinus.Inventory.admin.controller.api.json.request;
 
-/** Created by abuabdul */
+/** Created by Bad_sha */
 public enum AddUserStatus {
   EXISTS("E", "User Already Exists"),
   SUCCESS("S", "User Added Successfully"),
