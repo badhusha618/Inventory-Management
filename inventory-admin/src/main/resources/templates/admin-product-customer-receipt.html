@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Product Invoice</title>
+    <Style type="text/css">
+
+    body {
+       position: relative;
+       width: 18cm;
+       margin: 0 auto;
+       color: #001028;
+       background: #FFFFFF;
+       font-family: Arial, sans-serif;
+       font-size: 12px;
+       font-family: Arial;
+       line-height: 1.5;
+    }
+
+    div.border {
+       border: 1px solid #000;
+    }
+
+    table, th {
+       border: 1px solid black;
+    }
+
+    table, td.border {
+       border: 1px solid black;
+    }
+
+    table, td.border-x {
+       border-right: 1px solid black;
+       border-left: 1px solid black;
+    }
+
+    table {
+       border-collapse: collapse;
+       width: 95%;
+       height: 150px;
+       margin-left:17px;
+       margin-bottom:17px;
+    }
+
+    td {
+       vertical-align: top;
+    }
+
+    .red {
+       color: red;
+    }
+
+    .align-center {
+       text-align: center;
+    }
+
+    .align-right {
+       text-align: right;
+       margin-right:25px;
+    }
+
+    .align-left {
+       text-align: left;
+       margin-left:25px;
+    }
+
+    .row-border {
+       border-top: none;
+       border-bottom: none;
+    }
+
+    #logo {
+       width: 120px;
+       height: 120px;
+       float: right;
+       margin-right: 10px;
+       margin-top: 10px;
+       margin-bottom: 10px;
+    }
+
+    #sign {
+       width: 120px;
+       height: 70px;
+       float: right;
+       margin-right: 20px;
+    }
+
+    </Style>
+</head>
+<body>
+<div class="border">
+    <center><b>Tax Invoice</b></center>
+    <center><p class="red">(Original for Recipient)</p></center>
+    <div>
+        <table style="margin-bottom:0px">
+            <tr>
+                <td class="border" colspan="2">
+                    Sold By: JJ constructions<br/>
+                    Pan No.: 121212121<br/>
+                    GST No.: 1232323234533433
+                </td>
+                <td colspan="4">
+                    Ordered Through:<br/>
+                    United Supplies & Ecommerce (OPC) Pvt. Ltd.<br/>
+                    24 C , Ambai Road, Melapalayam<br/>
+                    Tirunelveli-627032<br/>
+                    mail.unitedsupplies@gmail.com
+                </td>
+                <td colspan="4" class="align-right" style="padding-right:40px;padding-top:20px">
+                    <img height="80px" width="80px" id="usLogo" src="/resources/img/logo.jpeg"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="border" colspan="2">
+                    Order No: OD#3<br/>
+                    Order Div: A<br/>
+                    Order Date: 02-12-2021<br/>
+                    Invoice No: <span class="red">US001-2122-00001</span><br/>
+                    Invoice Date: 03-12-2021<br/>
+                    State: TAMILNADU<br/>
+                    State Code: 33<br/>
+                </td>
+                <td class="border" colspan="4">
+                    Delivery Addess:<br/>
+                    Makinus<br/>
+                    123, AB Street, CD nagar, EF-600001,<br/>
+                    TAMILNADU, INDIA
+                </td>
+                <td class="border" colspan="4">
+                    Billing Addess:<br/>
+                    Makinus<br/>
+                    123, AB Street, CD nagar, EF-600001,<br/>
+                    TAMILNADU, INDIA
+                </td>
+            </tr>
+            <tr>
+                <td class="border-x" colspan="10">
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    SNO
+                </th>
+                <th style="width:35%;">
+                    Product Details
+                </th>
+                <th>
+                    Qty
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Net Amount
+                </th>
+                <th>
+                    Discount
+                </th>
+                <th>
+                    Total Taxable Value
+                </th>
+                <th>
+                    CGST
+                </th>
+                <th>
+                    SGST
+                </th>
+                <th>
+                    Total Amount
+                </th>
+            </tr>
+            <tr>
+                <td class="border-x">1</td>
+                <td class="border-x">
+                    Thermo Steel Flask -1000ml;<br/>
+                    SKUcode:HS-KSC-1001<br/>
+                    HSN:6594657(9%CGST+9%SGST)<br/>
+                    UOM:Nos<br/>
+                    <b>Shipment</b>
+                </td>
+                <td class="border-x">5</td>
+                <td class="border-x">705.13</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">0.00</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">4160.26</td>
+            </tr>
+            <tr>
+                <td class="border-x">2</td>
+                <td class="border-x">
+                    Thermo Steel Flask -1000ml;<br/>
+                    SKUcode:HS-KSC-1001<br/>
+                    HSN:6594657(9%CGST+9%SGST)<br/>
+                    UOM:Nos<br/>
+                    <b>Shipment</b>
+                </td>
+                <td class="border-x">5</td>
+                <td class="border-x">705.13</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">0.00</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">4160.26</td>
+            </tr>
+            <tr>
+                <td class="border-x">3</td>
+                <td class="border-x">
+                    Thermo Steel Flask -1000ml;<br/>
+                    SKUcode:HS-KSC-1001<br/>
+                    HSN:6594657(9%CGST+9%SGST)<br/>
+                    UOM:Nos<br/>
+                    <b>Shipment</b>
+                </td>
+                <td class="border-x">5</td>
+                <td class="border-x">705.13</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">0.00</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">4160.26</td>
+            </tr>
+            <tr>
+                <td class="border-x">4</td>
+                <td class="border-x">
+                    Thermo Steel Flask -1000ml;<br/>
+                    SKUcode:HS-KSC-1001<br/>
+                    HSN:6594657(9%CGST+9%SGST)<br/>
+                    UOM:Nos<br/>
+                    <b>Shipment</b>
+                </td>
+                <td class="border-x">5</td>
+                <td class="border-x">705.13</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">0.00</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">4160.26</td>
+            </tr>
+            <tr>
+                <td class="border-x">5</td>
+                <td class="border-x">
+                    Thermo Steel Flask -1000ml;<br/>
+                    SKUcode:HS-KSC-1001<br/>
+                    HSN:6594657(9%CGST+9%SGST)<br/>
+                    UOM:Nos<br/>
+                    <b>Shipment</b>
+                </td>
+                <td class="border-x">5</td>
+                <td class="border-x">705.13</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">0.00</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">4160.26</td>
+            </tr>
+            <tr>
+                <td class="border-x">6</td>
+                <td class="border-x">
+                    Thermo Steel Flask -1000ml;<br/>
+                    SKUcode:HS-KSC-1001<br/>
+                    HSN:6594657(9%CGST+9%SGST)<br/>
+                    UOM:Nos<br/>
+                    <b>Shipment</b>
+                </td>
+                <td class="border-x">5</td>
+                <td class="border-x">705.13</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">0.00</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">4160.26</td>
+            </tr>
+            <tr>
+                <td class="border-x">7</td>
+                <td class="border-x">
+                    Thermo Steel Flask -1000ml;<br/>
+                    SKUcode:HS-KSC-1001<br/>
+                    HSN:6594657(9%CGST+9%SGST)<br/>
+                    UOM:Nos<br/>
+                    <b>Shipment</b>
+                </td>
+                <td class="border-x">5</td>
+                <td class="border-x">705.13</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">0.00</td>
+                <td class="border-x">3525.64</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">317.31</td>
+                <td class="border-x">4160.26</td>
+            </tr>
+            <tr>
+                <td class="border" colspan="10">
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td class="border" colspan="9">
+                    <br/>
+                </td>
+                <td class="border">33542</td>
+            </tr>
+            <tr>
+                <td class="border" colspan="10">
+                    <center>
+                        Amount In Words: &nbsp;&nbsp; Thousand Twenty Nine Rupees only
+                    </center>
+                </td>
+            </tr>
+        </table>
+        <div class="align-left" style="margin-left:20px;margin-top:0px">Whether tax is payable under reverse charge - No</div>
+        <div class="align-right" style="margin-right:40px;margin-top:0px"><b>For JJ constructions</b></div>
+    </div>
+    <img id="sign" height="40px" width="120px" src="/resources/img/logo.jpeg"/>
+    <h5 class="align-right" style="margin-top:60px;">Authorized Signatory</h5>
+    <div><span class="align-left">E. & O.E.</span><span style="margin-left:60px;">The goods sold are intended for end user consumption not for resale</span></div>
+    <br/>
+</div>
+</body>
+</html>

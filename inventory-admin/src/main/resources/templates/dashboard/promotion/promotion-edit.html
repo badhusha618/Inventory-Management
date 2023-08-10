@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{dashboard/dashboard-layout}" th:with="promotionModule='active'">
+
+<head>
+    <title>Edit Promotion</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet"
+        media="screen" />
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet" media="screen" />
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet" />
+    <!-- PAGE LEVEL STYLES-->
+</head>
+
+<body>
+
+    <th:block layout:fragment="header">
+        <div th:replace="~{dashboard/header :: header}"></div>
+    </th:block>
+
+    <th:block layout:fragment="sidebar">
+        <div th:replace="~{dashboard/sidebar :: sidebar}"></div>
+    </th:block>
+
+    <th:block layout:fragment="content">
+        <!-- START PAGE CONTENT-->
+        <div class="page-heading">
+              <h1 class="page-title">Promotion Image</h1>
+
+        </div>
+        <div class="page-content fade-in-up">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ibox">
+                        <div class="ibox-head">
+                            <div class="ibox-title">Edit Promotion Image</div>
+                            <div class="ibox-tools">
+                                <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                            </div>
+                        </div>
+                        <div class="ibox-body">
+                            <form id="PromotionForm" action="/update/promotion.mk" th:action="@{/update/promotion.mk}"
+                                th:object="${editPromotionForm}" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Promotion Image</label>
+                                            <input class="form-control" type="file" th:field="*{editPromotionImage}">
+                                            <span class="text-danger">(Please upload new image if you want to replace old image)</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-7 form-group">
+                                                <input type="hidden" th:field="*{promotionID}" />
+                                                <label>Promotion Name</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                                <input class="form-control" type="text" th:field="*{promotionName}">
+                                            </div>
+                                            <div class="col-sm-5 form-group">
+                                                <label>Status</label></br>
+                                                <label class="ui-checkbox">
+                                                    <input type="checkbox" th:field="*{activePromotion}">
+                                                    <span class="input-span"></span>Display On Screen ?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Description</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                            <textarea class="form-control" type="text" th:field="*{description}" rows="6"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-danger">*</span>&nbsp;&nbsp;Required fields</span>
+                                <div class="form-group text-right">
+                                    <a class="btn btn-warning" href="/promotions.mk" th:href="@{/promotions.mk}">
+                                        <i class="fa fa-arrow-left"></i> &nbsp; Back
+                                    </a>
+                                    <button class="btn btn-success" type="submit">Update Promotion Image</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT-->
+    </th:block>
+
+    <th:block layout:fragment="pageplugin">
+        <!-- PAGE LEVEL PLUGINS-->
+        <script src="/resources/js/bootstrap-filestyle.js" th:src="@{/resources/js/bootstrap-filestyle.js}" type="text/javascript"></script>
+        <script src="/resources/js/jquery.validate.min.js" th:src="@{/resources/js/jquery.validate.min.js}" type="text/javascript"></script>
+        <script src="/resources/js/additional-methods.min.js" th:src="@{/resources/js/additional-methods.min.js}" type="text/javascript"></script>
+        <script type="text/javascript">
+            $.validator.addMethod('filesize', function (value, element, param) {
+                return (this.optional(element)) || (element.files[0].size <= param)
+            });
+        </script>
+    </th:block>
+
+    <th:block layout:fragment="pagescript">
+        <!-- PAGE LEVEL SCRIPTS-->
+        <script type="text/javascript">
+            $('[rel="tooltip"]').tooltip({
+                trigger: 'hover'
+            });
+
+            $(document).ready(function () {
+                $('[rel="tooltip"]').tooltip({
+                    trigger: 'hover'
+                });
+
+                //File Upload Style
+                $(":file").filestyle();
+
+                //JQuery Validator
+                $('#PromotionForm').validate({
+                    rules: {
+                        promotionImage: {
+                            filesize: "2097152",
+                            accept: "image/jpg,image/jpeg,image/png,image/gif"
+                        },
+                        description: {
+                            required: true,
+                            maxlength: 500
+                        },
+                        promotionName: {
+                            required: true,
+                            maxlength: 50
+                        }
+                    },
+                    messages: {
+                        promotionImage: {
+                            accept: 'Please Upload Valid Image.',
+                            filesize: "File size exceeds maximum limit 2 MB"
+                        },
+                        description: {
+                            required: "Description Required",
+                            maxlength: "Enter not more than 500 characters"
+                        },
+                        promotionName: {
+                            required: "Promotion Name Required"
+                        }
+                    },
+                    errorClass: "help-block error",
+                    highlight: function (e) {
+                        $(e).closest("#PromotionForm .form-group").addClass("has-error")
+                    },
+                    unhighlight: function (e) {
+                        $(e).closest("#PromotionForm .form-group").removeClass("has-error")
+                    }
+                }); // end of validator
+
+            }) // end of ready function
+        </script>
+    </th:block>
+
+</body>
+
+</html>

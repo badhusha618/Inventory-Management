@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{dashboard/dashboard-layout}"  th:with="materialModule='active',productFeatureModule='active'">
+
+<head>
+    <title>Edit Material</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet" media="screen" />
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet" />
+    <!-- PAGE LEVEL STYLES-->
+</head>
+
+<body>
+
+    <th:block layout:fragment="header">
+        <div th:replace="~{dashboard/header :: header}"></div>
+    </th:block>
+
+    <th:block layout:fragment="sidebar">
+        <div th:replace="~{dashboard/sidebar :: sidebar}"></div>
+    </th:block>
+
+    <th:block layout:fragment="content">
+        <!-- START PAGE CONTENT-->
+        <div class="page-heading">
+            <h1 class="page-title">Product Material</h1>
+        </div>
+        <div class="page-content fade-in-up">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ibox">
+                        <div class="ibox-head">
+                            <div class="ibox-title">Edit Product Material</div>
+                            <div class="ibox-tools">
+                                <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                            </div>
+                        </div>
+                        <div class="ibox-body">
+                            <form id="MaterialForm" action="/update/material.mk" th:action="@{/update/material.mk}" th:object="${editMaterialForm}" method="post">
+                                <div class="form-group">
+                                    <label>Material</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                    <input type="hidden" th:field="*{materialID}">
+                                    <input class="form-control" type="text" th:field="*{material}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Product Category</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                    <select class="form-control" th:field="*{category}" disabled>
+                                        <option value="">Select</option>
+                                        <th:block th:each="category: ${categoryValues}">
+                                            <option th:value="${category.id}" th:text="${category.categoryName}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                                <div class="form-group text-right">
+                                    <label>&nbsp;</label></br>
+                                    <label class="ui-checkbox">
+                                        <input type="checkbox" th:field="*{active}">
+                                        <span class="input-span"></span>Active Material ?</label>
+                                </div>
+                                <span class="text-danger">*</span>&nbsp;&nbsp;Required fields</span>
+                                <div class="form-group text-right">
+                                    <a class="btn btn-warning" href="/material.mk" th:href="@{/material.mk}">
+                                        <i class="fa fa-arrow-left"></i> &nbsp; Back
+                                    </a>
+                                    <button class="btn btn-success" type="submit">Update Material</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT-->
+    </th:block>
+
+    <th:block layout:fragment="pageplugin">
+        <!-- PAGE LEVEL PLUGINS-->
+        <script src="/resources/js/jquery.validate.min.js" th:src="@{/resources/js/jquery.validate.min.js}" type="text/javascript"></script>
+    </th:block>
+
+    <th:block layout:fragment="pagescript">
+       <!-- PAGE LEVEL SCRIPTS-->
+        <script type="text/javascript" th:inline="javascript">
+            $('[rel="tooltip"]').tooltip({
+                trigger: 'hover'
+            });
+
+            var materialFromDB = /*[[${materialFromDB}]]*/ '';
+
+            $(document).ready(function () {
+                $('[rel="tooltip"]').tooltip({
+                    trigger: 'hover'
+                });
+
+                //JQuery Validator
+            $('#MaterialForm').validate({
+                rules: {
+                    material: {
+                        required: true,
+                        maxlength: 50,
+                        remote: {
+                                depends: function () {
+                                    var returnValue = true //Check with remote
+                                    var materialFromInput = $(this).val();
+                                    if(materialFromDB !== undefined && materialFromDB !== '' && materialFromDB !== null){
+                                        if(materialFromDB == materialFromInput){
+                                            returnValue = false // Dont Check with remote
+                                        }
+                                    }
+                                    return returnValue;
+                                },
+                                param: {
+                                    url: US.baseURL+'/available/' +  $('#category').val() + '/material.mk',
+                                    type: 'post',
+                                    data: US.data_csrf
+                                }
+                            }
+                        },
+                    category: {
+                        required: true
+                    }
+                },
+                messages: {
+                    material: {
+                        required: "Material Required",
+                        remote: "Already exist"
+                    },
+                    category: {
+                        required: "Category Required"
+                    }
+                },
+                errorClass: "help-block error",
+                highlight: function (e) {
+                    $(e).closest("#MaterialForm .form-group").addClass("has-error")
+                },
+                unhighlight: function (e) {
+                    $(e).closest("#MaterialForm .form-group").removeClass("has-error")
+                }
+            }); // end of validator
+
+            }) // end of ready function
+       </script>
+    </th:block>
+
+</body>
+</html>

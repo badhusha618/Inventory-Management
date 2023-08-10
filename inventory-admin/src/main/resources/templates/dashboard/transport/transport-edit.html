@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{dashboard/dashboard-layout}" th:with="transportModule='active'">
+
+<head>
+    <title>Edit Shipment</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet" media="screen" />
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet" />
+    <!-- PAGE LEVEL STYLES-->
+</head>
+
+<body>
+
+<th:block layout:fragment="header">
+    <div th:replace="~{dashboard/header :: header}"></div>
+</th:block>
+
+<th:block layout:fragment="sidebar">
+    <div th:replace="~{dashboard/sidebar :: sidebar}"></div>
+</th:block>
+
+<th:block layout:fragment="content">
+    <!-- START PAGE CONTENT-->
+    <div class="page-heading">
+         <h1 class="page-title">Shipment Edit Form</h1>
+    </div>
+    <div class="page-content fade-in-up">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="ibox">
+                    <div class="ibox-head">
+                        <div class="ibox-title">Edit Shipment Form</div>
+                        <div class="ibox-tools">
+                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                        </div>
+                    </div>
+                    <div class="ibox-body">
+                        <form id="ProductForm" action="/update/shipment.mk" th:action="@{/update/shipment.mk}" th:object="${editTransportForm}" method="post">
+                            <div class="ibox" style="background-color: rgb(226, 242, 247)">
+                                <div class="ibox-head">
+                                    <div class="ibox-title">Product Details</div>
+                                    <div class="ibox-tools"><i class="fa fa-minus"></i></div>
+                                </div>
+                                <div class="ibox-body">
+                                    <div class="row" id="productFeatureBox">
+                                        <div class="col-sm-3 form-group">
+                                            <label>Group Name</label>&nbsp;<span class="text-danger">*</span>
+                                            <input type="hidden" th:field="*{id}"/>
+                                            <select class="form-control" th:field="*{transGroup}" disabled>
+                                                <option th:value="${id}" th:text="${editTransportForm.transGroup}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3 form-group">
+                                            <label>Unit</label>
+                                            <input class="form-control" type="text" th:value="${unitMap.get(editTransportForm.unitId)}" maxlength="50" readonly/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Quantity or less than or up to</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                        <input class="form-control" id="quantity" type="number" min="0" maxlength="50" th:field="*{quantity}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Source to Destination within (km)</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                        <input class="form-control" id="distance" type="number" min="0" maxlength="50" th:field="*{distance}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Shipment Charges (<i class="fa fa-inr"></i>)</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                        <input class="form-control" type="number" min="0" maxlength="50" th:field="*{charges}">
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="text-danger">*</span>&nbsp;&nbsp;Required fields</span>
+                            <div class="form-group text-right">
+                                <a class="btn btn-warning" href="/list/shipment.mk" th:href="@{/list/shipment.mk}">
+                                    <i class="fa fa-arrow-left"></i> &nbsp; Back
+                                </a>
+                                <button class="btn btn-success" type="submit">Update Shipment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+</th:block>
+
+<th:block layout:fragment="pageplugin">
+    <!-- PAGE LEVEL PLUGINS-->
+    <script src="/resources/js/bootstrap-filestyle.js" th:src="@{/resources/js/bootstrap-filestyle.js}" type="text/javascript"></script>
+    <script src="/resources/js/jquery.validate.min.js" th:src="@{/resources/js/jquery.validate.min.js}" type="text/javascript"></script>
+</th:block>
+
+<th:block layout:fragment="pagescript">
+    <!-- PAGE LEVEL SCRIPTS-->
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+            $('[rel="tooltip"]').tooltip({
+                trigger: 'hover'
+            });
+
+            var productCategoryTripletMap = /*[[${productCategoryTripletMap}]]*/ '';
+            var productTupleMap = /*[[${productTupleMap}]]*/ '';
+            var unitMap = /*[[${unitMap}]]*/ '';
+            var savedQuantity = /*[[${editTransportForm.quantity}]]*/ '';
+            var savedDistance = /*[[${editTransportForm.distance}]]*/ '';
+
+            $(document).ready(function () {
+
+            $("#productCategory").change(function(){
+                 var selectedCategoryId = $(this).val();
+                   $("#unit").val("");
+                 renderProduct(selectedCategoryId)
+            });
+
+                var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
+                var csrfToken = $("meta[name='_csrf']").attr("content");
+
+               //JQuery Validator
+                $('#ProductForm').validate({
+                    rules: {
+                        productCategory: {
+                            required: true
+                        },
+                        quantity: {
+                            required: true,
+                            number: true
+                        },
+                        distance: {
+                            required: true,
+                            number: true
+                        },
+                        charges: {
+                            required: true,
+                            number: true
+                        }
+                    },
+                    messages: {
+                        productCategory: {
+                            required: "Please Select Product Category"
+                        },
+                         quantity: {
+                            required: "Please Enter Quantity",
+                            number: "Please Enter Quantity in Valid Number",
+                            remote: "Quantity already available"
+                        },
+                        distance: {
+                            required: "Please Enter Distance",
+                            number: "Please Enter Distance in Valid Number",
+                            remote: "Distance already available"
+                        },
+                        charges: {
+                            required: "Please Enter Shipment Charges",
+                            number: "Please Enter Shipment Charges in Valid Number"
+                        }
+                    },
+                    errorClass: "help-block error",
+                    highlight: function (e) {
+                        $(e).closest("#customer-form .form-group").addClass("has-error")
+                    },
+                    unhighlight: function (e) {
+                        $(e).closest("#customer-form .form-group").removeClass("has-error")
+                    }
+                });
+
+            }) // end of ready function
+            /*]]>*/
+       </script>
+</th:block>
+
+</body>
+</html>

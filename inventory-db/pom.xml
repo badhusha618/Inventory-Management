@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  /*
+
+    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+
+    Unauthorized copying of this file, via any medium is strictly prohibited
+    Proprietary and confidential
+    Written by Makinus Pvt Ltd
+
+ */
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>com.makinus</groupId>
+        <artifactId>unitedsupplies</artifactId>
+        <version>1.0.0-beta</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>unitedsupplies-db</artifactId>
+    <packaging>war</packaging>
+    <name>United Supplies App DB</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>us-db</finalName>
+    </build>
+
+</project>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{dashboard/dashboard-layout}" th:with="stockManagementModule='active'">
+
+<head>
+    <title>Order List</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet"
+          media="screen" />
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet" media="screen" />
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet" />
+    <!-- PAGE LEVEL STYLES-->
+    <!--/*  Bootstrap Lightbox CSS   */-->
+    <link href="/resources/css/ekko-lightbox.css" th:href="@{/resources/css/ekko-lightbox.css}" rel="stylesheet" media="screen"/>
+    <!-- PLUGINS STYLES-->
+    <link href="/resources/css/datatables.min.css" th:href="@{/resources/css/datatables.min.css}" rel="stylesheet"
+          media="screen" />
+    <link href="/resources/css/bootstrap-editable.css" th:href="@{/resources/css/bootstrap-editable.css}" rel="stylesheet"
+          media="screen"/>
+    <link href="/resources/css/sweetalert2.min.css" th:href="@{/resources/css/sweetalert2.min.css}" rel="stylesheet"
+          media="screen" />
+    <link href="/resources/css/bootstrap-datepicker3.min.css" th:href="@{/resources/css/bootstrap-datepicker3.min.css}" rel="stylesheet"
+          media="screen" />
+    <style type="text/css">
+        select.form-control{
+            padding: 0px !important;
+            height: 25px !important;
+        }
+    </style>
+</head>
+
+<body>
+
+<th:block layout:fragment="header">
+    <div th:replace="~{dashboard/header :: header}"></div>
+</th:block>
+
+<th:block layout:fragment="sidebar">
+    <div th:replace="~{dashboard/sidebar :: sidebar}"></div>
+</th:block>
+
+<th:block layout:fragment="content">
+    <!-- START PAGE CONTENT-->
+    <div class="page-heading">
+        <h1 class="page-title">Vendor Price Histories</h1>
+    </div>
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-head">
+                <div class="ibox-title">Vendor Price Histories&nbsp;(<span th:text="${#lists.size(vendorPriceList)}"></span>)</div>
+            </div>
+            <div class="ibox-body">
+                <table class="table table-striped table-bordered table-hover" id="order-table" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Update Date</th>
+                        <th th:if="${vendorMap != ''}">Vendor</th>
+                        <th>MRP Rate</th>
+                        <th>Sale Rate</th>
+                        <th>Actual Rate</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="price : ${vendorPriceList}">
+                        <td>
+                            <span th:text="${price.createdDate}"> Date </span>
+                        </td>
+                        <td th:if="${vendorMap != ''}">
+                            <span th:text="${vendorMap.get(price.vendorId).vendorCode + ' - '+ vendorMap.get(price.vendorId).vendorName}">Vendor Name</span>&nbsp;&nbsp;
+                        </td>
+                        <td>
+                            <span th:text="${price.mrpRate}" class="label label-primary"></span>
+                        </td>
+                        <td>
+                            <span th:text="${price.saleRate}" class="label label-success">Sale Rate</span><br/>
+                        </td>
+                        <td>
+                            <span class="badge badge-default" th:text="${price.actualRate}">Actual Rate</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+</th:block>
+
+<th:block layout:fragment="pageplugin">
+    <!-- PAGE LEVEL PLUGINS-->
+    <script src="/resources/js/datatables.min.js" th:src="@{/resources/js/datatables.min.js}" type="text/javascript"></script>
+    <script src="/resources/js/sweetalert2.min.js" th:src="@{/resources/js/sweetalert2.min.js}" type="text/javascript"></script>
+    <!-- Sweet Alert 2 plugin -->
+    <script src="/resources/js/es6-promise-auto.min.js" th:src="@{/resources/js/es6-promise-auto.min.js}" type="text/javascript"></script>
+    <!-- Promise Library for SweetAlert2 working on IE -->
+    <!-- Bootstrap Lightbox Plugin -->
+    <script src="/resources/js/ekko-lightbox.min.js" th:src="@{/resources/js/ekko-lightbox.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@7.1.0/dist/promise.min.js"></script>
+    <!--  Notifications Plugin    -->
+    <script src="/resources/js/bootstrap-notify.js" th:src="@{/resources/js/bootstrap-notify.js}"></script>
+    <script src="/resources/js/bootstrap-editable.min.js" th:src="@{/resources/js/bootstrap-editable.min.js}"></script>
+    <script src="/resources/js/bootstrap-datepicker3.min.js" th:src="@{/resources/js/bootstrap-datepicker.min.js}"></script>
+</th:block>
+
+<th:block layout:fragment="pagescript">
+    <!-- PAGE LEVEL SCRIPTS-->
+    <script type="text/javascript" th:inline="javascript">
+            /*<![CDATA[*/
+
+            $('[rel="tooltip"]').tooltip({
+                trigger: 'hover'
+            });
+
+            // TODO: light box plugin problem on button hover
+            $(document).on('click', '[data-toggle-light="lightbox"]', function(event) {
+                    event.preventDefault();
+                    $(this).ekkoLightbox({
+                       alwaysShowClose: true
+                    });
+            });
+
+            var oTable;
+
+            $(document).ready(function () {
+
+                $('[rel="tooltip"]').tooltip({
+                    trigger: 'hover'
+                });
+
+                oTable = $('#order-table').DataTable({
+                    pageLength: 10,
+                    "language": {
+                        "emptyTable": "No Orders Found"
+                    },
+                    order: [],
+                    "columnDefs":
+                        [
+
+                            {
+                            "width": "15%",
+                            "targets": [1]
+                            },
+
+                            {
+                            "width": "15%",
+                            "targets": [2]
+                            },
+
+                            {
+                            "width": "15%",
+                            "targets": [3]
+                            },
+
+                            {
+                            "width": "14%",
+                            "targets": [4]
+                            },
+
+                            {
+                            "width": "18%",
+                            "targets": [5]
+                            },
+
+                            {
+                            "width": "13%",
+                            "targets": [6]
+                            }
+                        ],
+                }); // end of data table
+
+                $.fn.editableform.buttons = '<button type="submit" class="editable-submit btn btn-sm btn-info btn-fill"><i class="fa fa-check"></i></button>'+
+                                    '<button type="button" class="editable-cancel btn btn-sm btn-default btn-fill"><i class="fa fa-times"></i></button>';
+
+                var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+                var csrfToken = $("meta[name='_csrf']").attr("content");
+
+                $('.editable-action').editable({
+                        type : 'select',
+                        mode : 'inline',
+                        source :  US.baseURL + '/order/status/list.mk',
+                        url :  US.baseURL + '/order/status/change.mk',
+                        ajaxOptions: {
+                           beforeSend: function (xhr){  xhr.setRequestHeader(csrfHeader, csrfToken); }
+                        },
+                        success : function(response, newValue) {
+                            if(response.status == 'success'){
+                                $('#' + response.orderRef + 'StatusUpdatedBy').html(response.updatedBy);
+                                $('#' + response.orderRef + 'StatusUpdatedDate').html(response.updatedDate);
+                            }
+
+                            if (response.status == 'error') {
+                                return response.msg;
+                            }
+                            else if (newValue == 'R' || newValue == 'C') {
+                                $(this).removeClass('label-success');
+                                $(this).removeAttr("style");
+                                $(this).addClass('label-danger');
+                            }
+                            else if (newValue != 'R' && newValue != 'C') {
+                                $(this).removeClass('label-danger');
+                                $(this).removeAttr("style");
+                                $(this).addClass('label-success');
+                            }
+                        }
+                });
+
+                $('.payment-action').editable({
+                        type : 'select',
+                        mode : 'inline',
+                        source :  US.baseURL + '/payment/type/list.mk',
+                        url :  US.baseURL + '/payment/type/change.mk',
+                        ajaxOptions: {
+                           beforeSend: function (xhr){  xhr.setRequestHeader(csrfHeader, csrfToken); }
+                        },
+                        success : function(response, newValue) {
+                            if(response.status == 'success'){
+                                $('#' + response.orderRef + 'StatusPaidAmount').html('<i class="fa fa-inr"></i> '+response.paidAmount);
+                            }
+                            if (response.status == 'error') { return response.msg; }
+                        }
+                });
+
+                 $('.reset-btn').click(function(){
+                        $('#fromDateInput').removeAttr("value");
+                        $('#toDateInput').removeAttr("value");
+                        $('#orderDateInput').removeAttr("value");
+                        $('#nameInput').removeAttr("value");
+                        $('#mobileInput').removeAttr("value");
+                        $('#statusInput').find("option").removeAttr("selected");
+                 });
+
+                $('.currentdatepicker').datepicker({
+                    todayBtn: true,
+                    keyboardNavigation: false,
+                    forceParse: false,
+                    calendarWeeks: true,
+                    autoclose: true,
+                    format: "dd/mm/yyyy"
+                });
+
+            }); // end of ready function
+            /*]]>*/
+        </script>
+</th:block>
+</body>
+</html>

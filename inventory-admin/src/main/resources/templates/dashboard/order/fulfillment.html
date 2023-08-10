@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{dashboard/dashboard-layout}" th:with="orderManagementModule='active',orderModule='active' ">
+
+<head>
+    <title>Order List</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet"
+          media="screen" />
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet" media="screen" />
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet" />
+    <!-- PAGE LEVEL STYLES-->
+    <!--/*  Bootstrap Lightbox CSS   */-->
+    <link href="/resources/css/ekko-lightbox.css" th:href="@{/resources/css/ekko-lightbox.css}" rel="stylesheet" media="screen"/>
+    <!-- PLUGINS STYLES-->
+    <link href="/resources/css/datatables.min.css" th:href="@{/resources/css/datatables.min.css}" rel="stylesheet"
+          media="screen" />
+    <link href="/resources/css/bootstrap-editable.css" th:href="@{/resources/css/bootstrap-editable.css}" rel="stylesheet"
+          media="screen"/>
+    <link href="/resources/css/sweetalert2.min.css" th:href="@{/resources/css/sweetalert2.min.css}" rel="stylesheet"
+          media="screen" />
+</head>
+
+<body>
+
+<th:block layout:fragment="header">
+    <div th:replace="~{dashboard/header :: header}"></div>
+</th:block>
+
+<th:block layout:fragment="sidebar">
+    <div th:replace="~{dashboard/sidebar :: sidebar}"></div>
+</th:block>
+
+<th:block layout:fragment="content">
+    <!-- START PAGE CONTENT-->
+    <div class="page-heading">
+        <h1 class="page-title">Fulfillment products</h1>
+    </div>
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-head">
+                <div class="ibox-title">Fulfillment products&nbsp;(<span th:text="${#lists.size(productOrderList)}"></span>)</div>
+            </div>
+            <div class="ibox-body">
+                <table class="table table-bordered table-hover" id="order-table" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Vendor</th>
+                            <th>Quantity</th>
+                            <th>Sale Rate</th>
+                            <th>Amount Details</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="productOrder : ${productOrderList}">
+                        <td>
+                            <span class="badge badge-default" th:text="${productMap.get(productOrder.productId).productName}">Product Name</span><br/>
+                            <span th:text="${productMap.get(productOrder.productId).productCode}">Product Code</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-primary" th:text="${vendorMap.get(prodVendorMap.get(productOrder.prodVendorId).vendorId).vendorCode + ' - ' + vendorMap.get(prodVendorMap.get(productOrder.prodVendorId).vendorId).vendorName}">Vendor</span>
+                        </td>
+                        <td class="text-center" width="10%">
+                            <span th:text="${productOrder.proQuantity}">Quantity</span>
+                        </td>
+                        <td class="text-center">
+                            <span th:text="${productOrder.prodSaleRate}">SaleRate</span>
+                        </td>
+                        <td width="20%">
+                            <span class="badge badge-default">Sub Total </span><span th:text="${(productOrder.proQuantity)*(productOrder.prodSaleRate)}">Sub Total</span><br/>
+                            <span class="badge badge-default">Shipment Charges </span><span th:text="${productOrder.transportCharges}" class="m-3">Shipment Charges</span><br/>
+                            <span class="badge badge-default">Loading Charges </span><span th:text="${productOrder.loadingCharges}" class="m-3">Loading Charges</span>
+                        </td>
+                        <td width="20%">
+                            <span class="badge badge-primary" th:text="${T(com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus).statusMatch(productOrder.status).getDisplay()}">SaleRate</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <form id="fulfillmentForm" th:action="@{/order/fulfillment/{stage}.mk(stage=${T(com.makinus.unitedsupplies.common.data.reftype.OrderFulfillmentStatus).ACCEPT.getStatus()})}" th:object="${previewFulfillmentForm}" method="post">
+                    <input class="d-none" th:field="*{orderRef}" />
+                    <input class="d-none" th:field="*{prodVendorId}" />
+                    <input class="d-none" th:field="*{prodOrderIds}" />
+                    <div class="form-group text-right">
+                        <a class="btn btn-warning" th:href="@{/orders/{ref}/product-details.mk(ref=${previewFulfillmentForm.orderRef})}">
+                            <i class="fa fa-arrow-left"></i>&nbsp;Back&nbsp;
+                        </a>
+                        <button class="btn btn-success" type="submit">&nbsp;Save&nbsp;</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+</th:block>
+
+<th:block layout:fragment="pageplugin">
+    <!-- PAGE LEVEL PLUGINS-->
+    <script src="/resources/js/datatables.min.js" th:src="@{/resources/js/datatables.min.js}" type="text/javascript"></script>
+    <script src="/resources/js/sweetalert2.min.js" th:src="@{/resources/js/sweetalert2.min.js}" type="text/javascript"></script>
+    <!-- Sweet Alert 2 plugin -->
+    <script src="/resources/js/es6-promise-auto.min.js" th:src="@{/resources/js/es6-promise-auto.min.js}" type="text/javascript"></script>
+    <!-- Promise Library for SweetAlert2 working on IE -->
+    <!-- Bootstrap Lightbox Plugin -->
+    <script src="/resources/js/ekko-lightbox.min.js" th:src="@{/resources/js/ekko-lightbox.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@7.1.0/dist/promise.min.js"></script>
+    <!--  Notifications Plugin    -->
+    <script src="/resources/js/bootstrap-notify.js" th:src="@{/resources/js/bootstrap-notify.js}"></script>
+    <script src="/resources/js/bootstrap-editable.min.js" th:src="@{/resources/js/bootstrap-editable.min.js}"></script>
+</th:block>
+
+<th:block layout:fragment="pagescript">
+    <!-- PAGE LEVEL SCRIPTS-->
+    <script type="text/javascript" th:inline="javascript">
+
+        </script>
+</th:block>
+</body>
+</html>

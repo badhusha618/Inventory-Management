@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet"
+          media="screen"/>
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet"
+          media="screen"/>
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet"
+          media="screen"/>
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<!-- START SIDEBAR-->
+<nav class="page-sidebar" id="sidebar" th:fragment="sidebar">
+    <div id="sidebar-collapse">
+        <div class="admin-block d-flex">
+            <div>
+                <img src="/resources/img/admin-avatar.jpg" width="45px"/>
+            </div>
+            <div class="admin-info">
+                <div class="font-strong"><span sec:authorize="isAuthenticated()"><span sec:authentication="name"/></span></div>
+                <small th:text="${T(com.makinus.unitedsupplies.common.data.reftype.UserRole).statusMatchByName(#authentication.principal.authorities).getDisplay()}">
+                    Administrator
+                </small>
+            </div>
+        </div>
+        <ul class="side-menu metismenu">
+            <li>
+                <a th:classappend="${dashboardModule}" href="/dashboard.mk" th:href="@{/dashboard.mk}"><i
+                        class="sidebar-item-icon fa fa-th-large"></i>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+            </li>
+            <li th:classappend="${stockManagementModule}">
+                <a href="javascript:;"><i class="sidebar-item-icon fa fa-archive"></i>
+                    <span class="nav-label">Stock Management</span><i class="fa fa-angle-left arrow"></i>
+                </a>
+                <ul class="nav-2-level collapse" aria-expanded="false">
+                    <li>
+                        <a th:classappend="${categoryModule}" href="/category.mk" th:href="@{/category.mk}">
+                            <i class="sidebar-item-icon fa fa-tags" aria-hidden="true"></i>
+                            <span class="nav-label">Categories</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:classappend="${productModule}" href="/list/products.mk" th:href="@{/list/products.mk}">
+                            <i class="sidebar-item-icon fa fa-building"></i>
+                            <span class="nav-label">Products</span>
+                        </a>
+                    </li>
+                    <li th:classappend="${productFeatureModule}">
+                        <a href="javascript:;"><i class="sidebar-item-icon fa fa-sitemap"></i>
+                            <span class="nav-label">Product Features</span><i class="fa fa-angle-left arrow"></i>
+                        </a>
+                        <ul class="nav-2-level collapse" aria-expanded="false">
+                            <li>
+                                <a href="/brands.mk" th:href="@{/brands.mk}" th:classappend="${brandModule}">
+                                    <i class="fa fa-bookmark"></i>&nbsp;&nbsp;Brand</a>
+                            </li>
+                            <li>
+                                <a href="/crusher.mk" th:href="@{/crusher.mk}" th:classappend="${crusherModule}">
+                                    <i class="fa fa-cogs"></i>&nbsp;&nbsp;Crusher</a>
+                            </li>
+                            <li>
+                                <a href="/grade.mk" th:href="@{/grade.mk}" th:classappend="${gradeModule}">
+                                    <i class="fa fa-shield"></i>&nbsp;&nbsp;Grade</a>
+                            </li>
+                            <li>
+                                <a href="/quality.mk" th:href="@{/quality.mk}" th:classappend="${qualityModule}">
+                                    <i class="fa fa-check"></i>&nbsp;&nbsp;Quality</a>
+                            </li>
+                            <li>
+                                <a href="/type.mk" th:href="@{/type.mk}" th:classappend="${typeModule}">
+                                    <i class="fa fa-sort"></i>&nbsp;&nbsp;Type</a>
+                            </li>
+                            <!--<li>-->
+                            <!--<a href="/size.mk" th:href="@{/size.mk}" th:classappend="${sizeModule}">-->
+                            <!--<i class="fa fa-balance-scale"></i>&nbsp;&nbsp;Size</a>-->
+                            <!--</li>-->
+                            <li>
+                                <a href="/units.mk" th:href="@{/units.mk}" th:classappend="${unitModule}">
+                                    <i class="fa fa-cube"></i>&nbsp;&nbsp;Unit</a>
+                            </li>
+                            <li>
+                                <a href="/unit-mappings.mk" th:href="@{/unit-mappings.mk}"
+                                   th:classappend="${unitMappingModule}">
+                                    <i class="fa fa-info-circle"></i>&nbsp;&nbsp;Unit Mapping</a>
+                            </li>
+                            <li>
+                                <a href="/weight.mk" th:href="@{/weight.mk}" th:classappend="${weightModule}">
+                                    <i class="fa fa-krw"></i>&nbsp;&nbsp;Weight</a>
+                            </li>
+                            <li>
+                                <a href="/material.mk" th:href="@{/material.mk}"
+                                   th:classappend="${materialModule}">
+                                    <i class="fa fa-cubes"></i>&nbsp;&nbsp;Material</a>
+                            </li>
+                            <li>
+                                <a href="/color.mk" th:href="@{/color.mk}" th:classappend="${colorModule}">
+                                    <i class="fa fa-futbol-o"></i>&nbsp;&nbsp;Color</a>
+                            </li>
+                            <!--<li>-->
+                            <!--<a href="/specifiacation.mk" th:href="@{/specification.mk}" th:classappend="${specificationModule}">-->
+                            <!--<i class="fa fa-spinner"></i>&nbsp;&nbsp;Specification</a>-->
+                            <!--</li>-->
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li th:classappend="${orderManagementModule}">
+                <a href="javascript:;"><i class="sidebar-item-icon fa fa-cart-arrow-down"></i>
+                    <span class="nav-label">Order Management</span><i class="fa fa-angle-left arrow"></i>
+                </a>
+                <ul class="nav-2-level collapse" aria-expanded="false">
+                    <li>
+                        <a th:classappend="${orderModule}" href="/orders.mk" th:href="@{/orders.mk}">
+                            <i class="sidebar-item-icon fa fa-shopping-cart"></i>
+                            <span class="nav-label">Orders</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:classappend="${productsListModule}"  href="/order/products.mk" th:href="@{/order/products.mk}">
+                            <i class="sidebar-item-icon fa fa-list"></i>
+                            <span class="nav-label">Order Products</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a th:classappend="${vendorModule}" href="/list/vendor.mk" th:href="@{/list/vendor.mk}"><i
+                        class="sidebar-item-icon fa fa-handshake-o"></i>
+                    <span class="nav-label">Vendors</span>
+                </a>
+            </li>
+            <li th:classappend="${charges}">
+                <a href="javascript:;"><i class="sidebar-item-icon fa fa-credit-card"></i>
+                    <span class="nav-label">Charges</span><i class="fa fa-angle-left arrow"></i>
+                </a>
+                <ul class="nav-2-level collapse" aria-expanded="false">
+                    <li>
+                        <a th:classappend="${loadingChargesModule}" href="/list/loading-charges.mk"
+                           th:href="@{/list/loading-charges.mk}">
+                            <i class="sidebar-item-icon fa fa-money"></i>
+                            <span class="nav-label">Loading Charges</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:classappend="${serviceChargesModule}" href="/new/charges.mk"
+                           th:href="@{/new/charges.mk}">
+                            <i class="sidebar-item-icon fa fa-usd"></i>
+                            <span class="nav-label">Service Charges</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:classappend="${transportModule}" href="/list/shipment.mk"
+                           th:href="@{/list/shipment.mk}">
+                            <i class="sidebar-item-icon fa fa-truck"></i>
+                            <span class="nav-label">Shipment Charges</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li th:classappend="${notificationModule}">
+                <a href="javascript:;"><i class="sidebar-item-icon fa fa-envelope"></i>
+                    <span class="nav-label">Notification</span><i class="fa fa-angle-left arrow"></i>
+                </a>
+                <ul class="nav-2-level collapse" aria-expanded="false">
+                    <li>
+                        <a th:classappend="${notificationPageModule}"  href="/notification.mk" th:href="@{/notification.mk}">
+                            <i class="sidebar-item-icon fa fa-bell-o rel"></i>
+                            <span class="nav-label">Notifications</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:classappend="${notificationListModule}"  href="/list/notification.mk" th:href="@{/list/notification.mk}">
+                            <i class="sidebar-item-icon fa fa-list"></i>
+                            <span class="nav-label">Notification List</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a th:classappend="${promotionModule}" href="/promotions.mk" th:href="@{/promotions.mk}">
+                    <i class="sidebar-item-icon fa fa-ticket"></i>
+                    <span class="nav-label">Promotions</span>
+                </a>
+            </li>
+            <li th:classappend="${invoiceSettingsModule}">
+                <a href="javascript:;"><i class="sidebar-item-icon fa fa-envelope"></i>
+                    <span class="nav-label">Invoice Settings</span><i class="fa fa-angle-left arrow"></i>
+                </a>
+                <ul class="nav-2-level collapse" aria-expanded="false">
+                    <li>
+                        <a th:classappend="${notificationPageModule}"  href="/invoice-settings.mk" th:href="@{/P/invoice-settings.mk}">
+                            <i class="sidebar-item-icon fa fa-list"></i>
+                            <span class="nav-label">Product Invoice</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:classappend="${notificationListModule}"  href="/invoice-settings.mk" th:href="@{/S/invoice-settings.mk}">
+                            <i class="sidebar-item-icon fa fa-list"></i>
+                            <span class="nav-label">Service Invoice</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li sec:authorize="hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_ADMIN')">
+                <a th:classappend="${userModule}" href="/users.mk" th:href="@{/users.mk}"><i
+                        class="sidebar-item-icon fa fa-user-circle"></i>
+                    <span class="nav-label">User Management</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- END SIDEBAR-->
+</body>
+</html>

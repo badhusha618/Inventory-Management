@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{dashboard/dashboard-layout}" th:with="invoiceModule='active'">
+
+<head>
+    <title>Add Product</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet"
+          media="screen"/>
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet"
+          media="screen"/>
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet"
+          media="screen"/>
+    <link href="/resources/css/bootstrap-datepicker3.min.css" th:href="@{/resources/css/bootstrap-datepicker3.min.css}"
+          rel="stylesheet" media="screen"/>
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet"/>
+    <!-- PAGE LEVEL STYLES-->
+    <!-- PLUGINS STYLES-->
+    <link href="/resources/css/sweetalert2.min.css" th:href="@{/resources/css/sweetalert2.min.css}" rel="stylesheet"
+          media="screen"/>
+</head>
+
+<body>
+
+<th:block layout:fragment="header">
+    <div th:replace="~{dashboard/header :: header}"></div>
+</th:block>
+
+<th:block layout:fragment="sidebar">
+    <div th:replace="~{dashboard/sidebar :: sidebar}"></div>
+</th:block>
+
+<th:block layout:fragment="content">
+    <!-- START PAGE CONTENT-->
+    <div class="page-heading">
+        <h1 class="page-title">Customer Invoice Form</h1>
+    </div>
+    <div class="page-content fade-in-up">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="ibox">
+                    <div class="ibox-head">
+                        <div class="ibox-title">Customer Invoice Form</div>
+                        <div class="ibox-tools">
+                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                        </div>
+                    </div>
+                    <div class="ibox-body">
+                        <form id="serviceInvoiceForm" action="/customer/receipt/download.mk"
+                              th:action="@{/customer/receipt/download.mk}" th:object="${serviceInvoiceForm}"
+                              method="post">
+                            <div class="row" id="invoiceFeatureBox">
+                                <div class="col-sm-3 form-group">
+                                    <input class="hidden" th:field="*{orderRef}">
+                                    <label for="invoiceDate">Invoice Date </label>&nbsp;<span
+                                        class="text-danger">*</span>
+                                    <div class="input-group date current-date-picker">
+                                        <span class="input-group-addon bg-white"><i class="fa fa-calendar"></i></span>
+                                        <input class="form-control" type="text" id="invoiceDate" disabled
+                                               th:field="*{invoiceDate}" placeholder="dd/mm/yyyy" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 form-group" id="header">
+                                    <label>Invoice Header</label>&nbsp;<span class="text-danger">*</span>
+                                    <select class="form-control" id="invoiceHeader" th:field="*{invoiceHeader}">
+                                        <option value="">Select</option>
+                                        <th:block
+                                                th:each="invoiceHeader: ${T(com.makinus.unitedsupplies.common.data.reftype.ServiceInvoiceHeader).values()}">
+                                            <option th:value="${invoiceHeader.status}"
+                                                    th:text="${invoiceHeader.display}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+                            <span class="text-danger">*</span>&nbsp;&nbsp;Required fields</span>
+                            <div class="form-group text-right">
+
+                                <button class="btn btn-success" type="submit" id="print">Print</button>
+                                <a class="btn btn-warning" title="Invoice Confirmation" id="upload"
+                                   th:url="@{/customer/receipt/ORDER_ID/invoice/confirmation.mk}"
+                                   onclick="showSwalConfirmation(this)" href="#"><i class="fa fa-upload"></i></a>
+                                <button class="btn btn-danger" type="reset">Reset</button>
+                                <a class="btn btn-warning" href="/orders.mk" th:href="@{/orders.mk}">
+                                    <i class="fa fa-arrow-left"></i> &nbsp; Back
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+</th:block>
+
+<th:block layout:fragment="pageplugin">
+    <!-- PAGE LEVEL PLUGINS-->
+    <script src="/resources/js/bootstrap-filestyle.js" th:src="@{/resources/js/bootstrap-filestyle.js}"
+            type="text/javascript"></script>
+    <script src="/resources/js/jquery.validate.min.js" th:src="@{/resources/js/jquery.validate.min.js}"
+            type="text/javascript"></script>
+    <script src="/resources/js/additional-methods.min.js" th:src="@{/resources/js/additional-methods.min.js}"
+            type="text/javascript"></script>
+    <script src="/resources/js/sweetalert2.min.js" th:src="@{/resources/js/sweetalert2.min.js}"
+            type="text/javascript"></script> <!-- Sweet Alert 2 plugin -->
+    <script src="/resources/js/bootstrap-datepicker3.min.js"
+            th:src="@{/resources/js/bootstrap-datepicker.min.js}"></script>
+</th:block>
+
+<th:block layout:fragment="pagescript">
+    <!-- PAGE LEVEL SCRIPTS-->
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+
+        $('[rel="tooltip"]').tooltip({
+            trigger: 'hover'
+        });
+
+        var oTable;
+
+        var serviceInvoiceForm = /*[[${serviceInvoiceForm}]]*/ '';
+        US.data_csrf['orderRef'] = serviceInvoiceForm.orderRef;
+        var invoiceNo = (serviceInvoiceForm.invoiceNo);
+        $('#print').hide();
+        $('#upload').hide();
+        if(invoiceNo !== undefined && invoiceNo !== '' && invoiceNo !== null){
+        console.log(invoiceNo)
+             $('#print').show();
+             $('#upload').hide();
+             $('#header').show();
+
+        }else{
+             $('#print').hide();
+             $('#upload').show();
+             $('#header').hide();
+        }
+
+        $(document).ready(function () {
+
+            $('[rel="tooltip"]').tooltip({
+                trigger: 'hover'
+            });
+
+            //JQuery Validator
+           $('#serviceInvoiceForm').validate({
+                rules: {
+                    invoiceDate: {
+                        required: true
+                    },
+                    invoiceHeader: {
+                        required: true
+                    }
+                },
+                messages: {
+                    invoiceDate: {
+                        required: "Please Select Invoice Date"
+                    },
+                    invoiceHeader: {
+                        required: "Please Select Invoice Header"
+                    }
+                },
+                errorClass: "help-block error",
+                highlight: function (e) {
+                    $(e).closest("#customer-form .form-group").addClass("has-error")
+                },
+                unhighlight: function (e) {
+                    $(e).closest("#customer-form .form-group").removeClass("has-error")
+                }
+           }); // end of validator
+
+            $('.current-date-picker').datepicker({
+                todayBtn: true,
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                format: "dd/mm/yyyy"
+            });
+
+            }); // end of ready function
+
+            function showSwalConfirmation(obj) {
+                var url = $(obj).attr('url');
+                console.log($('#orderRef').val())
+                url = url.replace("ORDER_ID", $('#orderRef').val())
+                console.log(url);
+                var removedMsg = '#RemovedMsg_'+$(obj).attr('buttonId');
+                swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to undo this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success btn-fill',
+                    cancelButtonClass: 'btn btn-default btn-fill ml-2',
+                    confirmButtonText: 'Yes, Confirm this invoice!',
+                    buttonsStyling: false,
+                    allowOutsideClick: false,
+                    allowEnterKey: false,
+                    allowEscapeKey: false,
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        return new Promise(function (resolve) {
+                            $.post(url, US.data_csrf)
+                                .done(function (data) {
+                                    swal({
+                                        title: 'Updated!',
+                                        text: 'Invoice No. has been updated.',
+                                        type: 'success',
+                                        confirmButtonClass: "btn btn-success btn-fill",
+                                        buttonsStyling: false
+                                    });
+                                    $(obj).parent('td').children( "a" ).addClass('hidden');
+                                    $(removedMsg).removeClass('hidden');
+                                    window.location.reload();
+                                }).fail(function() {
+                                    swal({
+                                        title: 'Warning!',
+                                        text: 'There is some error.',
+                                        type: 'warning',
+                                        confirmButtonClass: "btn btn-warning btn-fill",
+                                        buttonsStyling: false
+                                    });
+                                });
+                        });
+                    }
+                });
+            }// end of swal fn
+            /*]]>*/
+
+
+
+    </script>
+</th:block>
+
+</body>
+</html>

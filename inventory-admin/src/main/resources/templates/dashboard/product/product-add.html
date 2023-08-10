@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{dashboard/dashboard-layout}" th:with="productModule='active'">
+
+<head>
+    <title>Add Product</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/sweetalert2.min.css" th:href="@{/resources/css/sweetalert2.min.css}" rel="stylesheet" media="screen" />
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet" />
+    <!-- PAGE LEVEL STYLES-->
+
+    <style type="text/css">
+
+    .product-radio {
+      margin-left: 0px;
+    }
+
+    .primary-product-radio {
+      margin-left: 17px;
+      padding-top: 1px;
+    }
+
+    </style>
+</head>
+<body>
+
+    <th:block layout:fragment="header">
+        <div th:replace="~{dashboard/header :: header}"></div>
+    </th:block>
+
+    <th:block layout:fragment="sidebar">
+        <div th:replace="~{dashboard/sidebar :: sidebar}"></div>
+    </th:block>
+
+    <th:block layout:fragment="content">
+        <!-- START PAGE CONTENT-->
+        <div class="page-heading">
+            <h1 class="page-title">Product Form</h1>
+        </div>
+        <div class="page-content fade-in-up">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ibox">
+                        <div class="ibox-head">
+                            <div class="ibox-title">Add Product Form</div>
+                            <div class="ibox-tools">
+                                <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                            </div>
+                        </div>
+                        <div class="ibox-body">
+                            <form id="ProductForm" action="/add/new/product.mk" th:action="@{/add/new/product.mk}" th:object="${productForm}" method="post" enctype="multipart/form-data">
+                                <div class="alert alert-danger alert-bordered" th:if="${#lists.isEmpty(categoryValues)}">
+                                    <strong>No Categories Available.</strong> Please <a class="alert-link" href="/new/category.mk" th:href="@{/new/category.mk}">Add a category</a> to create new product
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <div class="row">
+                                            <div class="col-sm-4 form-group">
+                                                <label>Product Code</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                                <input class="form-control" type="text" th:field="*{productCode}" maxlength="50">
+                                            </div>
+                                            <div class="col-sm-8 form-group">
+                                                <label>Product Name</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                                <input class="form-control" type="text" th:field="*{productName}" maxlength="50">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 form-group">
+                                                <label>Delivery By (# of Days)</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                                <input class="form-control" type="number" th:field="*{deliveryBy}" min="1" max="60">
+                                            </div>
+                                            <div class="col-sm-4 form-group">
+                                                <label>Minimum Order Quantity </label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                                <input class="form-control" type="number" id="minOrderQty" min="1" step="1" th:field="*{minOrderQty}">
+                                            </div>
+                                            <div class="col-sm-4 form-group">
+                                                <label>Maximum Order Quantity</label>
+                                                <input class="form-control" type="number" id="maxOrderQty" th:field="*{maxOrderQty}">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-3 form-group">
+                                                <label>HSN Code</label>
+                                                <input class="form-control" type="text" th:field="*{hsnCode}">
+                                            </div>
+                                            <div class="col-sm-3 form-group">
+                                                <label>CGST %</label>
+                                                <input class="form-control" type="number" th:field="*{rateOfCgst}">
+                                            </div>
+                                            <div class="col-sm-3 form-group">
+                                                <label>SGST %</label>
+                                                <input class="form-control" type="number" th:field="*{rateOfSgst}">
+                                            </div>
+                                            <div class="col-sm-3 form-group">
+                                                <label>IGST %</label>
+                                                <input class="form-control" type="number" th:field="*{rateOfIgst}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="row">
+                                            <div class="col-sm-12 form-group">
+                                                <label>Product Description</label>
+                                                <textarea class="form-control" style="margin-top:0px; margin-bottom: 0px; height: 107px;" th:field="*{productDescription}" maxlength="300"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 form-group">
+                                                <label>Product Status</label></br>
+                                                <label class="ui-checkbox">
+                                                    <input type="checkbox" id="inStock" th:field="*{inStock}">
+                                                    <span class="input-span"></span>In Stock ?
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-4 form-group">
+                                                <label>Product Active</label></br>
+                                                <label class="ui-checkbox">
+                                                    <input type="checkbox" id="isActive" th:field="*{activeProduct}">
+                                                    <span class="input-span"></span>Active ?
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-4 form-group">
+                                                <label>Tax policy</label></br>
+                                                <label class="ui-checkbox">
+                                                    <input type="checkbox" id="taxInclusive" th:field="*{taxInclusive}">
+                                                    <span class="input-span"></span>Inclusive ?
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ibox" style="background-color: rgb(226, 242, 247)">
+                                    <div class="ibox-head">
+                                        <div class="ibox-title">Product Features</div>
+                                        <div class="ibox-tools"><i class="fa fa-minus"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-body">
+                                        <div class="row" id="productFeatureBox">
+                                            <div class="col-sm-3 form-group">
+                                                <label>Product Category</label>&nbsp;<span class="text-danger">*</span>
+                                                <select class="form-control categoryDropdowns" th:field="*{parentCategory}">
+                                                    <option value="">Select</option>
+                                                    <th:block th:each="category: ${categoryValues}">
+                                                        <option th:value="${category.categoryID}" th:text="${category.categoryName}"></option>
+                                                    </th:block>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 form-group">
+                                                <label>Product Sub Category</label>&nbsp;<span class="text-danger">*</span>
+                                                <select class="form-control" th:field="*{parentSubCategory}">
+                                                    <option value="">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ibox" style="background-color: rgb(226, 242, 247)">
+                                    <div class="ibox-head">
+                                        <div class="ibox-title">Transportation Details</div>
+                                        <div class="ibox-tools"><i class="fa fa-minus"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-body">
+                                        <div class="row" id="group">
+                                            <div class="col-sm-3 form-group">
+                                                <label>Transport Group</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                                <select class="form-control" id="transGroup" name="transGroup">
+                                                    <option value="">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ibox" style="background-color: rgb(226, 242, 247)">
+                                    <div class="ibox-head">
+                                        <div class="ibox-title">Vendor Allocation</div>
+                                        <div class="ibox-tools"><i class="fa fa-minus"></i></div>
+                                    </div>
+
+                                    <div class="alert round bg-danger alert-dismissible mb-2 material-added hidden" role="alert">
+                                        <strong>Vendor exist in the list. Please Check</strong>
+                                    </div>
+                                    <div class="ibox-body">
+                                        <div class="row">
+                                            <div class="col-sm-2 form-group">
+                                                <label>Vendor&nbsp;<span class="text-danger">*</span></label>
+                                                <select class="form-control vendor-dropdown vendor-name-field" id="vendorDropdownOne" th:field="*{productVendorForms[0].vendorId}" data-vendor-index="0">
+                                                    <option value="">Select</option>
+                                                    <th:block th:each="vendor: ${vendors}">
+                                                        <option th:value="${vendor.id}" th:text="${vendor.vendorCode + ' - '+ vendor.vendorName}"></option>
+                                                    </th:block>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Product MRP (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control mrp-rate" id="mrpRateOne" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[0].mrpRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Sale Rate (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control sale-rate" id="saleRateOne" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[0].saleRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Actual Rate (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control actual-rate" id="actualRateOne" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[0].actualRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Pin Code</label>
+                                                <input class="form-control pin-code" id="postelCodeOne" type="number" th:field="*{productVendorForms[0].pinCode}">
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="name">Disabled </label>
+                                                <block class="form-group product-checkbox">
+                                                    <label class="ui-checkbox ui-checkbox-primary">
+                                                        <input type="checkbox" class="disable-vendor-field" th:field="*{productVendorForms[0].disableVendor}">
+                                                        <span class="input-span" style="left:17px; margin-top:10px;"></span>
+                                                    </label>
+                                                </block>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="name">Default </label>
+                                                <div class=" form-group product-radio primary-product-radio">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input default-vendor-field" type="radio" name="productVendorForms[0].defaultVendor" value="true" checked>
+                                                        <span class="input-span" style="margin-right:20px"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2 form-group">
+                                                <label>Vendor</label>
+                                                <select class="form-control vendor-dropdown vendor-name-field" id="vendorDropdownTwo" th:field="*{productVendorForms[1].vendorId}" data-vendor-index="1">
+                                                    <option value="">Select</option>
+                                                    <th:block th:each="vendor: ${vendors}">
+                                                        <option th:value="${vendor.id}" th:text="${vendor.vendorCode + ' - '+ vendor.vendorName}"></option>
+                                                    </th:block>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Product MRP (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control mrp-rate" id="mrpRateTwo" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[1].mrpRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Sale Rate (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control sale-rate" id="saleRateTwo" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[1].saleRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Actual Rate (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control actual-rate" id="actualRateTwo" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[1].actualRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Pin Code</label>
+                                                <input class="form-control pin-code" id="postelCodeTwo" type="number" th:field="*{productVendorForms[1].pinCode}">
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="name ">&nbsp;&nbsp;</label>
+                                                <block class="form-group product-checkbox">
+                                                    <label class="ui-checkbox ui-checkbox-primary">
+                                                        <input type="checkbox" class="disable-vendor-field" id="isDisableTwo" th:field="*{productVendorForms[1].disableVendor}">
+                                                        <span class="input-span" style="left:20px"></span>
+                                                    </label>
+                                                </block>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <block class="form-group product-radio primary-product-radio">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input default-vendor-field" type="radio" name="productVendorForms[1].defaultVendor" value="true">
+                                                    <span class="input-span"></span>
+                                                </label>
+                                                </block>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2 form-group">
+                                                <label>Vendor</label>
+                                                <select class="form-control vendor-dropdown vendor-name-field" id="vendorDropdownThree" th:field="*{productVendorForms[2].vendorId}" data-vendor-index="2">
+                                                    <option value="">Select</option>
+                                                    <th:block th:each="vendor: ${vendors}">
+                                                        <option th:value="${vendor.id}" th:text="${vendor.vendorCode + ' - '+ vendor.vendorName}"></option>
+                                                    </th:block>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Product MRP (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control mrp-rate" id="mrpRateThree" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[2].mrpRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Sale Rate (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control sale-rate" id="saleRateThree" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[2].saleRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Actual Rate (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control actual-rate" id="actualRateThree" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[2].actualRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Pin Code</label>
+                                                <input class="form-control pin-code" id="postelCodeThree" type="number" th:field="*{productVendorForms[2].pinCode}">
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="name ">&nbsp;&nbsp;</label>
+                                                <block class="form-group product-checkbox">
+                                                    <label class="ui-checkbox ui-checkbox-primary">
+                                                        <input type="checkbox" class="disable-vendor-field" id="isDisableThree" th:field="*{productVendorForms[2].disableVendor}">
+                                                        <span class="input-span" style="left:20px"></span>
+                                                    </label>
+                                                </block>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <block class="form-group product-radio primary-product-radio">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input default-vendor-field" type="radio" name="productVendorForms[2].defaultVendor" value="true">
+                                                        <span class="input-span"></span>
+                                                    </label>
+                                                </block>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2 form-group">
+                                                <label>Vendor</label>
+                                                <select class="form-control vendor-dropdown vendor-name-field" id="vendorDropdownFour" th:field="*{productVendorForms[3].vendorId}" data-vendor-index="3">
+                                                    <option value="">Select</option>
+                                                    <th:block th:each="vendor: ${vendors}">
+                                                        <option th:value="${vendor.id}" th:text="${vendor.vendorCode + ' - '+ vendor.vendorName}"></option>
+                                                    </th:block>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Product MRP (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control mrp-rate" id="mrpRateFour" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[3].mrpRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Sale Rate (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control sale-rate" id="saleRateFour" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[3].saleRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Actual Rate (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control actual-rate" id="actualRateFour" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[3].actualRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Pin Code</label>
+                                                <input class="form-control pin-code" id="postelCodeFour" type="number" th:field="*{productVendorForms[3].pinCode}">
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="name ">&nbsp;&nbsp;</label>
+                                                <block class="form-group product-checkbox">
+                                                    <label class="ui-checkbox ui-checkbox-primary">
+                                                        <input type="checkbox" class="disable-vendor-field" id="isDisableFour" th:field="*{productVendorForms[3].disableVendor}">
+                                                        <span class="input-span" style="left:20px"></span>
+                                                    </label>
+                                                </block>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <block class="form-group product-radio primary-product-radio">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input default-vendor-field" type="radio" name="productVendorForms[3].defaultVendor" value="true">
+                                                        <span class="input-span"></span>
+                                                    </label>
+                                                </block>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2 form-group">
+                                                <label>Vendor</label>
+                                                <select class="form-control vendor-dropdown vendor-name-field" id="vendorDropdownFive" th:field="*{productVendorForms[4].vendorId}" data-vendor-index="4">
+                                                    <option value="">Select</option>
+                                                    <th:block th:each="vendor: ${vendors}">
+                                                        <option th:value="${vendor.id}" th:text="${vendor.vendorCode + ' - '+ vendor.vendorName}"></option>
+                                                    </th:block>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Product MRP (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control mrp-rate" id="mrpRateFive" type="number" min="0.00" step="0.50" th:field="*{productVendorForms[4].mrpRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Sale Rate (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control sale-rate" id="saleRateFive" type="number" min="0.00" step="0.50" th:field="*{productVendorForms[4].saleRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Actual Rate (<i class="fa fa-inr"></i>)</label>
+                                                <input class="form-control actual-rate" id="actualRateFive" type="number" min="1.00" step="0.50" th:field="*{productVendorForms[4].actualRate}" placeholder="1" maxlength="10">
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <label>Pin Code</label>
+                                                <input class="form-control pin-code" id="postelCodeFive" type="number" th:field="*{productVendorForms[4].pinCode}">
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="name ">&nbsp;&nbsp;</label>
+                                                <block class="form-group product-checkbox">
+                                                    <label class="ui-checkbox ui-checkbox-primary">
+                                                        <input type="checkbox" class="disable-vendor-field" th:field="*{productVendorForms[4].disableVendor}"/>
+                                                        <span class="input-span" style="left:20px"></span>
+                                                    </label>
+                                                </block>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <block class="form-group product-radio primary-product-radio">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input default-vendor-field" type="radio" name="productVendorForms[4].defaultVendor" value="true">
+                                                        <span class="input-span"></span>
+                                                    </label>
+                                                </block>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Product Image</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+                                            <input type="file" class="form-control" th:field="*{productImage}">
+                                            <div id="productimage_error_msg" class="text-danger"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Product Image(Optional)</label>
+                                            <input type="file" class="form-control" th:field="*{productImageOpt1}" >
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Product Image(Optional)</label>
+                                            <input type="file" class="form-control" th:field="*{productImageOpt2}" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Product Image(Optional)</label>
+                                            <input type="file" class="form-control" th:field="*{productImageOpt3}" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-danger">*</span>&nbsp;&nbsp;Required fields</span>
+                                <div class="form-group text-right">
+                                    <a class="btn btn-warning" href="/list/products.mk" th:href="@{/list/products.mk}">
+                                        <i class="fa fa-arrow-left"></i> &nbsp; Back
+                                    </a>
+                                    <button class="btn btn-danger" type="reset">Reset</button>
+                                    <button class="btn btn-success" type="submit">Add Product</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT-->
+    </th:block>
+
+<th:block layout:fragment="pageplugin">
+    <!-- PAGE LEVEL PLUGINS-->
+    <script src="/resources/js/bootstrap-filestyle.js" th:src="@{/resources/js/bootstrap-filestyle.js}" type="text/javascript"></script>
+    <script src="/resources/js/jquery.validate.min.js" th:src="@{/resources/js/jquery.validate.min.js}" type="text/javascript"></script>
+    <script src="/resources/js/additional-methods.min.js" th:src="@{/resources/js/additional-methods.min.js}" type="text/javascript"></script><!-- To Validate Formats -->
+    <script src="/resources/js/sweetalert2.min.js" th:src="@{/resources/js/sweetalert2.min.js}" type="text/javascript"></script>
+    <script type="text/javascript">
+            $.validator.addMethod('filesize', function (value, element, param) {
+                return (this.optional(element)) || (element.files[0].size <= param)
+            });
+        </script>
+</th:block>
+
+<th:block layout:fragment="pagescript">
+    <!-- PAGE LEVEL SCRIPTS-->
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+            $('[rel="tooltip"]').tooltip({
+                trigger: 'hover'
+            });
+
+            var brandMap = /*[[${brandValues}]]*/ '';
+            var qualityMap = /*[[${qualityValues}]]*/ '';
+            var gradeMap = /*[[${gradeValues}]]*/ '';
+            var typeMap = /*[[${typeValues}]]*/ '';
+            var sizeMap = /*[[${sizeValues}]]*/ '';
+            var weightMap = /*[[${weightValues}]]*/ '';
+            var materialMap = /*[[${materialValues}]]*/ '';
+            var colorMap = /*[[${colorValues}]]*/ '';
+            var specificationMap = /*[[${specificationValues}]]*/ '';
+            var crusherMap = /*[[${crusherValues}]]*/ '';
+            var unitMap = /*[[${unitValues}]]*/ '';
+            var vendorPincodeMap = /*[[${vendorPincodeMap}]]*/ '';
+            var transMap = /*[[${transMap}]]*/ '';
+            var vendorAddedMap = new Map();
+            var vendorAddedList = [];
+
+            $(document).on('change','.vendor-name-field',function(){
+                let vendorId = $(this).val();
+                var index = $(this).attr('data-vendor-index');
+                if(vendorId !== undefined && vendorId !== '' && vendorId !== null){
+                    if(vendorAddedList.includes(vendorId)){
+                        swal({
+                         text: 'Vendor already added. Please check!',
+                         type: 'warning',
+                         confirmButtonClass: "btn btn-warning btn-fill",
+                         buttonsStyling: false
+                        });
+                        $(this).val("");
+                        vendorAddedMap.set(index, "");
+                        vendorAddedList = Array.from(vendorAddedMap.values());
+                    }else{
+                        vendorAddedMap.set(index, vendorId);
+                        vendorAddedList = Array.from(vendorAddedMap.values());
+                    }
+                }else{
+                    $(this).val("");
+                    vendorAddedMap.set(index,"");
+                    vendorAddedList = Array.from(vendorAddedMap.values());
+                }
+            });
+
+            $(document).ready(function () {
+
+                $.validator.addMethod("transUnit", function(value, element) {
+                return transMap[$('#unit').val()] != undefined;
+                }, "Transport group is not available");
+
+              $(document).on('change','#unit',function(){
+                $("#transGroup").empty();
+                $("#transGroup").append($('<option></option>').val("").html("Select Group"));
+                var unitId;
+                var selectedValue = $(this).val();//selectedValue
+                if(selectedValue != ""){
+                    unitId = $(this).val();//selected unitId
+                }
+                var trans = transMap[unitId];
+                $.each(trans, function(index, tran){
+                    $("#transGroup").append($('<option></option>').val(tran.transGroup).html(tran.transGroup));
+                });
+              });
+
+            $(".productFeatureDropdowns").change(function(){
+                var categoryId;
+                var selectedValue = $(this).val();//selectedValue
+                var selectedDropdown = $(this).attr("id");//get ID of selected Dropdown
+                if(selectedValue != ""){
+                    categoryId = $(this).val();//selected category ID
+                }
+                renderProductFeatureDropdowns(categoryId)
+            });
+
+            //File Upload Style
+            $(":file").filestyle();
+
+            $(".vendor-dropdown").change(function(){
+                var pincode = vendorPincodeMap[$(this).val()];
+                $(this).parent().parent().find('input.pin-code').val(pincode);
+            });
+
+            $("#parentCategory").change(function(){
+                $("#transGroup").empty();
+                $("#transGroup").append($('<option></option>').val("").html("Select Group"));
+                $("#parentSubCategory").empty();
+                $("#parentSubCategory").append($('<option></option>').val("").html("Select"));
+                US.data_csrf['id'] = $(this).val();
+                $.get(/*[[@{/subcategory.mk}]]*/ '', US.data_csrf)
+                .done(function(data) {
+                    $.each(data, function(index, cat){
+                        $("#parentSubCategory").append($('<option></option>').val(cat.id).html(cat.categoryName));
+                    });
+                })
+                .fail(function(data){
+                    // alert("something went wrong while fetching subcategory");
+                });
+            });
+
+            $(".categoryDropdowns").change(function(){
+                var categoryId;
+                var selectedValue = $(this).val();//selectedValue
+                var selectedDropdown = $(this).attr("id");//get ID of selected Dropdown
+                if(selectedValue != ""){
+                    categoryId = $(this).val();//selected category ID
+                }
+                renderProductFeatureDropdowns(categoryId)
+            });
+
+            function renderProductFeatureDropdowns(categoryId){
+                $(".productFeatureDropdowns").remove();//wipe product Feature Dropdowns
+
+                var units = unitMap[categoryId];
+                if(units !== undefined && units !== '' && units !== null){// If units available
+                    var options = '<option value="">Select</option>';
+                    units.forEach(b => {
+                        options = options + '<option value="' + b.id + '">' + b.unitName + '</option>'
+                    });
+                   var unitDropdown = '<div class="col-sm-3 form-group productFeatureDropdowns">'+
+                                            '<label>Units</label>&nbsp;&nbsp;<span class="text-danger">*</span>'+
+                                            '<select class="form-control" id="unit" name="unit">'+
+                                                options +
+                                            '</select>'+
+                                        '</div>'
+                    $("#productFeatureBox").append(unitDropdown);
+                }else{
+                    var options = '<option value="">Select</option>';
+                    var unitDropdown = '<div class="col-sm-3 form-group productFeatureDropdowns">'+
+                                            '<label>Units</label>&nbsp;&nbsp;<span class="text-danger">*</span>'+
+                                            '<select class="form-control" id="unit" name="unit">'+
+                                                options +
+                                            '</select>'+
+                                        '</div>'
+                    $("#productFeatureBox").append(unitDropdown);
+
+                    //If No units mapped with selected category
+                    $( "#ProductForm" ).validate().showErrors({
+                        "unit": "No units mapped with selected category!"
+                    });
+                }
+
+                var sizeTextBox = '<div class="col-sm-3 form-group productFeatureDropdowns">'+
+                                         '<label>size</label>'+
+                                         '<input class="form-control" type="text" id="size" name="size" maxlength="50">'
+                                     '</div>'
+                $("#productFeatureBox").append(sizeTextBox);
+
+                var specificationTextBox = '<div class="col-sm-3 form-group productFeatureDropdowns">'+
+                                         '<label>Specification</label>'+
+                                         '<input class="form-control" type="text" id="specification" name="specification" maxlength="50">'
+                                     '</div>'
+                $("#productFeatureBox").append(specificationTextBox);
+
+                var brands = brandMap[categoryId];
+                if(brands !== undefined && brands !== '' && brands !== null){// If Brand available
+                    var options = '<option value="">Select</option>';
+                    brands.forEach(b => {
+                        options = options + '<option value="' + b.id + '">' + b.brandName + '</option>'
+                    });
+                   var brandDropdown = '<div class="col-sm-3 form-group productFeatureDropdowns">'+
+                                            '<label>Brands</label>'+
+                                            '<select class="form-control" id="brand" name="brand">'+
+                                                options +
+                                            '</select>'+
+                                        '</div>'
+                    $("#productFeatureBox").append(brandDropdown);
+                }
+
+                var qualities = qualityMap[categoryId];
+                if(qualities !== undefined && qualities !== '' && qualities !== null){// If quality available
+                    var options = '<option value="">Select</option>';
+                    qualities.forEach(b => {
+                        options = options + '<option value="' + b.id + '">' + b.quality + '</option>'
+                    });
+                   var qualityDropdown = '<div class="col-sm-3 form-group productFeatureDropdowns">'+
+                                            '<label>Qualities</label>'+
+                                            '<select class="form-control" id="quality" name="quality" >'+
+                                                options +
+                                            '</select>'+
+                                        '</div>'
+                    $("#productFeatureBox").append(qualityDropdown);
+                }
+
+                var grades = gradeMap[categoryId];
+                if(grades !== undefined && grades !== '' && grades !== null){// If grade available
+                    var options = '<option value="">Select</option>';
+                    grades.forEach(b => {
+                        options = options + '<option value="' + b.id + '">' + b.grade + '</option>'
+                    });
+                   var gradeDropdown = '<div class="col-sm-3 form-group productFeatureDropdowns">'+
+                                            '<label>Grades</label>'+
+                                            '<select class="form-control" id="grade" name="grade" >'+
+                                                options +
+                                            '</select>'+
+                                        '</div>'
+                    $("#productFeatureBox").append(gradeDropdown);
+                }
+
+                var types = typeMap[categoryId];
+                if(types !== undefined && types !== '' && types !== null){// If types available
+                    var options = '<option value="">Select</option>';
+                    types.forEach(b => {
+                        options = options + '<option value="' + b.id + '">' + b.type + '</option>'
+                    });
+                   var typeDropdown = '<div class="col-sm-3 form-group productFeatureDropdowns">'+
+                                            '<label>Types</label>&nbsp;'+
+                                            '<select class="form-control" id="type" name="type">'+
+                                                options +
+                                            '</select>'+
+                                        '</div>'
+                    $("#productFeatureBox").append(typeDropdown);
+                }
+
+                var crushers = crusherMap[categoryId];
+                if(crushers !== undefined && crushers !== '' && crushers !== null){// If crushers available
+                    var options = '<option value="">Select</option>';
+                    crushers.forEach(b => {
+                        options = options + '<option value="' + b.id + '">' + b.crusher + '</option>'
+                    });
+                   var crusherDropdown = '<div class="col-sm-3 form-group productFeatureDropdowns">'+
+                                            '<label>Crushers</label>'+
+                                            '<select class="form-control" id="crusher" name="crusher" >'+
+                                                options +
+                                            '</select>'+
+                                        '</div>'
+                    $("#productFeatureBox").append(crusherDropdown);
+                }
+
+                var weights = weightMap[categoryId];
+                if(weights !== undefined && weights !== '' && weights !== null){// If weights available
+                    var options = '<option value="">Select</option>';
+                    weights.forEach(b => {
+                        options = options + '<option value="' + b.id + '">' + b.weight + '</option>'
+                    });
+                   var weightDropdown = '<div class="col-sm-3 form-group productFeatureDropdowns">'+
+                                            '<label>Weight</label>&nbsp;&nbsp'+
+                                            '<select class="form-control" id="weight" name="weight" >'+
+                                                options +
+                                            '</select>'+
+                                        '</div>'
+                    $("#productFeatureBox").append(weightDropdown);
+                }
+
+                var materials = materialMap[categoryId];
+                if(materials !== undefined && materials !== '' && materials !== null){// If materials available
+                    var options = '<option value="">Select</option>';
+                    materials.forEach(b => {
+                        options = options + '<option value="' + b.id + '">' + b.material + '</option>'
+                    });
+                   var materialDropdown = '<div class="col-sm-3 form-group productFeatureDropdowns">'+
+                                            '<label>Materials</label>&nbsp;&nbsp'+
+                                            '<select class="form-control" id="material" name="material" >'+
+                                                options +
+                                            '</select>'+
+                                        '</div>'
+                    $("#productFeatureBox").append(materialDropdown);
+                }
+
+                var colors = colorMap[categoryId];
+                if(colors !== undefined && colors !== '' && colors !== null){// If colors available
+                    var options = '<option value="">Select</option>';
+                    colors.forEach(b => {
+                        options = options + '<option value="' + b.id + '">' + b.color + '</option>'
+                    });
+                   var colorDropdown = '<div class="col-sm-3 form-group productFeatureDropdowns">'+
+                                            '<label>Color</label>'+
+                                            '<select class="form-control" id="color" name="color">'+
+                                                options +
+                                            '</select>'+
+                                        '</div>'
+                    $("#productFeatureBox").append(colorDropdown);
+                }
+            }
+
+                $('[rel="tooltip"]').tooltip({
+                    trigger: 'hover'
+                });
+
+               //JQuery Validator
+                $('#ProductForm').validate({
+                    rules: {
+                        productCode: {
+                            required: true,
+                            maxlength: 20,
+                            remote: {
+                                url: US.baseURL+'/product/available.mk',
+                                type: "post",
+                                data: US.data_csrf
+                            }
+                        },
+                        productName: {
+                            required: true
+                        },
+                        productDescription: {
+                            maxlength: 300
+                        },
+                        deliveryBy: {
+                            max: 60,
+                            required:true,
+                            number:true
+                        },
+                        minOrderQty: {
+                            required:true,
+                            number:true,
+                            max: function(element) {
+                                 return parseInt($('#maxOrderQty').val());
+                            }
+                        },
+                        maxOrderQty: {
+                            max: 50000,
+                            required:true,
+                            number:true,
+                            min: function(element) {
+                                 return parseInt($('#minOrderQty').val());
+                            }
+                        },
+                        rateOfCgst: {
+                            required: function(element){
+                                return $('#taxInclusive').is(":checked");
+                            },
+                            max: 100,
+                            number:true
+                        },
+                        rateOfSgst: {
+                            required: function(element){
+                                return $('#taxInclusive').is(":checked");
+                            },
+                            max: 100,
+                            number:true
+                        },
+                        rateOfIgst: {
+                            required: function(element){
+                                return $('#taxInclusive').is(":checked");
+                            },
+                            max: 100,
+                            number:true
+                        },
+                        hsnCode: {
+                            required: function(element){
+                                return $('#taxInclusive').is(":checked");
+                            },
+                            maxlength: 20
+                        },
+                        "productVendorForms[0].vendorId": {
+                            required:true
+                        },
+                        "productVendorForms[0].mrpRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownOne').val() > 0);
+                            }
+                        },
+                        "productVendorForms[0].saleRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownOne').val() > 0);
+                            }
+                        },
+                        "productVendorForms[0].actualRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownOne').val() > 0);
+                            }
+                        },
+                        "productVendorForms[0].pinCode": {
+                            required:function(element) {
+                                return ($('#vendorDropdownOne').val() > 0);
+                            },
+                            number: true
+                        },
+                        "productVendorForms[1].mrpRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownTwo').val() > 0);
+                            }
+                        },
+                        "productVendorForms[1].saleRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownTwo').val() > 0);
+                            }
+                        },
+                        "productVendorForms[1].actualRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownTwo').val() > 0);
+                            }
+                        },
+                        "productVendorForms[1].pinCode": {
+                            required:function(element) {
+                                return ($('#vendorDropdownTwo').val() > 0);
+                            }
+                        },
+                        "productVendorForms[2].mrpRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownThree').val() > 0);
+                            }
+                        },
+                        "productVendorForms[2].saleRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownThree').val() > 0);
+                            }
+                        },
+                        "productVendorForms[2].actualRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownThree').val() > 0);
+                            }
+                        },
+                        "productVendorForms[2].pinCode": {
+                            required:function(element) {
+                                return ($('#vendorDropdownThree').val() > 0);
+                            }
+                        },
+                        "productVendorForms[3].mrpRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownFour').val() > 0);
+                            }
+                        },
+                        "productVendorForms[3].saleRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownFour').val() > 0);
+                            }
+                        },
+                        "productVendorForms[3].actualRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownFour').val() > 0);
+                            }
+                        },
+                        "productVendorForms[3].pinCode": {
+                            required:function(element) {
+                                return ($('#vendorDropdownFour').val() > 0);
+                            }
+                        },
+                        "productVendorForms[4].mrpRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownFive').val() > 0);
+                            }
+                        },
+                        "productVendorForms[4].saleRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownFive').val() > 0);
+                            }
+                        },
+                         "productVendorForms[4].actualRate": {
+                            required:function(element) {
+                                return ($('#vendorDropdownFive').val() > 0);
+                            }
+                        },
+                        "productVendorForms[4].pinCode": {
+                            required:function(element) {
+                                return ($('#vendorDropdownFive').val() > 0);
+                            }
+                        },
+                        parentCategory: {
+                            required: true,
+                        },
+                        parentSubCategory: {
+                            required: true,
+                        },
+                        unit: {
+                            required: true,
+                            transUnit: true
+                        },
+                        transGroup: {
+                            required: true
+                        },
+                        specification: {
+                            maxlength: 200
+                        },
+                        size: {
+                            maxlength: 200
+                        },
+                        productImage: {
+                            required: true,
+                            filesize: "2097152",
+                            accept: "image/jpg,image/jpeg,image/png,image/gif"
+                        },
+                        productImageOpt1: {
+                            filesize: "2097152",
+                            accept: "image/jpg,image/jpeg,image/png,image/gif"
+                        },
+                        productImageOpt2: {
+                            filesize: "2097152",
+                            accept: "image/jpg,image/jpeg,image/png,image/gif"
+                        },
+                        productImageOpt3: {
+                            filesize: "2097152",
+                            accept: "image/jpg,image/jpeg,image/png,image/gif"
+                        }
+                    },
+                    messages: {
+                        productCode: {
+                            required: "Please enter product code",
+                            remote: "Product code already exists"
+                        },
+                        productName: {
+                            required: "Please enter product name"
+                        },
+                        deliveryBy: {
+                            required: "Please enter delivery by",
+                            number:"Please enter valid number"
+                        },
+                        minOrderQty: {
+                            required: "Please enter minimum order quantity",
+                            number:"Please enter valid number"
+                        },
+                        maxOrderQty: {
+                            required: "Please enter maximum order quantity",
+                            number:"Please enter valid number"
+                        },
+                        rateOfCgst: {
+                            required: "Please enter CGST %",
+                            number:"Please enter valid number"
+                        },
+                        rateOfSgst: {
+                            required: "Please enter SGST %",
+                            number:"Please enter valid number"
+                        },
+                        rateOfIgst: {
+                            required: "Please enter IGST %",
+                            number:"Please enter valid number"
+                        },
+                        hsnCode: {
+                            required: "Please enter HSN code"
+                        },
+                        "productVendorForms[0].vendorId": {
+                            required: "Please select vendor"
+                        },
+                        "productVendorForms[0].mrpRate": {
+                            required: "Please enter product MRP"
+                        },
+                        "productVendorForms[0].saleRate": {
+                            required: "Please enter sale rate"
+                        },
+                        "productVendorForms[0].actualRate": {
+                            required: "Please enter actual rate"
+                        },
+                        "productVendorForms[0].pinCode": {
+                            required: "Please enter pin code"
+                        },
+                        "productVendorForms[1].mrpRate": {
+                            required: "Please enter product MRP"
+                        },
+                        "productVendorForms[1].saleRate": {
+                            required: "Please enter sale Rate"
+                        },
+                        "productVendorForms[1].actualRate": {
+                            required: "Please enter actual rate"
+                        },
+                        "productVendorForms[1].pinCode": {
+                            required: "Please enter pin code"
+                        },
+                        "productVendorForms[2].mrpRate": {
+                            required: "Please enter product MRP"
+                        },
+                        "productVendorForms[2].saleRate": {
+                            required: "Please enter sale rate"
+                        },
+                        "productVendorForms[2].actualRate": {
+                            required: "Please enter actual rate"
+                        },
+                        "productVendorForms[2].pinCode": {
+                            required: "Please enter pin code"
+                        },
+                        "productVendorForms[3].mrpRate": {
+                            required: "Please enter product MRP"
+                        },
+                        "productVendorForms[3].saleRate": {
+                            required: "Please Enter Sale Rate"
+                        },
+                         "productVendorForms[3].actualRate": {
+                            required: "Please enter actual rate"
+                        },
+                        "productVendorForms[3].pinCode": {
+                            required: "Please enter pin code"
+                        },
+                        "productVendorForms[4].mrpRate": {
+                            required: "Please enter product MRP"
+                        },
+                        "productVendorForms[4].saleRate": {
+                            required: "Please enter sale rate"
+                        },
+                        "productVendorForms[4].actualRate": {
+                            required: "Please enter actual rate"
+                        },
+                        "productVendorForms[4].pinCode": {
+                            required: "Please enter pin code"
+                        },
+                        parentCategory: {
+                            required: "Please choose category",
+                        },
+                        parentSubCategory: {
+                            required: "Please choose sub category",
+                        },
+                        unit: {
+                            required: "Please choose unit",
+                        },
+                        transGroup: {
+                            required: "Please choose transport Group",
+                        },
+                        productImage: {
+                            required: "Product image required",
+                            accept: 'Please upload valid image',
+                            filesize: "File size exceeds maximum limit 2 MB"
+                        },
+                        productImageOpt1: {
+                            accept: 'Please upload valid image',
+                            filesize: "File size exceeds maximum limit 2 MB"
+                        },
+                        productImageOpt2: {
+                            accept: 'Please upload valid image',
+                            filesize: "File size exceeds maximum limit 2 MB"
+                        },
+                        productImageOpt3: {
+                            accept: 'Please upload valid image',
+                            filesize: "File size exceeds maximum limit 2 MB"
+                        }
+                    },
+                    errorPlacement: function (error, element) {
+                        if(element[0].type == 'checkbox') {
+                           error.insertAfter(element.parent());
+                        } else {
+                           error.insertAfter(element);
+                        }
+                    },
+                    errorClass: "help-block error",
+                    highlight: function (e) {
+                        $(e).closest("#customer-form .form-group").addClass("has-error")
+                    },
+                    unhighlight: function (e) {
+                        $(e).closest("#customer-form .form-group").removeClass("has-error")
+                    },
+                    errorPlacement: function (error, element) {
+                        if (element.attr("name") == "productImage") {
+                          $("#productimage_error_msg").html(error);
+                        }else {
+                          error.insertAfter(element);
+                        }
+                    }
+                }); // end of validator
+
+            $('input[type=radio]').change(function() {
+                // When any radio button on the page is selected,
+                // then deselect all other radio buttons.
+                var disableVendorEnabled = $(this).parent().parent().parent().parent().find('.disable-vendor-field').is(":checked");
+                var vendorSelected = $(this).parent().parent().parent().find('.vendor-name-field').val();
+                if((!disableVendorEnabled) && vendorSelected != ''){
+                    $('input[type=radio]:checked').not(this).prop('checked', false);
+                }
+
+                // Default vendor validation for when disable checked
+                if(disableVendorEnabled){
+                    $(this).prop('checked', false)
+                    swal({
+                     text: 'Vendor default not allowed for disable vendor!',
+                     type: 'warning',
+                     confirmButtonClass: "btn btn-warning btn-fill",
+                     buttonsStyling: false
+                    });
+                }
+
+                // Default vendor validation for when vendor not selected
+                if(vendorSelected == ''){
+                    $(this).prop('checked', false)
+                    swal({
+                     text: 'Vendor default not allowed when vendor empty!',
+                     type: 'warning',
+                     confirmButtonClass: "btn btn-warning btn-fill",
+                     buttonsStyling: false
+                    });
+                }
+            });
+
+            $('input[type=checkbox]').change(function() {
+                    // Disable vendor validation for when default checked
+                    if($(this).parent().parent().parent().parent().find('.default-vendor-field').is(":checked")){
+                        $(this).prop('checked', false)
+                        swal({
+                         text: 'Vendor disable not allowed for default vendor!',
+                         type: 'warning',
+                         confirmButtonClass: "btn btn-warning btn-fill",
+                         buttonsStyling: false
+                        });
+                    }
+            });
+
+             $('input:checkbox').prop('checked', true);
+             $("input[name='productVendorForms[0].disableVendor']:checkbox").prop('checked',false);
+
+        }) // end of ready function
+            /*]]>*/
+       </script>
+</th:block>
+
+</body>
+</html>

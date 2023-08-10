@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{dashboard/dashboard-layout}" th:with="userModule='active'">
+
+<head>
+    <title>View User Profile</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet" media="screen" />
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet" />
+    <!-- PAGE LEVEL STYLES-->
+    <!-- PLUGINS STYLES-->
+    <link href="/resources/css/datatables.min.css" th:href="@{/resources/css/datatables.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/bootstrap-editable.css" th:href="@{/resources/css/bootstrap-editable.css}" rel="stylesheet" media="screen"/>
+
+</head>
+
+<body>
+
+<th:block layout:fragment="header">
+    <div th:replace="~{dashboard/header :: header}"></div>
+</th:block>
+
+<th:block layout:fragment="sidebar">
+    <div th:replace="~{dashboard/sidebar :: sidebar}"></div>
+</th:block>
+
+<th:block layout:fragment="content">
+    <!-- START PAGE CONTENT-->
+    <div class="page-heading">
+        <h1 class="page-title">User Profile</h1>
+    </div>
+    <div class="page-content fade-in-up">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card" style="width:300px;">
+                    <img class="card-img-top" src="/resources/img/profile-face.jpg" th:src="@{/resources/img/profile-face.jpg}">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">[(${userProfile.fullName})]</h4>
+                        <div class="text-muted card-subtitle text-center">@[(${userProfile.username})]</div>
+                        <h4 class="card-title text-center">Email Address</h4>
+                        <div class="text-muted card-subtitle text-center">[(${userProfile.email})]</div>
+                    </div>
+                    <!-- <div class="card-footer">
+                        <a class="text-info"><i class="fa fa-star"></i> Follow</a>
+                        <span class="pull-right text-muted font-13">Joined in 12.01</span>
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="ibox">
+                    <div class="ibox-head">
+                        <div class="ibox-title">Edit Profile</div>
+                        <div class="ibox-tools">
+                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                        </div>
+                    </div>
+                    <div class="ibox-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label class="text-muted">Full Name</label></br>
+                                    <a href="#" class="editable-fullname" data-name="fullName" th:data-value="${userProfile.fullName}" th:data-pk="${userProfile.id}" th:text="${userProfile.fullName}">Full Name</a>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label class="text-muted">Email Address</label></br>
+                                    <a href="#" class="editable-email" data-name="email" th:data-value="${userProfile.email}" th:data-pk="${userProfile.id}" th:text="${userProfile.email}">Email</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label class="text-muted">Mobile</label></br>
+                                    <a href="#" class="editable-mobile" data-name="mobile" th:data-value="${userProfile.mobile}" th:data-pk="${userProfile.id}" th:text="${userProfile.mobile}">Mobile</a>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label class="text-muted">Role</label>
+                                    <p>[(${roleMap.get(userProfile.role)})]</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label class="text-muted">Created By</label>
+                                    <p>[(${userProfile.createdBy})]</p>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label class="text-muted">Created Date</label>
+                                    <p th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getLocalTimezoneDate(userProfile.createdDate, zone)}">Created Date</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label class="text-muted">Updated By</label>
+                                    <p>[(${userProfile.updatedBy})]</p>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label class="text-muted">Updated Date</label>
+                                    <p th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getLocalTimezoneDate(userProfile.updatedDate, zone)}">Updated Date</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+</th:block>
+
+<th:block layout:fragment="pageplugin">
+    <!-- PAGE LEVEL PLUGINS-->
+    <script src="/resources/js/datatables.min.js" th:src="@{/resources/js/datatables.min.js}" type="text/javascript"></script>
+    <script src="/resources/js/jquery.validate.min.js" th:src="@{/resources/js/jquery.validate.min.js}" type="text/javascript"></script>
+    <script src="/resources/js/bootstrap-editable.min.js" th:src="@{/resources/js/bootstrap-editable.min.js}"></script>
+</th:block>
+
+<th:block layout:fragment="pagescript">
+    <!-- PAGE LEVEL SCRIPTS-->
+    <script type="text/javascript">
+        var oTable;
+
+        $.fn.editableform.buttons = '<button type="submit" class="editable-submit btn btn-sm btn-info btn-fill"><i class="fa fa-check"></i></button>'+
+                                    '<button type="button" class="editable-cancel btn btn-sm btn-default btn-fill"><i class="fa fa-times"></i></button>';
+
+                    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+                    var csrfToken = $("meta[name='_csrf']").attr("content");
+
+                $('.editable-fullname').editable({
+                        type : 'text',
+                        mode: 'inline',
+                        validate: function(value) {
+                             if (value === null || value === '') {
+                                  return 'Please enter the full name';
+                                }
+                            },
+                        url :  US.baseURL + '/user/update/name.mk',
+                        ajaxOptions: {
+                           beforeSend: function (xhr){  xhr.setRequestHeader(csrfHeader, csrfToken); }
+                            },
+                        success : function(response, newValue) {
+                            if (response.status == 'error') { return response.msg; }
+                            }
+                    });
+
+                     $('.editable-mobile').editable({
+                        type : 'text',
+                        mode: 'inline',
+                        validate: function(value) {
+                          var validMobile = /^\d{10,15}/;
+                          if (!validMobile.test(value)) {
+                            return 'Please Enter valid Mobile number';
+                          }
+                        },
+                        url :  US.baseURL + '/user/update/mobile.mk',
+                        ajaxOptions: {
+                           beforeSend: function (xhr){  xhr.setRequestHeader(csrfHeader, csrfToken); }
+                        },
+                        success : function(response, newValue) {
+                            if (response.status == 'error') { return response.msg; }
+                        }
+                });
+
+                $('.editable-email').editable({
+                        type : 'text',
+                        mode: 'inline',
+                        validate: function(value) {
+                          var validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+                          if (!validEmail.test(value)) {
+                            return 'Please Enter valid Email address';
+                          }
+                        },
+                        url :  US.baseURL + '/user/update/email.mk',
+                        ajaxOptions: {
+                           beforeSend: function (xhr){  xhr.setRequestHeader(csrfHeader, csrfToken); }
+                        },
+                        success : function(response, newValue) {
+                            if (response.status == 'error') { return response.msg; }
+                        }
+                });
+
+    </script>
+</th:block>
+
+</body>
+</html>

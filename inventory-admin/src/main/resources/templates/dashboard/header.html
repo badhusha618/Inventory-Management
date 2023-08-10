@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet" media="screen"/>
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet" media="screen"/>
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet"/>
+</head>
+
+<body>
+    <!-- START HEADER-->
+    <header class="header" th:fragment="header">
+        <div class="page-brand">
+            <a class="link" th:href="@{/dashboard.mk}">
+                <span class="brand">United
+                    <span class="brand-tip">Supplies</span>
+                </span>
+                <span class="brand-mini">US</span>
+            </a>
+        </div>
+        <div class="flexbox flex-1">
+            <!-- START TOP-LEFT TOOLBAR-->
+            <ul class="nav navbar-toolbar">
+                <li>
+                    <a class="nav-link sidebar-toggler js-sidebar-toggler"><i class="ti-menu"></i></a>
+                </li>
+            </ul>
+            <!-- END TOP-LEFT TOOLBAR-->
+            <!-- START TOP-RIGHT TOOLBAR-->
+            <ul class="nav navbar-toolbar">
+
+                <li class="dropdown dropdown-notification">
+                    <a th:if="${#lists.isEmpty(newOrderList)}" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell-o rel">
+                        <span></span></i></a>
+                    <th:block th:if="${#lists.isEmpty(newOrderList)}">
+                        <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media">
+                            <li class="dropdown-menu-header">
+                                <div>
+                                    <span><strong>No</strong> New Orders Found</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </th:block>
+                    <a th:unless="${#lists.isEmpty(newOrderList)}" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell-o rel">
+                        <span class="notify-signal"></span></i></a>
+                    <th:block th:unless="${#lists.isEmpty(newOrderList)}">
+                        <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media">
+                            <li class="dropdown-menu-header">
+                                <div>
+                                    <span><strong><span th:text="${#lists.size(newOrderList)}"></span> New</strong> Order<span th:if="${#lists.size(newOrderList) > 1}">s</span></span>
+                                </div>
+                            </li>
+                            <li class="list-group list-group-divider scroller" data-height="${#lists.size(newOrderList)}" data-color="#71808f">
+                                <div>
+                                    <a th:if="${#lists.size(newOrderList) > 0}" class="list-group-item" th:href="@{/orders.mk}">
+                                        <div class="media">
+                                            <div class="media-img">
+                                                <span class="badge badge-info badge-big"><i class="fa fa-shopping-cart"></i></span>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="font-13" th:text="${'New Order From '+newOrderList.get(0).user.fullName}">You have got 2 new orders</div>
+                                                <small class="text-muted" th:text="${prodOrderCountMap.get(newOrderList.get(0).id)+' Product Items'}">5 Product Items</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a th:if="${#lists.size(newOrderList) > 1}" class="list-group-item" th:href="@{/orders.mk}">
+                                        <div class="media">
+                                            <div class="media-img">
+                                                <span class="badge badge-success badge-big"><i class="fa fa-shopping-cart"></i></span>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="font-13" th:text="${'New Order From '+newOrderList.get(1).user.fullName}">New Order From User</div>
+                                                <small class="text-muted" th:text="${prodOrderCountMap.get(newOrderList.get(1).id)+' Product Items'}">5 Products</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a th:if="${#lists.size(newOrderList) > 2}" class="list-group-item" th:href="@{/orders.mk}">
+                                        <div class="media">
+                                            <div class="media-img">
+                                                <span class="badge badge-primary badge-big"><i class="fa fa-shopping-cart"></i></span>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="font-13" th:text="${'New Order From '+newOrderList.get(2).user.fullName}">You have got 2 new orders</div>
+                                                <small class="text-muted" th:text="${prodOrderCountMap.get(newOrderList.get(2).id)+' Product Items'}">5 Products</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a th:if="${#lists.size(newOrderList) > 3}" class="list-group-item" th:href="@{/orders.mk}">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <div class="font-13">View More
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </th:block>
+                </li>
+                <li class="dropdown dropdown-user">
+                    <a class="nav-link dropdown-toggle link" data-toggle="dropdown">
+                        <img src="/resources/img/admin-avatar.jpg" />
+                        <span></span><span sec:authorize="isAuthenticated()"><span sec:authentication="name"/></span><i class="fa fa-angle-down m-l-5"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <th:block sec:authorize="hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_MANAGER')">
+                            <a class="dropdown-item" href="/user/profile/view.mk" th:href="@{/user/profile/view.mk}"><i class="fa fa-user"></i>User Profile</a>
+                            <a class="dropdown-item" href="/user/pwd.mk" th:href="@{/user/pwd.mk}"><i class="fa fa-key"></i>Change Password</a>
+                        </th:block>
+                        <th:block sec:authorize="hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_ADMIN')">
+                            <a class="dropdown-item" href="/user/settings.mk" th:href="@{/user/settings.mk}"><i class="fa fa-cog"></i>User Settings</a>
+                        </th:block>
+                        <li class="dropdown-divider"></li>
+                        <a class="dropdown-item" href="/logout.mk" th:href="@{/logout.mk}"><i class="fa fa-power-off"></i>Logout</a>
+                    </ul>
+                </li>
+            </ul>
+            <!-- END TOP-RIGHT TOOLBAR-->
+        </div>
+    </header>
+    <!-- END HEADER-->
+</body>
+</html>

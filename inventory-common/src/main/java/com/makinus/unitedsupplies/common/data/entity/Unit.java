@@ -1,0 +1,121 @@
+/*
+ *
+ *    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+ *
+ *    Unauthorized copying of this file, via any medium is strictly prohibited
+ *    Proprietary and confidential
+ *    Written by Makinus Pvt Ltd
+ *
+ */
+package com.makinus.unitedsupplies.common.data.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Date;
+import javax.persistence.*;
+
+@Entity
+@Table(name = "UNITS")
+@JsonIgnoreProperties({"createdBy", "createdDate", "updatedBy", "updatedDate", "deleted"})
+public class Unit {
+
+  @Id
+  @Column(name = "ID")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(name = "UNIT_NAME")
+  private String unitName;
+
+  @Column(name = "UNIT_CODE")
+  private String unitCode;
+
+  @Column(name = "CREATED_BY")
+  private String createdBy;
+
+  @Column(name = "CREATED_DATE")
+  private Date createdDate;
+
+  @Column(name = "UPDATED_BY")
+  private String updatedBy;
+
+  @Column(name = "UPDATED_DATE")
+  private Date updatedDate;
+
+  @Column(name = "ACTIVE")
+  private String active;
+
+  @Column(name = "DELETED")
+  private String deleted;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getUnitName() {
+    return unitName;
+  }
+
+  public void setUnitName(String unitName) {
+    this.unitName = unitName;
+  }
+
+  public String getUnitCode() {
+    return unitCode;
+  }
+
+  public void setUnitCode(String unitCode) {
+    this.unitCode = unitCode;
+  }
+
+  public String getCreatedBy() {
+    return createdBy;
+  }
+
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public Date getCreatedDate() {
+    return createdDate;
+  }
+
+  public void setCreatedDate(Date createdDate) {
+    this.createdDate = createdDate;
+  }
+
+  public String getUpdatedBy() {
+    return updatedBy;
+  }
+
+  public void setUpdatedBy(String updatedBy) {
+    this.updatedBy = updatedBy;
+  }
+
+  public Date getUpdatedDate() {
+    return updatedDate;
+  }
+
+  public void setUpdatedDate(Date updatedDate) {
+    this.updatedDate = updatedDate;
+  }
+
+  public String getActive() {
+    return active;
+  }
+
+  public void setActive(String active) {
+    this.active = active;
+  }
+
+  public String getDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(String deleted) {
+    this.deleted = deleted;
+  }
+}

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{dashboard/dashboard-layout}" th:with="orderModule='active'">
+
+<head>
+    <title>Product Order Details</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet"
+        media="screen" />
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet" media="screen" />
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet" />
+    <!-- PAGE LEVEL STYLES-->
+     <!--/*  Bootstrap Lightbox CSS   */-->
+     <link href="/resources/css/ekko-lightbox.css" th:href="@{/resources/css/ekko-lightbox.css}" rel="stylesheet" media="screen"/>
+    <!-- PLUGINS STYLES-->
+    <link href="/resources/css/datatables.min.css" th:href="@{/resources/css/datatables.min.css}" rel="stylesheet"
+        media="screen" />
+    <link href="/resources/css/bootstrap-editable.css" th:href="@{/resources/css/bootstrap-editable.css}" rel="stylesheet"
+          media="screen"/>
+    <link href="/resources/css/sweetalert2.min.css" th:href="@{/resources/css/sweetalert2.min.css}" rel="stylesheet"
+        media="screen" />
+    <style type="text/css">
+        input.large-checkbox {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <th:block layout:fragment="header">
+        <div th:replace="~{dashboard/header :: header}"></div>
+    </th:block>
+
+    <th:block layout:fragment="sidebar">
+        <div th:replace="~{dashboard/sidebar :: sidebar}"></div>
+    </th:block>
+
+    <th:block layout:fragment="content">
+        <!-- START PAGE CONTENT-->
+        <div class="page-heading">
+            <h1 class="page-title">Product Order Details</h1>
+        </div>
+        <div class="page-content fade-in-up">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Order &nbsp;
+                        <b><span class="label label-primary" th:text="${'OD'+order.orderRef}"></span></b></div>
+                    <a class="btn btn-warning" th:href="@{/orders.mk}">
+                        <i class="fa fa-arrow-left"></i> &nbsp; Back
+                    </a>
+                </div>
+                <div class="ibox-body col-sm-12 pb-0">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="card-subtitle">
+                                        <table class="table-sm">
+                                            <tbody>
+                                            <tr>
+                                                <td colspan="2"><b>Amount Details</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label class="ml-3">Shipment Charges :</label></td>
+                                                <td><label class="float-right"><i class="fa fa-inr"></i> <span th:text="${order.transportCharges}">100</span></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label class="ml-3">Loading Charges :</label></td>
+                                                <td><label class="float-right"><i class="fa fa-inr"></i> <span th:text="${order.loadingCharges}">100</span></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label class="ml-3">Service Charges :</label></td>
+                                                <td><label class="float-right"><i class="fa fa-inr"></i> <span th:text="${order.serviceCharges}">100</span></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label class="ml-3">Sub Total :</label></td>
+                                                <td><label class="float-right"><i class="fa fa-inr"></i> <span th:text="${order.subTotal}">100</span></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b class="ml-3">Grand Total :</b></td>
+                                                <td><b class="float-right"><i class="fa fa-inr"></i> <span th:text="${order.orderTotal}">100</span></b></td>
+                                            </tr>
+                                            </tbody>
+                                        <br/>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ibox col-sm-3">
+                            <div class="ibox-head" th:if="${deliveryAddress != null}">
+                                <div class="ibox-title">Delivery Address</div>
+                                <div class="ibox-tools">
+                                    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                </div>
+                            </div>
+                            <div class="ibox-body" th:if="${deliveryAddress != null}">
+                                <div>
+                                    <span th:text="${deliveryAddress.name}"></span><br/>
+                                    <span th:text="${deliveryAddress.address}"></span><br/>
+                                    <span th:text="${T(com.makinus.unitedsupplies.common.data.reftype.City).statusMatch(deliveryAddress.city).getDisplay()}"></span><br/>
+                                    <span th:text="${deliveryAddress.postalCode}"></span><br/>
+                                </div>
+                            </div>
+                            <div class="ibox-head" th:if="${billingAddress != null}">
+                                <div class="ibox-title">Billing Address</div>
+                                <div class="ibox-tools">
+                                    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                </div>
+                            </div>
+                            <div class="ibox-body" th:if="${billingAddress != null}">
+                                <div>
+                                    <span th:text="${billingAddress.name}"></span><br/>
+                                    <span th:text="${billingAddress.address}"></span><br/>
+                                    <span th:text="${billingAddress.city}"></span><br/>
+                                    <span th:text="${billingAddress.postalCode}"></span><br/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ibox col-sm-4 mx-4">
+                            <div class="ibox-head">
+                                <div class="ibox-title">Invoice Report</div>
+                                <div class="ibox-tools">
+                                    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                </div>
+                            </div>
+                            <div class="ibox-body">
+                                <div class="my-1">
+                                    <b>Purchase Order</b> &nbsp;&nbsp;&nbsp;<a th:href="@{/order/receipt/{orderRef}/download.mk(orderRef=${order.orderRef})}" target="_blank">
+                                    <i class="fa fa-print float-right"></i></a>
+                                </div>&nbsp;
+                                <div class="my-1"><b>Product Invoice</b> &nbsp;&nbsp;&nbsp;<a th:href="@{/order/{ref}/product/invoice.mk(ref=${order.orderRef})}" target="_blank">
+                                    <i class="fa fa-print float-right"></i></a>
+                                </div>&nbsp;
+                                <div class="my-1"><b>Seller Invoice</b> &nbsp;&nbsp;&nbsp;<a th:href="@{/seller/invoice/{ref}.mk(ref=${order.orderRef})}" target="_blank">
+                                    <i class="fa fa-print float-right"></i></a>
+                                </div>&nbsp;
+                                <div class="my-1"><b>Customer Invoice</b> &nbsp;&nbsp;&nbsp;<a th:href="@{/customer/invoice/{ref}.mk(ref=${order.orderRef})}" target="_blank">
+                                    <i class="fa fa-print float-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-body py-0">
+                    <div class="ibox">
+                        <div class="ibox-head">
+                            <div class="ibox-title">Product Details</div>
+                            <div class="ibox-tools">
+                                <form id="fulfillmentForm" th:action="@{/order/fulfillment/{stage}.mk(stage=${T(com.makinus.unitedsupplies.common.data.reftype.OrderFulfillmentStatus).PREVIEW.getStatus()})}" th:object="${fulfillmentForm}" method="post">
+                                        <input type="hidden" th:field="*{orderRef}"/>
+                                        <input type="hidden" id="prodOrderIds" th:field="*{prodOrderIds}"/>
+                                        <input type="hidden" id="prodVendorId" th:field="*{prodVendorId}"/>
+                                    <button type="submit" class="d-none btn btn-sm btn-success" id="fulfillmentSubmitBtn">Fulfillment</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="ibox-body">
+                            <table class="table table-bordered table-hover" id="order-table" cellspacing="0"
+                                   width="100%">
+                                <thead>
+                                <tr>
+                                    <th width="2%">
+                                        <input type="checkbox" class="large-checkbox parent-checkbox"/>
+                                    </th>
+                                    <th>Order div</th>
+                                    <th>Product</th>
+                                    <th>Vendor</th>
+                                    <th class="text-center" width="10%">Quantity</th>
+                                    <th class="text-center">Sale Rate</th>
+                                    <th width="20%">Amount Details</th>
+                                    <th width="20%">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="productOrder : ${productOrders}">
+                                    <td width="2%">
+                                        <input th:unless="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" type="checkbox" class="large-checkbox child-checkbox"/>
+                                    </td>
+                                    <td>
+                                        <span th:text="${orderFulfillmentMap.get(productOrder.fulfillmentId).fulfillmentRef}">Order div</span><br/>
+                                        <span th:if="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" class="badge badge-success">Fulfilled</span>
+                                        <span th:unless="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" class="badge badge-warning">Unfulfilled</span>
+                                    </td>
+                                    <td>
+                                        <input class="d-none id" th:value="${productOrder.id}"/>
+                                        <input class="d-none product-id" th:value="${productOrder.productId}"/>
+                                        <input class="d-none prod-vendor-id" th:value="${productOrder.prodVendorId}"/>
+                                        <input class="d-none init-prod-vendor-id" th:value="${productOrder.initProdVendorId}"/>
+                                        <span class="vendor-change-url" th:url="@{/order/prod/{id}/{deliveryPinCode}/vendor/change.mk(id=${productOrder.id}, deliveryPinCode=${deliveryAddress.postalCode})}"></span>
+                                        <span class="badge badge-default" th:text="${productMap.get(productOrder.productId).productName}">Product Name</span><br/>
+                                        <span th:text="${productMap.get(productOrder.productId).productCode}">Product Code</span>
+                                    </td>
+                                    <td>
+                                        <a th:unless="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" th:url="@{/order/prod/{prodId}/{deliveryPinCode}/vendor/change.mk(prodId=${productOrder.id}, deliveryPinCode=${deliveryAddress.postalCode})}" data-toggle="modal" data-target="#EditVendor" class="primary edit-product-vendor">
+                                            <span class="badge badge-primary" th:text="${vendorMap.get(prodVendorMap.get(productOrder.prodVendorId).vendorId).vendorCode + ' - ' + vendorMap.get(prodVendorMap.get(productOrder.prodVendorId).vendorId).vendorName}"></span>
+                                        </a>
+                                            <span th:if="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" class="badge badge-primary" th:text="${vendorMap.get(prodVendorMap.get(productOrder.prodVendorId).vendorId).vendorCode + ' - ' + vendorMap.get(prodVendorMap.get(productOrder.prodVendorId).vendorId).vendorName}"></span>
+                                    </td>
+                                    <td class="text-center" width="10%">
+                                        <span th:text="${productOrder.proQuantity}">Quantity</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span th:text="${productOrder.prodSaleRate}">SaleRate</span>
+                                    </td>
+                                    <td width="20%">
+                                        <span class="badge badge-default">Sub Total </span><span th:text="${(productOrder.proQuantity)*(productOrder.prodSaleRate)}">Sub Total</span><br/>
+                                        <span class="badge badge-default">Shipment Charges </span><span th:text="${productOrder.transportCharges}" class="m-3">Shipment Charges</span><br/>
+                                        <span class="badge badge-default">Loading Charges </span><span th:text="${productOrder.loadingCharges}" class="m-3">Loading Charges</span>
+                                    </td>
+                                    <td width="20%">
+                                        <a th:if="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" href="#" class="editable-prod-order-status label label-primary" th:text="${T(com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus).statusMatch(productOrder.status).getDisplay()}" data-name="status" th:data-value="${productOrder.status}" th:data-pk="${productOrder.id}">Status</a>
+                                        <span th:unless="${T(com.makinus.unitedsupplies.common.data.reftype.YNStatus).YES.getStatus().equals(productOrder.fulfillmentStatus)}" class="label label-primary" th:text="${T(com.makinus.unitedsupplies.common.data.reftype.ProdOrderStatus).statusMatch(productOrder.status).getDisplay()}">Status</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="modal fade" id="EditVendor" tabindex="-1" role="dialog" aria-labelledby="changeVendor" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <section>
+                                            <form id="vendor-form" method="post" th:object="${productVendorForm}">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="changeVendor">Change Vendor</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <span id="product-vendor-form-url"></span>
+                                                    <fieldset class="form-group col-12">
+                                                        <input type="text" id="product-vendor-form-product" class="name form-control" placeholder="Product" readonly/>
+                                                    </fieldset>
+                                                    <fieldset class="form-group col-12">
+                                                        <div class="row">
+                                                        <div class="col-6">
+                                                            <input type="text" id="product-vendor-form-init-vendor" class="name form-control" placeholder="Vendor" readonly/>
+                                                        </div>
+                                                            <div class="col-6">
+                                                                <select id="product-vendor-form-vendor" class="form-control" th:field="*{vendorId}">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <fieldset class="form-group position-relative has-icon-left mb-0">
+                                                        <button id="product-vendor-form-btn" class="btn btn-info text-white">Update</button>
+                                                    </fieldset>
+                                                </div>
+                                            </form>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-body pt-0">
+                    <div class="ibox" style="background-color: rgb(226, 242, 247)">
+                        <div class="ibox-body">
+                            &nbsp;&nbsp;<span class="badge badge-default m-r-5 m-b-5">Created By</span>&nbsp;<span th:id="${order.orderRef + 'StatusCreatedBy'}" th:text="${order.createdBy}"></span></br>
+                            &nbsp;&nbsp;<span class="badge badge-default m-r-5 m-b-5">Created Date</span>&nbsp;<span th:id="${order.orderRef + 'StatusCreatedDate'}" th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getLocalTimezoneDate(order.createdDate, zone)}"></span></br>
+                            &nbsp;&nbsp;<span class="badge badge-default m-r-5 m-b-5">Updated By</span>&nbsp;<span th:id="${order.orderRef + 'StatusUpdatedBy'}" th:text="${order.updatedBy}"></span></br>
+                            &nbsp;&nbsp;<span class="badge badge-default m-r-5 m-b-5">Updated Date</span>&nbsp;<span th:id="${order.orderRef + 'StatusUpdatedDate'}" th:text="${T(com.makinus.unitedsupplies.common.utils.AppUtils).getLocalTimezoneDate(order.updatedDate, zone)}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT-->
+    </th:block>
+
+    <th:block layout:fragment="pageplugin">
+        <!-- PAGE LEVEL PLUGINS-->
+        <script src="/resources/js/datatables.min.js" th:src="@{/resources/js/datatables.min.js}" type="text/javascript"></script>
+        <script src="/resources/js/sweetalert2.min.js" th:src="@{/resources/js/sweetalert2.min.js}" type="text/javascript"></script>
+        <!-- Sweet Alert 2 plugin -->
+        <script src="/resources/js/es6-promise-auto.min.js" th:src="@{/resources/js/es6-promise-auto.min.js}" type="text/javascript"></script>
+        <!-- Promise Library for SweetAlert2 working on IE -->
+        <!-- Bootstrap Lightbox Plugin -->
+        <script src="/resources/js/ekko-lightbox.min.js" th:src="@{/resources/js/ekko-lightbox.min.js}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@7.1.0/dist/promise.min.js"></script>
+         <!--  Notifications Plugin    -->
+        <script src="/resources/js/bootstrap-notify.js" th:src="@{/resources/js/bootstrap-notify.js}"></script>
+        <script src="/resources/js/bootstrap-editable.min.js" th:src="@{/resources/js/bootstrap-editable.min.js}"></script>
+    </th:block>
+
+    <th:block layout:fragment="pagescript">
+        <!-- PAGE LEVEL SCRIPTS-->
+        <script type="text/javascript" th:inline="javascript">
+
+            $.fn.editableform.buttons = '<button type="submit" class="editable-submit btn btn-sm btn-info btn-fill"><i class="fa fa-check"></i></button>'+
+                                '<button type="button" class="editable-cancel btn btn-sm btn-default btn-fill"><i class="fa fa-times"></i></button>';
+
+            var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+            var csrfToken = $("meta[name='_csrf']").attr("content");
+
+            $('.editable-prod-order-status').editable({
+                type : 'select',
+                mode : 'inline',
+                source :  US.baseURL + '/prod/order/status/list.mk',
+                url :  US.baseURL + '/prod/order/status/change.mk',
+                ajaxOptions: {
+                   beforeSend: function (xhr){  xhr.setRequestHeader(csrfHeader, csrfToken); }
+                },
+                success : function(response, newValue) {
+                    if (response.status == 'error') {
+                        return response.msg;
+                    }
+                }
+            });
+
+            var vendorMap = /*[[${vendorMap}]]*/ '';
+            var prodToProdVendorMap = /*[[${prodToProdVendorMap}]]*/ '';
+            var prodVendorMap = /*[[${prodVendorMap}]]*/ '';
+            var productMap = /*[[${productMap}]]*/ '';
+
+            var fulfillmentProdOrderIds = [];
+            var fulfillmentProdVendorIds = [];
+            $(document).ready(function () {
+                $(".parent-checkbox").prop("checked", false);
+                $(".child-checkbox").prop("checked", false);
+            });
+
+            $(document).on('click', '.edit-product-vendor', function () {
+               currentRow= $(this).parents('tr');
+               $("#product-vendor-form-product").val(productMap[currentRow.find('.product-id').val()].productCode + ' - '+ productMap[currentRow.find('.product-id').val()].productName);
+               var vendorValues = prodToProdVendorMap[currentRow.find('.product-id').val()];
+               $("#product-vendor-form-vendor").children().remove();
+               $.each(vendorValues, function (data, value) {
+                        $("#product-vendor-form-vendor").append($("<option></option>").val(value.id).html(vendorMap[value.vendorId].vendorCode + ' - ' + vendorMap[value.vendorId].vendorName));
+                    })
+               $("#product-vendor-form-vendor").val(currentRow.find('.prod-vendor-id').val());
+               var initVendor = vendorMap[prodVendorMap[currentRow.find('.init-prod-vendor-id').val()].vendorId];
+               var initVendorCodeAndName = initVendor.vendorCode + ' - ' + initVendor.vendorName;
+               $("#product-vendor-form-init-vendor").val(initVendorCodeAndName);
+               $("#product-vendor-form-url").attr('url',currentRow.find('.vendor-change-url').attr('url'));
+            });
+
+            $(".parent-checkbox").change(function() {
+                if(this.checked){
+                    $(".child-checkbox").each(function() {
+                        this.checked=true;
+                    });
+                }else{
+                    $(".child-checkbox").each(function() {
+                        this.checked=false;
+                    });
+                }
+               displayFulfillmentBtn();
+               clearFulfillment(this.checked);
+            });
+
+            $(".child-checkbox").change(function() {
+                if(($(".child-checkbox").length - $(".child-checkbox").filter(':checked').length == 0) && !$(".parent-checkbox").is(':checked')){
+                    $(".parent-checkbox").prop("checked", true);
+                }
+                if(($(".child-checkbox").length - $(".child-checkbox").filter(':checked').length > 0) && $(".parent-checkbox").is(':checked')){
+                    $(".parent-checkbox").prop("checked", false);
+                }
+               displayFulfillmentBtn();
+               addAndRemoveFulfillment(this.checked, $(this));
+            });
+
+            function displayFulfillmentBtn(){
+                if($(".child-checkbox").filter(':checked').length > 0){
+                    $('#fulfillmentSubmitBtn').removeClass('d-none');
+                    $('#fulfillmentSubmitBtn').addClass('d-block');
+                }else{
+                    $('#fulfillmentSubmitBtn').removeClass('d-block');
+                    $('#fulfillmentSubmitBtn').addClass('d-none');
+                }
+            }
+
+            function clearFulfillment(value){
+                fulfillmentProdVendorIds = [];
+                fulfillmentProdOrderIds = [];
+                if(value){
+                    $(".prod-vendor-id").each(function(data){
+                        if($(this).parent().parent().find('input.child-checkbox').val() != undefined){
+                            fulfillmentProdVendorIds.push(prodVendorMap[$(this).val()].vendorId);
+                        }
+                    })
+                    $(".id").each(function(data){
+                        if($(this).parent().parent().find('input.child-checkbox').val() != undefined){
+                            fulfillmentProdOrderIds.push($(this).val());
+                        }
+                    })
+                }
+            }
+
+            function addAndRemoveFulfillment(value, element){
+                var prodVendorId = element.parent().parent().find('input.prod-vendor-id').val();
+                var prodOrderId = element.parent().parent().find('input.id').val();
+                if(value){
+                    fulfillmentProdVendorIds.push(prodVendorMap[prodVendorId].vendorId);
+                    fulfillmentProdOrderIds.push(prodOrderId);
+                }else{
+                    fulfillmentProdVendorIds.pop(prodVendorMap[prodVendorId].vendorId);
+                    fulfillmentProdOrderIds.pop(prodOrderId);
+                }
+            }
+
+            $("#fulfillmentSubmitBtn").click(function(e) {
+                e.preventDefault();
+                var fulfillmentProdVendorId = jQuery.unique(fulfillmentProdVendorIds);
+                if(fulfillmentProdVendorId.length > 1){
+                    showSwalWarning();
+                }else{
+                    $("#prodOrderIds").val(fulfillmentProdOrderIds);
+                    $("#prodVendorId").val(fulfillmentProdVendorId);
+                    $("#fulfillmentForm").submit();
+                }
+            });
+
+            function showSwalWarning() {
+                swal({
+                    title: 'Warning!',
+                    text: 'Vendors were mismatching',
+                    type: 'warning',
+                    confirmButtonClass: "btn btn-warning btn-fill",
+                    buttonsStyling: false
+                });
+            }// end of swal function
+
+                $("#product-vendor-form-btn").on("click", function(e){
+                  e.preventDefault();
+                  var serializedFormData = $(this).parents('form').serialize();
+                  var url = $("#product-vendor-form-url").attr('url');
+	        	       $.ajax({
+	        	       		type: "post",
+	        	       		url: url,
+	        	       		data: serializedFormData,
+	        	       		beforeSend: function(xhr){
+                                 xhr.setRequestHeader(csrfHeader, csrfToken);
+	        	       		},
+	        	       		success: function(response) {
+	        	       		    $("#EditVendor").modal("hide");
+	        	       		    swal({
+                                      title: 'Saved!',
+                                      text: 'The vendor have been changed',
+                                      type: 'success',
+                                      confirmButtonClass: "btn btn-success btn-fill",
+                                      buttonsStyling: false
+                                }).then((result) => {
+                                      location.reload();
+                                });
+	        	       		},
+	        	       		error: function() {
+	        	       		$("#EditVendor").modal("hide");
+                                swal({
+                                   title: 'Warning!',
+                                   text: 'There is some error.',
+                                   type: 'warning',
+                                   confirmButtonClass: "btn btn-warning btn-fill",
+                                   buttonsStyling: false
+                                }).then((result) => {
+                                      location.reload();
+                                });
+	        	       		}
+	        	       });
+                });
+
+        </script>
+    </th:block>
+</body>
+
+</html>

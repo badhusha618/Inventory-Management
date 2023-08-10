@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{dashboard/dashboard-layout}" th:with="charges='active',serviceChargesModule='active'"
+>
+
+<head>
+    <title>Order List</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet"
+          media="screen"/>
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet"
+          media="screen"/>
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet"
+          media="screen"/>
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet"/>
+    <!-- PAGE LEVEL STYLES-->
+    <!--/*  Bootstrap Lightbox CSS   */-->
+    <link href="/resources/css/ekko-lightbox.css" th:href="@{/resources/css/ekko-lightbox.css}" rel="stylesheet"
+          media="screen"/>
+    <!-- PLUGINS STYLES-->
+    <link href="/resources/css/datatables.min.css" th:href="@{/resources/css/datatables.min.css}" rel="stylesheet"
+          media="screen"/>
+    <link href="/resources/css/bootstrap-editable.css" th:href="@{/resources/css/bootstrap-editable.css}"
+          rel="stylesheet"
+          media="screen"/>
+    <link href="/resources/css/sweetalert2.min.css" th:href="@{/resources/css/sweetalert2.min.css}" rel="stylesheet"
+          media="screen"/>
+    <style type="text/css">
+        select.form-control{
+            padding: 0px !important;
+            height: 25px !important;
+        }
+
+
+
+    </style>
+</head>
+
+<body>
+
+<th:block layout:fragment="header">
+    <div th:replace="~{dashboard/header :: header}"></div>
+</th:block>
+
+<th:block layout:fragment="sidebar">
+    <div th:replace="~{dashboard/sidebar :: sidebar}"></div>
+</th:block>
+
+<th:block layout:fragment="content">
+    <!-- START PAGE CONTENT-->
+    <div class="page-heading">
+        <h1 class="page-title mt-4">Service Charges</h1>
+        <div class="ibox col-18">
+            <div class="m-6 ibox-body">
+                <center>
+                    <div style="text-align:left;"><b>Service Charges : </b><a href="#" class="service-charges" th:text="${serviceCharge.amount}" data-name="amount" th:data-value="${serviceCharge.amount}" th:data-pk="${serviceCharge.id == null ? 0 : serviceCharge.id}"></a></div>
+                    <div style="text-align:left;"><b>Updated by : </b><span id="UpdatedBy" th:text="${serviceCharge.updatedBy}"></span></div>
+                    <div style="text-align:left;"><b>Updated Date : </b><span id="UpdatedDate" th:text="${serviceCharge.updatedDate}"></span></div>
+                </center>
+            </div>
+        </div>
+    </div>
+
+    <!-- END PAGE CONTENT-->
+</th:block>
+
+<th:block layout:fragment="pageplugin">
+    <!-- PAGE LEVEL PLUGINS-->
+    <script src="/resources/js/datatables.min.js" th:src="@{/resources/js/datatables.min.js}"
+            type="text/javascript"></script>
+    <script src="/resources/js/sweetalert2.min.js" th:src="@{/resources/js/sweetalert2.min.js}"
+            type="text/javascript"></script>
+    <!-- Sweet Alert 2 plugin -->
+    <script src="/resources/js/es6-promise-auto.min.js" th:src="@{/resources/js/es6-promise-auto.min.js}"
+            type="text/javascript"></script>
+    <!-- Promise Library for SweetAlert2 working on IE -->
+    <!-- Bootstrap Lightbox Plugin -->
+    <script src="/resources/js/ekko-lightbox.min.js" th:src="@{/resources/js/ekko-lightbox.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@7.1.0/dist/promise.min.js"></script>
+    <!--  Notifications Plugin    -->
+    <script src="/resources/js/bootstrap-notify.js" th:src="@{/resources/js/bootstrap-notify.js}"></script>
+    <script src="/resources/js/bootstrap-editable.min.js" th:src="@{/resources/js/bootstrap-editable.min.js}"></script>
+</th:block>
+
+<th:block layout:fragment="pagescript">
+    <!-- PAGE LEVEL SCRIPTS-->
+    <script type="text/javascript" th:inline="javascript">
+            /*<![CDATA[*/
+
+            $('[rel="tooltip"]').tooltip({
+                trigger: 'hover'
+            });
+
+            // TODO: light box plugin problem on button hover
+            $(document).on('click', '[data-toggle-light="lightbox"]', function(event) {
+                    event.preventDefault();
+                    $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });
+
+            var oTable;
+
+            $.fn.editableform.buttons = '<button type="submit" class="editable-submit btn btn-sm btn-info btn-fill"><i class="fa fa-check"></i></button>'+
+                                    '<button type="button" class="editable-cancel btn btn-sm btn-default btn-fill"><i class="fa fa-times"></i></button>';
+
+            var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+            var csrfToken = $("meta[name='_csrf']").attr("content");
+
+            $(document).ready(function () {
+                $('[rel="tooltip"]').tooltip({
+                    trigger: 'hover'
+                });
+
+                $('.service-charges').editable({
+                        type : 'text',
+                        mode : 'inline',
+                        url :  US.baseURL + '/service/status/change.mk',
+                        ajaxOptions: {
+                           beforeSend: function (xhr){  xhr.setRequestHeader(csrfHeader, csrfToken); }
+                        },
+                        success : function(response, newValue) {
+                            if(response.status == 'success'){
+                                $('#UpdatedBy').html(response.updatedBy);
+                                $('#UpdatedDate').html(response.updatedDate);
+                            }
+                            if (response.status == 'error') { return response.msg; }
+                            if ($(this).attr('data-pk') == '0'){
+                                window.location.reload();
+                            }
+                        }
+                });
+            }) // end of ready function
+            /*]]>*/
+
+
+
+    </script>
+</th:block>
+</body>
+</html>

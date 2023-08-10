@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!--/*
+  ~
+  ~    Copyright (c) 2017 Makinus Pvt Ltd - All Rights Reserved
+  ~
+  ~    Unauthorized copying of this file, via any medium is strictly prohibited
+  ~    Proprietary and confidential
+  ~    Written by Makinus Pvt Ltd
+  ~
+  */-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <title>UnitedSupplies - Add Slider</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link href="/resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet" media="screen"/>
+    <link href="/resources/css/themify-icons.css" th:href="@{/resources/css/themify-icons.css}" rel="stylesheet" media="screen" />
+    <!-- PLUGINS STYLES-->
+    <!-- THEME STYLES-->
+    <link href="/resources/css/main.css" th:href="@{/resources/css/main.css}" rel="stylesheet" />
+    <!-- PAGE LEVEL STYLES-->
+</head>
+
+<body class="fixed-navbar">
+<div class="page-wrapper">
+    <!-- START HEADER-->
+    <header class="header">
+        <div class="page-brand">
+            <a class="link" href="index.html">
+                    <span class="brand">United
+                        <span class="brand-tip">Supplies</span>
+                    </span>
+                <span class="brand-mini">US</span>
+            </a>
+        </div>
+        <div class="flexbox flex-1">
+            <!-- START TOP-LEFT TOOLBAR-->
+            <ul class="nav navbar-toolbar">
+                <li>
+                    <a class="nav-link sidebar-toggler js-sidebar-toggler"><i class="ti-menu"></i></a>
+                </li>
+
+            </ul>
+            <!-- END TOP-LEFT TOOLBAR-->
+            <!-- START TOP-RIGHT TOOLBAR-->
+            <ul class="nav navbar-toolbar">
+
+                <li class="dropdown dropdown-notification">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell-o rel"><span class="notify-signal"></span></i></a>
+                    <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media">
+                        <li class="dropdown-menu-header">
+                            <div>
+                                <span><strong>5 New</strong> Notifications</span>
+
+                            </div>
+                        </li>
+                        <li class="list-group list-group-divider scroller" data-height="240px" data-color="#71808f">
+                            <div>
+                                <a class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-img">
+                                            <span class="badge badge-success badge-big"><i class="fa fa-check"></i></span>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="font-13">new order placed</div><small class="text-muted">22 mins</small></div>
+                                    </div>
+                                </a>
+                                <a class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-img">
+                                            <span class="badge badge-default badge-big"><i class="fa fa-shopping-basket"></i></span>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="font-13">You have 12 new orders</div><small class="text-muted">40 mins</small></div>
+                                    </div>
+                                </a>
+                                <a class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-img">
+                                            <span class="badge badge-danger badge-big"><i class="fa fa-bolt"></i></span>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="font-13">Server #7 rebooted</div><small class="text-muted">2 hrs</small></div>
+                                    </div>
+                                </a>
+                                <a class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-img">
+                                            <span class="badge badge-success badge-big"><i class="fa fa-user"></i></span>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="font-13">New user registered</div><small class="text-muted">2 hrs</small></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown dropdown-user">
+                    <a class="nav-link dropdown-toggle link" data-toggle="dropdown">
+                        <img src="/resources/img/admin-avatar.jpg" />
+                        <span></span>Admin<i class="fa fa-angle-down m-l-5"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="profile.html"><i class="fa fa-user"></i>Profile</a>
+                        <a class="dropdown-item" href="profile.html"><i class="fa fa-cog"></i>Settings</a>
+                        <a class="dropdown-item" href="javascript:;"><i class="fa fa-support"></i>Support</a>
+                        <li class="dropdown-divider"></li>
+                        <a class="dropdown-item" href="login.html"><i class="fa fa-power-off"></i>Logout</a>
+                    </ul>
+                </li>
+            </ul>
+            <!-- END TOP-RIGHT TOOLBAR-->
+        </div>
+    </header>
+    <!-- END HEADER-->
+    <!-- START SIDEBAR-->
+    <nav class="page-sidebar" id="sidebar">
+        <div id="sidebar-collapse">
+            <div class="admin-block d-flex">
+                <div>
+                    <img src="/resources/img/admin-avatar.jpg" width="45px" />
+                </div>
+                <div class="admin-info">
+                    <div class="font-strong"><span sec:authorize="isAuthenticated()"><span sec:authentication="name"/></span></div><small>Administrator</small></div>
+            </div>
+            <ul class="side-menu metismenu">
+                <li>
+                    <a href=""><i class="sidebar-item-icon fa fa-th-large"></i>
+                        <span class="nav-label">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=""><i class="sidebar-item-icon fa fa-users"></i>
+                        <span class="nav-label">User Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="" href=""><i class="sidebar-item-icon fa fa-shopping-cart"></i>
+                        <span class="nav-label">Product</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="" href=""><i class="sidebar-item-icon fa fa-indent"></i>
+                        <span class="nav-label">Category</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="active" href=""><i class="sidebar-item-icon fa fa-indent"></i>
+                        <span class="nav-label">Slider</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- END SIDEBAR-->
+    <div class="content-wrapper">
+        <!-- START PAGE CONTENT-->
+        <div class="page-heading">
+            <h1 class="page-title">Slider Image</h1>
+        </div>
+        <div class="page-content fade-in-up">
+            <div class="row">
+				<div class="col-md-12">
+					<div class="ibox">
+						<div class="ibox-head">
+							<div class="ibox-title">Add New Slider Image</div>
+							<div class="ibox-tools">
+								<a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+							</div>
+						</div>
+						<div class="ibox-body">
+							<form id="SliderForm" action="/add/slider.mk" th:action="@{/add/slider.mk}" th:object="${sliderForm}" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-sm-3 form-group">
+										<label>Slider Image</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+										<input class="form-control" type="file" th:field="*{sliderImage}">
+                                    </div>
+                                    <div class="col-sm-3 form-group">
+										<label>Description</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+										<textarea class="form-control" type="text" th:field="*{description}"></textarea>
+                                    </div>
+                                    <div class="col-sm-3 form-group">
+										<label>Slide Name</label>&nbsp;&nbsp;<span class="text-danger">*</span>
+										<input class="form-control" type="text" th:field="*{sliderName}">
+                                    </div>
+                                    <div class="col-sm-3 form-group">
+                                        <label>&nbsp;</label></br>
+                                        <label class="ui-checkbox">
+                                            <input type="checkbox" th:field="*{activeSlider}">
+                                            <span class="input-span"></span>Display On Screen ?</label>
+                                    </div>
+                                </div>
+								<span class="text-danger">*</span>&nbsp;&nbsp;Required fields</span>
+								<div class="form-group text-right">
+									<button class="btn btn-warning" type="reset">Reset</button>
+									<button class="btn btn-success" type="submit">Add Slider Image</button>
+								</div>
+							</form>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT-->
+        <footer class="page-footer">
+            <div class="font-13">2018 &copy; <b>UnitedSupplies</b> - All rights reserved.</div>
+            Powered By <a class="px-4" href="https://makinus.com" target="_blank">Makinus</a>
+            <div class="to-top"><i class="fa fa-angle-double-up"></i></div>
+        </footer>
+    </div>
+</div>
+<!-- BEGIN PAGA BACKDROPS-->
+<div class="sidenav-backdrop backdrop"></div>
+<div class="preloader-backdrop">
+    <div class="page-preloader">Loading</div>
+</div>
+<!-- END PAGA BACKDROPS-->
+<!-- CORE PLUGINS-->
+<script src="/resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+<script src="/resources/js/popper.min.js" th:src="@{/resources/js/popper.min.js}" type="text/javascript"></script>
+<script src="/resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}" type="text/javascript"></script>
+<script src="/resources/js/metisMenu.min.js" th:src="@{/resources/js/metisMenu.min.js}" type="text/javascript"></script>
+<script src="/resources/js/jquery.slimscroll.min.js" th:src="@{/resources/js/jquery.slimscroll.min.js}" type="text/javascript"></script>
+<!-- PAGE LEVEL PLUGINS-->
+<!-- CORE SCRIPTS-->
+<script src="/resources/js/app.js" th:src="@{/resources/js/app.js}"type="text/javascript"></script>
+<!-- PAGE LEVEL SCRIPTS-->
+</body>
+
+</html>
